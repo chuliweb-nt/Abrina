@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Abrina - Food Register</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Space+Grotesk:wght@400;600;700&display=swap">
+
+<style>
+:root {
+  --night: #0a0e1f;
+  --panel: rgba(255,255,255,.045);
+  --edge: rgba(160,185,255,.22);
+  --text: #e9edff;
+  --muted: #93a0cc;
+  --rose: #ff7aa8;
+  --cyan: #62e6ff;
+  --gold: #ffd27a;
+  --breakfast: rgba(255,210,122,.07);
+  --lunch: rgba(98,230,255,.06);
+  --dinner: rgba(255,122,168,.07);
+  --hand: "Caveat", cursive;
+  --ui: "Space Grotesk", system-ui, sans-serif;
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  color: var(--text);
+  font: 16px/1.45 var(--ui);
+  padding: env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);
+  background:
+    radial-gradient(900px 500px at 8% -10%,rgba(255,122,168,.22),transparent 60%),
+    radial-gradient(900px 500px at 100% 0%,rgba(98,230,255,.18),transparent 60%),
+    var(--night);
+  background-attachment: fixed;
+}
+
+.wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 14px;
+}
+
+button {
+  font: inherit;
+  color: var(--text);
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  border-radius: 10px;
+  padding: 8px 14px;
+  min-height: 40px;
+  cursor: pointer;
+}
+
+button.on {
+  background: linear-gradient(135deg,var(--rose),#b58bff);
+  border-color: transparent;
+  color: #190a18;
+  font-weight: 700;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  margin: 6px 0 16px;
+}
+
+.heart {
+  font-size: 2.6rem;
+  line-height: 1;
+}
+
+h1 {
+  margin: 0;
+  font: 700 2.3rem/1 var(--ui);
+  letter-spacing: -.02em;
+  background: linear-gradient(90deg,var(--rose),var(--cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.names {
+  font-family: var(--hand);
+  font-size: 1.5rem;
+  margin-top: 2px;
+}
+
+.meta {
+  display: flex;
+  gap: 14px;
+  flex-wrap: wrap;
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+.tools {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.tabs {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 2px 0 8px;
+  margin-bottom: 10px;
+}
+
+.tab {
+  flex: 0 0 auto;
+  text-align: left;
+  min-width: 96px;
+}
+
+.tab small {
+  display: block;
+  color: var(--gold);
+  font-size: .78rem;
+}
+
+.tab.on small {
+  color: #3a1030;
+}
+
+.sheet {
+  background: var(--panel);
+  border: 1px solid var(--edge);
+  border-radius: 18px;
+  padding: 16px;
+  backdrop-filter: blur(6px);
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.top h2 {
+  margin: 0;
+  font: 700 1.6rem/1.1 var(--ui);
+}
+
+.month-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.chip {
+  display: inline-flex;
+  gap: 8px;
+  align-items: baseline;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  padding: 6px 14px;
+  color: var(--gold);
+}
+
+.chip b {
+  font-size: 1.25rem;
+}
+
+.status {
+  color: var(--muted);
+  font-size: .85rem;
+}
+
+.table-wrap {
+  overflow-x: auto;
+  border: 1px solid var(--edge);
+  border-radius: 12px;
+}
+
+table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+th, td {
+  border-bottom: 1px solid var(--edge);
+  border-right: 1px solid var(--edge);
+  padding: 0;
+  vertical-align: middle;
+}
+
+th:last-child, td:last-child {
+  border-right: 0;
+}
+
+th {
+  padding: 10px 6px;
+  text-align: center;
+  font-weight: 600;
+  background: rgba(10,14,31,.6);
+}
+
+.col-day {
+  width: 52px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--cyan);
+  position: sticky;
+  left: 0;
+  background: #12172c;
+  z-index: 1;
+}
+
+th.col-day {
+  background: #0f1428;
+}
+
+td.col-day.today {
+  background: var(--cyan);
+  color: #06121a;
+}
+
+.col-items {
+  width: 74px;
+  text-align: center;
+}
+
+.col-birr {
+  width: 104px;
+  text-align: right;
+}
+
+td.col-items {
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+td.col-birr {
+  padding-right: 10px;
+  font-weight: 700;
+  color: var(--gold);
+  font-size: 1.05rem;
+}
+
+td.zero {
+  color: var(--muted);
+  font-weight: 400;
+}
+
+.breakfast {
+  background: var(--breakfast);
+}
+
+.lunch {
+  background: var(--lunch);
+}
+
+.dinner {
+  background: var(--dinner);
+}
+
+.option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 7px 12px;
+  min-height: 40px;
+  cursor: pointer;
+}
+
+.option + .option {
+  border-top: 1px dashed var(--edge);
+}
+
+.option input {
+  width: 22px;
+  height: 22px;
+  margin: 0;
+  accent-color: var(--rose);
+  flex: 0 0 auto;
+  cursor: pointer;
+}
+
+.option span {
+  font-family: var(--hand);
+  font-size: 1.3rem;
+  line-height: 1;
+}
+
+.option:has(input:checked) {
+  background: rgba(255,255,255,.07);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(120px,1fr));
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.stat {
+  border: 1px solid var(--edge);
+  border-radius: 12px;
+  padding: 10px 12px;
+  background: rgba(10,14,31,.5);
+}
+
+.stat small {
+  display: block;
+  color: var(--muted);
+  font-size: .8rem;
+}
+
+.stat b {
+  font-size: 1.35rem;
+}
+
+.stat.highlight {
+  border-color: var(--gold);
+}
+
+.stat.highlight b {
+  color: var(--gold);
+}
+
+.grand {
+  margin-top: 18px;
+}
+
+.grand h3 {
+  margin: 0 0 8px;
+  font: 700 1.2rem var(--ui);
+}
+
+.grand table {
+  min-width: 0;
+  table-layout: auto;
+}
+
+.grand th, .grand td {
+  padding: 8px 10px;
+  text-align: right;
+}
+
+.grand th:first-child,
+.grand td:first-child {
+  text-align: left;
+}
+
+.grand tr.current td {
+  background: rgba(255,255,255,.06);
+}
+
+.grand tfoot td {
+  font-weight: 700;
+  color: var(--gold);
+  background: rgba(10,14,31,.6);
+}
+
+.notes {
+  margin-top: 16px;
+}
+
+.notes label {
+  display: block;
+  font-family: var(--hand);
+  font-size: 1.6rem;
+  color: var(--rose);
+}
+
+.notes textarea {
+  display: block;
+  width: 100%;
+  min-height: 110px;
+  padding: 0 12px;
+  color: var(--text);
+  font: 500 1.3rem/32px var(--hand);
+  resize: none;
+  field-sizing: content;
+  border: 1px solid var(--edge);
+  border-radius: 12px;
+  background: repeating-linear-gradient(
+    transparent 0 31px,
+    rgba(160,185,255,.16) 31px 32px
+  );
+}
+
+dialog {
+  width: min(92vw,380px);
+  padding: 22px;
+  color: var(--text);
+  background: #131936;
+  border: 1px solid var(--edge);
+  border-radius: 16px;
+}
+
+dialog::backdrop {
+  background: rgba(5,7,16,.7);
+}
+
+dialog h3 {
+  margin: 0 0 6px;
+  font: 700 1.25rem var(--ui);
+}
+
+dialog p {
+  margin: 0;
+  color: var(--muted);
+}
+
+dialog .detail {
+  color: var(--text);
+  font-family: var(--hand);
+  font-size: 1.5rem;
+  margin: 8px 0 2px;
+}
+
+.actions {
+  display: flex;
+  gap: 10px;
+  justify-content: flex-end;
+  margin-top: 18px;
+}
+
+/* Static welcome page */
+
+.welcome {
+  min-height: 100svh;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  text-align: center;
+  background:
+    radial-gradient(650px 420px at 50% 25%,rgba(255,122,168,.19),transparent 68%),
+    radial-gradient(650px 420px at 90% 90%,rgba(98,230,255,.13),transparent 65%),
+    var(--night);
+}
+
+.welcome-card {
+  width: min(100%,520px);
+  padding: clamp(28px,7vw,54px) 24px;
+  border: 1px solid var(--edge);
+  border-radius: 28px;
+  background: rgba(255,255,255,.055);
+  box-shadow: 0 24px 80px rgba(0,0,0,.28);
+}
+
+.welcome-emoji {
+  font-size: clamp(3.5rem,12vw,5.5rem);
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+
+.welcome h1 {
+  margin: 0;
+  font-size: clamp(2.8rem,10vw,4.2rem);
+}
+
+.welcome-subtitle {
+  margin: 12px 0 28px;
+  color: var(--muted);
+  font-size: 1.08rem;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.enter-button {
+  min-height: 52px;
+  padding: 12px 28px;
+  border: 0;
+  border-radius: 999px;
+  color: #190a18;
+  background: linear-gradient(110deg,var(--rose),#c69aff 55%,var(--cyan));
+  font-weight: 700;
+  font-size: 1rem;
+  box-shadow: none;
+}
+
+.welcome-foot {
+  margin-top: 22px;
+  color: var(--muted);
+  font: 1.25rem var(--hand);
+}
+
+#app[hidden],
+#welcome[hidden] {
+  display: none !important;
+}
+
+.month-select {
+  min-height: 38px;
+  padding: 6px 30px 6px 10px;
+  color: var(--text);
+  background: #151b34;
+  border: 1px solid var(--edge);
+  border-radius: 10px;
+  font: 600 .9rem var(--ui);
+}
+
+@media (max-width:560px) {
+  h1 {
+    font-size: 1.9rem;
+  }
+
+  .wrap {
+    padding: 8px;
+  }
+
+  .sheet {
+    padding: 10px;
+  }
+}
+
+@media print {
+  @page {
+    size: A4 portrait;
+    margin: 10mm;
+  }
+
+  body {
+    background: #fff;
+    color: #000;
+    font-size: 10pt;
+  }
+
+  .wrap {
+    max-width: none;
+    padding: 0;
+  }
+
+  .tools,
+  .tabs,
+  .status,
+  .month-nav button,
+  .month-select,
+  .welcome,
+  dialog {
+    display: none !important;
+  }
+
+  .heart {
+    filter: none;
+  }
+
+  h1 {
+    background: none;
+    color: #000;
+    -webkit-text-fill-color: #000;
+  }
+
+  .meta {
+    color: #000;
+  }
+
+  .sheet {
+    border: 0;
+    background: #fff;
+    padding: 0;
+  }
+
+  .table-wrap {
+    overflow: visible;
+    border: 1px solid #000;
+  }
+
+  table {
+    min-width: 0;
+  }
+
+  th, td {
+    border-color: #000 !important;
+    color: #000 !important;
+    background: #fff !important;
+  }
+
+  .col-day {
+    position: static;
+  }
+
+  tr {
+    break-inside: avoid;
+  }
+
+  .option {
+    min-height: 0;
+    padding: 1px 6px;
+  }
+
+  .option span {
+    font-size: 11pt;
+  }
+
+  .option input {
+    width: 13px;
+    height: 13px;
+  }
+
+  .chip, .stat {
+    border-color: #000;
+    color: #000;
+  }
+
+  .stat b,
+  .stat.highlight b {
+    color: #000;
+  }
+
+  .grand {
+    break-before: page;
+  }
+
+  .notes label {
+    color: #000;
+  }
+
+  .notes textarea {
+    border-color: #000;
+    color: #000;
+    background: none;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Welcome page -->
+<section class="welcome" id="welcome" aria-labelledby="welcomeTitle">
+  <div class="welcome-card">
+    <div class="welcome-emoji" aria-hidden="true">💞🍽️</div>
+    <h1 id="welcomeTitle">Abrina</h1>
+    <p class="welcome-subtitle">Food Register</p>
+    <button class="enter-button" id="enterApp" type="button">
+      Open Food Register
+    </button>
+    <div class="welcome-foot">A little record of every meal, together ♡</div>
+  </div>
+</section>
+
+<!-- Main application -->
+<div id="app" hidden>
+  <div class="wrap">
+
+    <header>
+      <div class="heart" aria-hidden="true">💑</div>
+
+      <div>
+        <h1 id="title"></h1>
+        <div class="names" id="names"></div>
+        <div class="meta">
+          <span>Food register</span>
+          <span id="price"></span>
+        </div>
+      </div>
+
+      <div class="tools">
+        <button id="yearPrev" aria-label="Previous year">‹</button>
+        <strong id="year"></strong>
+        <button id="yearNext" aria-label="Next year">›</button>
+      </div>
+    </header>
+
+    <nav class="tabs" id="tabs" aria-label="Months"></nav>
+    <main class="sheet" id="sheet"></main>
+
+  </div>
+</div>
+
+<dialog id="dialog">
+  <h3 id="dialogTitle"></h3>
+  <p id="dialogDetail" class="detail"></p>
+  <p id="dialogEffect"></p>
+
+  <div class="actions">
+    <button id="dialogCancel">Cancel</button>
+    <button id="dialogOk" class="on"></button>
+  </div>
+</dialog>
+
+<script>
+"use strict";
+
+const CONFIG = {
+  noteName: "Abrina",
+  names: ["Abrish", "Martina"],
+  pricePerServing: 110,
+  daysPerMonth: 30,
+  storageKey: "abrina:food-note:v1",
+};
+
+const MONTHS = [
+  { n: 2, name: "Tikimt" },
+  { n: 3, name: "Hidar" },
+  { n: 4, name: "Tahsas" },
+  { n: 5, name: "Tir" },
+  { n: 6, name: "Yekatit" },
+  { n: 7, name: "Megabit" },
+  { n: 8, name: "Miazia" },
+  { n: 9, name: "Ginbot" },
+  { n: 10, name: "Sene" },
+];
+
+const MEALS = ["b", "l", "d"];
+const FOODS = ["s", "p"];
+
+const MEAL_CLASS = {
+  b: "breakfast",
+  l: "lunch",
+  d: "dinner"
+};
+
+const CELL_KEYS = MEALS.flatMap(
+  meal => FOODS.map(food => meal + food)
+);
+
+const LABEL = {
+  day: "Day",
+  b: "Breakfast",
+  l: "Lunch",
+  d: "Dinner",
+  s: "Shiro",
+  p: "Spris",
+};
+
+/* Calculations */
+
+function dayItems(day) {
+  const ticks = (day && day.ticks) || {};
+  return CELL_KEYS.filter(key => ticks[key] === true).length;
+}
+
+function emptyStats() {
+  return {
+    shiro: 0,
+    spris: 0,
+    b: 0,
+    l: 0,
+    d: 0,
+    items: 0,
+    birr: 0
+  };
+}
+
+function monthStats(record, price) {
+  const stats = emptyStats();
+  if (!record) return stats;
+
+  for (let day = 1; day <= CONFIG.daysPerMonth; day++) {
+    const ticks =
+      (record.days[day] && record.days[day].ticks) || {};
+
+    for (const key of CELL_KEYS) {
+      if (ticks[key] !== true) continue;
+
+      stats.items++;
+      stats[key[1] === "s" ? "shiro" : "spris"]++;
+      stats[key[0]]++;
+    }
+  }
+
+  stats.birr = stats.items * price;
+  return stats;
+}
+
+function sumStats(list) {
+  const total = emptyStats();
+
+  for (const stats of list) {
+    for (const field of Object.keys(total)) {
+      total[field] += stats[field];
+    }
+  }
+
+  return total;
+}
+
+/* Ethiopian calendar */
+
+function julianDay(year, month, day) {
+  const a = Math.floor((14 - month) / 12);
+  const y = year + 4800 - a;
+  const m = month + 12 * a - 3;
+
+  return day
+    + Math.floor((153 * m + 2) / 5)
+    + 365 * y
+    + Math.floor(y / 4)
+    - Math.floor(y / 100)
+    + Math.floor(y / 400)
+    - 32045;
+}
+
+function ethiopianToday() {
+  const now = new Date();
+
+  const jd = julianDay(
+    now.getFullYear(),
+    now.getMonth() + 1,
+    now.getDate()
+  ) - 1723856;
+
+  const r = ((jd % 1461) + 1461) % 1461;
+  const cycle = Math.floor(jd / 1461);
+  const n = (r % 365) + 365 * Math.floor(r / 1460);
+
+  return {
+    year: 4 * cycle + Math.floor(r / 365) - Math.floor(r / 1460),
+    month: Math.floor(n / 30) + 1,
+    day: (n % 30) + 1,
+  };
+}
+
+/* Storage */
+
+const Store = {
+  data: { v: 1, years: {} },
+
+  load() {
+    try {
+      const raw = localStorage.getItem(CONFIG.storageKey);
+      const parsed = raw && JSON.parse(raw);
+
+      if (parsed && parsed.v === 1) {
+        this.data = parsed;
+      }
+
+      if (this.migrateTicks()) {
+        this.persist();
+      }
+    } catch (error) {
+      console.warn("Saved data could not be read", error);
+    }
+  },
+
+  migrateTicks() {
+    let changed = false;
+
+    for (const months of Object.values(this.data.years)) {
+      for (const record of Object.values(months)) {
+        for (const day of Object.values(record.days || {})) {
+          if (day.c && !day.ticks) {
+            day.ticks = day.c;
+            delete day.c;
+            changed = true;
+          }
+        }
+      }
+    }
+
+    return changed;
+  },
+
+  persist() {
+    try {
+      localStorage.setItem(
+        CONFIG.storageKey,
+        JSON.stringify(this.data)
+      );
+      return true;
+    } catch (error) {
+      console.error(error);
+      return false;
+    }
+  },
+
+  month(year, n) {
+    const yearData = (this.data.years[year] ??= {});
+    return (yearData[n] ??= { days: {}, notes: "" });
+  },
+
+  peek(year, n) {
+    return this.data.years[year]?.[n] ?? null;
+  },
+
+  stats(year, n) {
+    return monthStats(
+      this.peek(year, n),
+      CONFIG.pricePerServing
+    );
+  },
+};
+
+/* State and helpers */
+
+const today = ethiopianToday();
+
+const state = {
+  year: today.year,
+  monthIndex: 0
+};
+
+const $ = id => document.getElementById(id);
+
+const formatNumber = n =>
+  n.toLocaleString("en-US", { maximumFractionDigits: 2 });
+
+const formatBirr = n => `${formatNumber(n)} Birr`;
+
+const currentMonth = () => MONTHS[state.monthIndex];
+
+const isToday = day =>
+  state.year === today.year &&
+  currentMonth().n === today.month &&
+  day === today.day;
+
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+
+  if (className) node.className = className;
+  if (text != null) node.textContent = text;
+
+  return node;
+}
+
+function describe(day, meal, food) {
+  return `${LABEL.day} ${day}, ${LABEL[meal]}, ${LABEL[food]}`;
+}
+
+/* Autosave */
+
+let saveTimer = null;
+
+function queueSave() {
+  setStatus("Saving");
+  clearTimeout(saveTimer);
+
+  saveTimer = setTimeout(() => {
+    setStatus(Store.persist() ? "Saved" : "Could not save");
+  }, 250);
+}
+
+function setStatus(message) {
+  const status = $("status");
+  if (status) status.textContent = message;
+}
+
+window.addEventListener("pagehide", () => {
+  clearTimeout(saveTimer);
+  Store.persist();
+});
+
+/* Confirmation dialog */
+
+function confirmTick(day, meal, food, willTick) {
+  $("dialogTitle").textContent = willTick
+    ? "Tick this item?"
+    : "Untick this item?";
+
+  $("dialogDetail").textContent =
+    describe(day, meal, food);
+
+  $("dialogEffect").textContent =
+    `${willTick ? "+" : "-"}${formatBirr(CONFIG.pricePerServing)}`;
+
+  $("dialogOk").textContent =
+    willTick ? "Tick" : "Untick";
+
+  const dialog = $("dialog");
+  dialog.showModal();
+  $("dialogCancel").focus();
+
+  return new Promise(resolve => {
+    const finish = answer => {
+      dialog.close();
+      resolve(answer);
+    };
+
+    $("dialogOk").onclick = () => finish(true);
+    $("dialogCancel").onclick = () => finish(false);
+
+    dialog.oncancel = event => {
+      event.preventDefault();
+      finish(false);
+    };
+  });
+}
+
+/* Header */
+
+function renderHeader() {
+  $("title").textContent = CONFIG.noteName;
+  $("names").textContent =
+    `${CONFIG.names[0]} 💞 ${CONFIG.names[1]}`;
+
+  $("price").textContent =
+    `${formatBirr(CONFIG.pricePerServing)} per serving`;
+
+  $("year").textContent = `${state.year} E.C.`;
+}
+
+/* Month tabs */
+
+function renderTabs() {
+  const nav = $("tabs");
+  const scrollLeft = nav.scrollLeft;
+
+  nav.textContent = "";
+
+  MONTHS.forEach((month, index) => {
+    const tab = el(
+      "button",
+      index === state.monthIndex ? "tab on" : "tab"
+    );
+
+    tab.append(
+      el("span", null, month.name),
+      el(
+        "small",
+        null,
+        formatBirr(Store.stats(state.year, month.n).birr)
+      )
+    );
+
+    tab.onclick = () => {
+      state.monthIndex = index;
+      renderAll();
+    };
+
+    nav.append(tab);
+  });
+
+  nav.scrollLeft = scrollLeft;
+}
+
+function centerActiveTab() {
+  const nav = $("tabs");
+  const tab = nav.children[state.monthIndex];
+
+  if (tab) {
+    nav.scrollLeft =
+      tab.offsetLeft -
+      (nav.clientWidth - tab.offsetWidth) / 2;
+  }
+}
+
+/* Statistics */
+
+function renderStats() {
+  const stats = Store.stats(
+    state.year,
+    currentMonth().n
+  );
+
+  const box = $("stats");
+  box.textContent = "";
+
+  const tiles = [
+    ["Total Shiro", stats.shiro],
+    ["Total Spris", stats.spris],
+    ["Total breakfast", stats.b],
+    ["Total lunch", stats.l],
+    ["Total dinner", stats.d],
+    ["Total items", stats.items],
+    ["Month total (Birr)", formatNumber(stats.birr)],
+  ];
+
+  tiles.forEach(([label, value], index) => {
+    const tile = el(
+      "div",
+      index >= tiles.length - 2
+        ? "stat highlight"
+        : "stat"
+    );
+
+    tile.append(
+      el("small", null, label),
+      el("b", null, String(value))
+    );
+
+    box.append(tile);
+  });
+
+  $("monthBirr").textContent = formatBirr(stats.birr);
+}
+
+function renderGrandTotal() {
+  const section = $("grand");
+  section.textContent = "";
+
+  section.append(
+    el(
+      "h3",
+      null,
+      `Grand total, all nine months, ${state.year} E.C.`
+    )
+  );
+
+  const head = el("thead");
+  const headRow = el("tr");
+
+  ["Month", LABEL.s, LABEL.p, "Items", "Birr"].forEach(label => {
+    headRow.append(el("th", null, label));
+  });
+
+  head.append(headRow);
+
+  const body = el("tbody");
+  const allStats = [];
+
+  MONTHS.forEach((month, index) => {
+    const stats = Store.stats(state.year, month.n);
+    allStats.push(stats);
+
+    const row = el(
+      "tr",
+      index === state.monthIndex ? "current" : ""
+    );
+
+    [
+      month.name,
+      stats.shiro,
+      stats.spris,
+      stats.items,
+      formatNumber(stats.birr)
+    ].forEach(value => {
+      row.append(el("td", null, String(value)));
+    });
+
+    body.append(row);
+  });
+
+  const total = sumStats(allStats);
+  const foot = el("tfoot");
+  const footRow = el("tr");
+
+  [
+    "Grand total",
+    total.shiro,
+    total.spris,
+    total.items,
+    formatBirr(total.birr)
+  ].forEach(value => {
+    footRow.append(el("td", null, String(value)));
+  });
+
+  foot.append(footRow);
+
+  const table = el("table");
+  table.append(head, body, foot);
+
+  section.append(table);
+}
+
+function renderTotals() {
+  renderStats();
+  renderGrandTotal();
+  renderTabs();
+}
+
+/* Daily totals */
+
+function renderDayTotals(day) {
+  const record = Store.peek(state.year, currentMonth().n);
+  const count = dayItems(record && record.days[day]);
+
+  const items = $(`items-${day}`);
+  const birr = $(`birr-${day}`);
+
+  items.textContent = String(count);
+  birr.textContent = formatBirr(
+    count * CONFIG.pricePerServing
+  );
+
+  items.classList.toggle("zero", count === 0);
+  birr.classList.toggle("zero", count === 0);
+}
+
+/* Food selection */
+
+function setTick(day, key, ticked) {
+  const record = Store.month(state.year, currentMonth().n);
+  const dayRecord = (record.days[day] ??= {});
+  const ticks = (dayRecord.ticks ??= {});
+
+  if (ticked) {
+    ticks[key] = true;
+  } else {
+    delete ticks[key];
+  }
+
+  renderDayTotals(day);
+  renderTotals();
+  queueSave();
+}
+
+function createOption(day, meal, food, ticks) {
+  const key = meal + food;
+  const label = el("label", "option");
+  const box = el("input");
+
+  box.type = "checkbox";
+  box.checked = ticks[key] === true;
+
+  box.setAttribute(
+    "aria-label",
+    describe(day, meal, food)
+  );
+
+  box.addEventListener("click", async event => {
+    event.preventDefault();
+
+    const record = Store.peek(state.year, currentMonth().n);
+    const dayRecord = record && record.days[day];
+
+    const willTick = !(
+      dayRecord &&
+      dayRecord.ticks &&
+      dayRecord.ticks[key]
+    );
+
+    if (await confirmTick(day, meal, food, willTick)) {
+      box.checked = willTick;
+      setTick(day, key, willTick);
+    }
+  });
+
+  label.append(
+    box,
+    el("span", null, LABEL[food])
+  );
+
+  return label;
+}
+
+/* Daily table */
+
+function createDayRow(day, record) {
+  const ticks =
+    (record.days[day] && record.days[day].ticks) || {};
+
+  const row = el("tr");
+
+  row.append(
+    el(
+      "td",
+      isToday(day) ? "col-day today" : "col-day",
+      String(day)
+    )
+  );
+
+  MEALS.forEach(meal => {
+    const cell = el("td", MEAL_CLASS[meal]);
+
+    FOODS.forEach(food => {
+      cell.append(
+        createOption(day, meal, food, ticks)
+      );
+    });
+
+    row.append(cell);
+  });
+
+  const items = el("td", "col-items");
+  const birr = el("td", "col-birr");
+
+  items.id = `items-${day}`;
+  birr.id = `birr-${day}`;
+
+  row.append(items, birr);
+
+  return row;
+}
+
+function createTable(record) {
+  const columns = [
+    ["col-day", LABEL.day],
+    ["", LABEL.b],
+    ["", LABEL.l],
+    ["", LABEL.d],
+    ["col-items", "Items"],
+    ["col-birr", "Birr"],
+  ];
+
+  const head = el("thead");
+  const headRow = el("tr");
+
+  columns.forEach(([className, label]) => {
+    headRow.append(el("th", className, label));
+  });
+
+  head.append(headRow);
+
+  const body = el("tbody");
+
+  for (let day = 1; day <= CONFIG.daysPerMonth; day++) {
+    body.append(createDayRow(day, record));
+  }
+
+  const table = el("table");
+  table.append(head, body);
+
+  const wrap = el("div", "table-wrap");
+  wrap.append(table);
+
+  return wrap;
+}
+
+/* Notes */
+
+function createNotes(record) {
+  const wrap = el("div", "notes");
+  const label = el("label", null, "Notes");
+  const field = el("textarea");
+
+  label.htmlFor = "notes";
+
+  field.id = "notes";
+  field.maxLength = 2000;
+  field.value = record.notes ?? "";
+
+  field.oninput = () => {
+    Store.month(state.year, currentMonth().n).notes =
+      field.value;
+
+    queueSave();
+  };
+
+  wrap.append(label, field);
+
+  return wrap;
+}
+
+/* Render selected month */
+
+function renderSheet() {
+  const month = currentMonth();
+
+  const record = Store.peek(state.year, month.n) ?? {
+    days: {},
+    notes: ""
+  };
+
+  const sheet = $("sheet");
+  sheet.textContent = "";
+
+  const chipValue = el("b");
+  chipValue.id = "monthBirr";
+
+  const chip = el("div", "chip");
+  chip.append(
+    el("span", null, "Month total"),
+    chipValue
+  );
+
+  const status = el("span", "status");
+  status.id = "status";
+  status.setAttribute("aria-live", "polite");
+
+  const prev = el("button", null, "‹");
+  const next = el("button", null, "›");
+
+  prev.setAttribute("aria-label", "Previous month");
+  next.setAttribute("aria-label", "Next month");
+
+  prev.disabled = state.monthIndex === 0;
+  next.disabled = state.monthIndex === MONTHS.length - 1;
+
+  prev.onclick = () => changeMonth(-1);
+  next.onclick = () => changeMonth(1);
+
+  const heading = el("div", "month-nav");
+
+  const monthSelect = el("select", "month-select");
+
+  monthSelect.setAttribute(
+    "aria-label",
+    "Select Ethiopian month"
+  );
+
+  MONTHS.forEach((item, index) => {
+    const option = el("option", null, item.name);
+
+    option.value = String(index);
+    option.selected = index === state.monthIndex;
+
+    monthSelect.append(option);
+  });
+
+  monthSelect.onchange = () => {
+    state.monthIndex = Number(monthSelect.value);
+    renderAll();
+  };
+
+  heading.append(
+    prev,
+    el("h2", null, `${month.name} ${state.year}`),
+    monthSelect,
+    next
+  );
+
+  const top = el("div", "top");
+  top.append(heading, chip, status);
+
+  const stats = el("div", "stats");
+  stats.id = "stats";
+
+  const grand = el("section", "grand");
+  grand.id = "grand";
+
+  sheet.append(
+    top,
+    createTable(record),
+    stats,
+    createNotes(record),
+    grand
+  );
+
+  for (let day = 1; day <= CONFIG.daysPerMonth; day++) {
+    renderDayTotals(day);
+  }
+
+  renderTotals();
+}
+
+function renderAll() {
+  renderHeader();
+  renderSheet();
+  centerActiveTab();
+}
+
+/* Navigation */
+
+function changeYear(step) {
+  state.year += step;
+  renderAll();
+}
+
+function changeMonth(step) {
+  const next = state.monthIndex + step;
+
+  if (next < 0 || next >= MONTHS.length) return;
+
+  state.monthIndex = next;
+  renderAll();
+}
+
+/* Swipe navigation */
+
+function enableSwipe(target) {
+  const MIN_DISTANCE = 70;
+
+  let startX = 0;
+  let startY = 0;
+  let tracking = false;
+
+  target.addEventListener("touchstart", event => {
+    const scroller = event.target.closest(".table-wrap, .tabs");
+    const blocked = event.target.closest("dialog, textarea");
+
+    tracking =
+      !blocked &&
+      (!scroller || scroller.scrollWidth <= scroller.clientWidth);
+
+    startX = event.touches[0].clientX;
+    startY = event.touches[0].clientY;
+  }, { passive: true });
+
+  target.addEventListener("touchend", event => {
+    if (!tracking) return;
+
+    const dx = event.changedTouches[0].clientX - startX;
+    const dy = event.changedTouches[0].clientY - startY;
+
+    if (
+      Math.abs(dx) < MIN_DISTANCE ||
+      Math.abs(dx) < Math.abs(dy) * 1.5
+    ) {
+      return;
+    }
+
+    changeMonth(dx < 0 ? 1 : -1);
+  }, { passive: true });
+}
+
+/* Year controls */
+
+$("yearPrev").onclick = () => changeYear(-1);
+$("yearNext").onclick = () => changeYear(1);
+
+enableSwipe(document.body);
+
+/* Welcome button */
+
+$("enterApp").addEventListener("click", () => {
+  $("welcome").hidden = true;
+  $("app").hidden = false;
+
+  state.monthIndex = 0;
+
+  renderAll();
+});
+
+/* Initialize */
+
+Store.load();
+renderAll();
+
+</script>
+</body>
+</html>
