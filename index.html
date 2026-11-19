@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Abrina - Food Register</title>
+<title>Abrina</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Space+Grotesk:wght@400;600;700&display=swap">
 
 <style>
@@ -24,9 +24,7 @@
   color-scheme: dark;
 }
 
-* {
-  box-sizing: border-box;
-}
+* { box-sizing: border-box; }
 
 body {
   margin: 0;
@@ -41,11 +39,7 @@ body {
   background-attachment: fixed;
 }
 
-.wrap {
-  max-width: 960px;
-  margin: 0 auto;
-  padding: 14px;
-}
+.wrap { max-width: 960px; margin: 0 auto; padding: 14px; }
 
 button {
   font: inherit;
@@ -56,6 +50,14 @@ button {
   padding: 8px 14px;
   min-height: 40px;
   cursor: pointer;
+}
+
+button:disabled { opacity: .35; cursor: default; }
+
+button:focus-visible,
+textarea:focus-visible {
+  outline: 2px solid var(--cyan);
+  outline-offset: 2px;
 }
 
 button.on {
@@ -88,11 +90,7 @@ h1 {
   color: transparent;
 }
 
-.names {
-  font-family: var(--hand);
-  font-size: 1.5rem;
-  margin-top: 2px;
-}
+.names { font-family: var(--hand); font-size: 1.5rem; margin-top: 2px; }
 
 .meta {
   display: flex;
@@ -102,37 +100,7 @@ h1 {
   font-size: .85rem;
 }
 
-.tools {
-  margin-left: auto;
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.tabs {
-  position: relative;
-  display: flex;
-  gap: 8px;
-  overflow-x: auto;
-  padding: 2px 0 8px;
-  margin-bottom: 10px;
-}
-
-.tab {
-  flex: 0 0 auto;
-  text-align: left;
-  min-width: 96px;
-}
-
-.tab small {
-  display: block;
-  color: var(--gold);
-  font-size: .78rem;
-}
-
-.tab.on small {
-  color: #3a1030;
-}
+.tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
 
 .sheet {
   background: var(--panel);
@@ -151,15 +119,18 @@ h1 {
   margin-bottom: 12px;
 }
 
-.top h2 {
-  margin: 0;
-  font: 700 1.6rem/1.1 var(--ui);
-}
+.top h2 { margin: 0; font: 700 1.6rem/1.1 var(--ui); }
 
 .month-nav {
   display: flex;
   align-items: center;
   gap: 10px;
+  flex-wrap: nowrap;
+}
+
+.month-nav h2 {
+  min-width: 0;
+  text-align: center;
 }
 
 .chip {
@@ -172,14 +143,8 @@ h1 {
   color: var(--gold);
 }
 
-.chip b {
-  font-size: 1.25rem;
-}
-
-.status {
-  color: var(--muted);
-  font-size: .85rem;
-}
+.chip b { font-size: 1.25rem; }
+.status { color: var(--muted); font-size: .85rem; }
 
 .table-wrap {
   overflow-x: auto;
@@ -201,9 +166,7 @@ th, td {
   vertical-align: middle;
 }
 
-th:last-child, td:last-child {
-  border-right: 0;
-}
+th:last-child, td:last-child { border-right: 0; }
 
 th {
   padding: 10px 6px;
@@ -223,29 +186,11 @@ th {
   z-index: 1;
 }
 
-th.col-day {
-  background: #0f1428;
-}
-
-td.col-day.today {
-  background: var(--cyan);
-  color: #06121a;
-}
-
-.col-items {
-  width: 74px;
-  text-align: center;
-}
-
-.col-birr {
-  width: 104px;
-  text-align: right;
-}
-
-td.col-items {
-  font-weight: 700;
-  font-size: 1.1rem;
-}
+th.col-day { background: #0f1428; }
+td.col-day.today { background: var(--cyan); color: #06121a; }
+.col-items { width: 74px; text-align: center; }
+.col-birr { width: 104px; text-align: right; }
+td.col-items { font-weight: 700; font-size: 1.1rem; }
 
 td.col-birr {
   padding-right: 10px;
@@ -254,22 +199,10 @@ td.col-birr {
   font-size: 1.05rem;
 }
 
-td.zero {
-  color: var(--muted);
-  font-weight: 400;
-}
-
-.breakfast {
-  background: var(--breakfast);
-}
-
-.lunch {
-  background: var(--lunch);
-}
-
-.dinner {
-  background: var(--dinner);
-}
+td.zero { color: var(--muted); font-weight: 400; }
+.breakfast { background: var(--breakfast); }
+.lunch { background: var(--lunch); }
+.dinner { background: var(--dinner); }
 
 .option {
   display: flex;
@@ -277,12 +210,9 @@ td.zero {
   gap: 10px;
   padding: 7px 12px;
   min-height: 40px;
-  cursor: pointer;
 }
 
-.option + .option {
-  border-top: 1px dashed var(--edge);
-}
+.option + .option { border-top: 1px dashed var(--edge); }
 
 .option input {
   width: 22px;
@@ -290,7 +220,6 @@ td.zero {
   margin: 0;
   accent-color: var(--rose);
   flex: 0 0 auto;
-  cursor: pointer;
 }
 
 .option span {
@@ -299,9 +228,7 @@ td.zero {
   line-height: 1;
 }
 
-.option:has(input:checked) {
-  background: rgba(255,255,255,.07);
-}
+.option:has(input:checked) { background: rgba(255,255,255,.07); }
 
 .stats {
   display: grid;
@@ -317,51 +244,17 @@ td.zero {
   background: rgba(10,14,31,.5);
 }
 
-.stat small {
-  display: block;
-  color: var(--muted);
-  font-size: .8rem;
-}
+.stat small { display: block; color: var(--muted); font-size: .8rem; }
+.stat b { font-size: 1.35rem; }
+.stat.highlight { border-color: var(--gold); }
+.stat.highlight b { color: var(--gold); }
 
-.stat b {
-  font-size: 1.35rem;
-}
-
-.stat.highlight {
-  border-color: var(--gold);
-}
-
-.stat.highlight b {
-  color: var(--gold);
-}
-
-.grand {
-  margin-top: 18px;
-}
-
-.grand h3 {
-  margin: 0 0 8px;
-  font: 700 1.2rem var(--ui);
-}
-
-.grand table {
-  min-width: 0;
-  table-layout: auto;
-}
-
-.grand th, .grand td {
-  padding: 8px 10px;
-  text-align: right;
-}
-
-.grand th:first-child,
-.grand td:first-child {
-  text-align: left;
-}
-
-.grand tr.current td {
-  background: rgba(255,255,255,.06);
-}
+.grand { margin-top: 18px; }
+.grand h3 { margin: 0 0 8px; font: 700 1.2rem var(--ui); }
+.grand table { min-width: 0; table-layout: auto; }
+.grand th, .grand td { padding: 8px 10px; text-align: right; }
+.grand th:first-child, .grand td:first-child { text-align: left; }
+.grand tr.current td { background: rgba(255,255,255,.06); }
 
 .grand tfoot td {
   font-weight: 700;
@@ -369,9 +262,7 @@ td.zero {
   background: rgba(10,14,31,.6);
 }
 
-.notes {
-  margin-top: 16px;
-}
+.notes { margin-top: 16px; }
 
 .notes label {
   display: block;
@@ -387,8 +278,7 @@ td.zero {
   padding: 0 12px;
   color: var(--text);
   font: 500 1.3rem/32px var(--hand);
-  resize: none;
-  field-sizing: content;
+  resize: vertical;
   border: 1px solid var(--edge);
   border-radius: 12px;
   background: repeating-linear-gradient(
@@ -408,24 +298,12 @@ dialog {
 
 dialog::backdrop {
   background: rgba(5,7,16,.7);
+  backdrop-filter: blur(3px);
 }
 
-dialog h3 {
-  margin: 0 0 6px;
-  font: 700 1.25rem var(--ui);
-}
-
-dialog p {
-  margin: 0;
-  color: var(--muted);
-}
-
-dialog .detail {
-  color: var(--text);
-  font-family: var(--hand);
-  font-size: 1.5rem;
-  margin: 8px 0 2px;
-}
+dialog h3 { margin: 0 0 6px; font: 700 1.25rem var(--ui); }
+dialog p { margin: 0; color: var(--muted); }
+dialog .detail { color: var(--text); font-family: var(--hand); font-size: 1.5rem; margin: 8px 0 2px; }
 
 .actions {
   display: flex;
@@ -434,7 +312,7 @@ dialog .detail {
   margin-top: 18px;
 }
 
-/* Static welcome page */
+/* Welcome screen */
 
 .welcome {
   min-height: 100svh;
@@ -463,10 +341,7 @@ dialog .detail {
   margin-bottom: 14px;
 }
 
-.welcome h1 {
-  margin: 0;
-  font-size: clamp(2.8rem,10vw,4.2rem);
-}
+.welcome h1 { margin: 0; font-size: clamp(2.8rem,10vw,4.2rem); }
 
 .welcome-subtitle {
   margin: 12px 0 28px;
@@ -485,99 +360,52 @@ dialog .detail {
   background: linear-gradient(110deg,var(--rose),#c69aff 55%,var(--cyan));
   font-weight: 700;
   font-size: 1rem;
-  box-shadow: none;
 }
 
-.welcome-foot {
-  margin-top: 22px;
-  color: var(--muted);
-  font: 1.25rem var(--hand);
-}
+.welcome-foot { margin-top: 22px; color: var(--muted); font: 1.25rem var(--hand); }
 
-#app[hidden],
-#welcome[hidden] {
-  display: none !important;
-}
+#app[hidden], #welcome[hidden] { display: none !important; }
 
-.month-select {
-  min-height: 38px;
-  padding: 6px 30px 6px 10px;
-  color: var(--text);
-  background: #151b34;
-  border: 1px solid var(--edge);
-  border-radius: 10px;
-  font: 600 .9rem var(--ui);
-}
+/* Mobile layout */
 
-@media (max-width:560px) {
-  h1 {
-    font-size: 1.9rem;
+@media (max-width: 560px) {
+  h1 { font-size: 1.9rem; }
+  .wrap { padding: 8px; }
+  .sheet { padding: 10px; }
+
+  .month-nav {
+    width: 100%;
+    justify-content: space-between;
+    gap: 7px;
   }
 
-  .wrap {
-    padding: 8px;
+  .month-nav h2 {
+    flex: 1;
+    font-size: 1.2rem;
+    overflow-wrap: anywhere;
   }
 
-  .sheet {
-    padding: 10px;
+  .month-nav button {
+    flex: 0 0 42px;
+    min-width: 42px;
+    padding: 6px;
   }
+
+  .tools { margin-left: auto; }
 }
 
 @media print {
-  @page {
-    size: A4 portrait;
-    margin: 10mm;
-  }
+  @page { size: A4 portrait; margin: 10mm; }
 
-  body {
-    background: #fff;
-    color: #000;
-    font-size: 10pt;
-  }
-
-  .wrap {
-    max-width: none;
-    padding: 0;
-  }
-
-  .tools,
-  .tabs,
-  .status,
-  .month-nav button,
-  .month-select,
-  .welcome,
-  dialog {
-    display: none !important;
-  }
-
-  .heart {
-    filter: none;
-  }
-
-  h1 {
-    background: none;
-    color: #000;
-    -webkit-text-fill-color: #000;
-  }
-
-  .meta {
-    color: #000;
-  }
-
-  .sheet {
-    border: 0;
-    background: #fff;
-    padding: 0;
-  }
-
-  .table-wrap {
-    overflow: visible;
-    border: 1px solid #000;
-  }
-
-  table {
-    min-width: 0;
-  }
+  body { background: #fff; color: #000; font-size: 10pt; }
+  .wrap { max-width: none; padding: 0; }
+  .tools, .status, .month-nav button, dialog, .welcome { display: none !important; }
+  .heart { filter: none; }
+  h1 { background: none; color: #000; -webkit-text-fill-color: #000; }
+  .meta { color: #000; }
+  .sheet { border: 0; background: #fff; padding: 0; }
+  .table-wrap { overflow: visible; border: 1px solid #000; }
+  table { min-width: 0; }
 
   th, td {
     border-color: #000 !important;
@@ -585,77 +413,42 @@ dialog .detail {
     background: #fff !important;
   }
 
-  .col-day {
-    position: static;
-  }
-
-  tr {
-    break-inside: avoid;
-  }
-
-  .option {
-    min-height: 0;
-    padding: 1px 6px;
-  }
-
-  .option span {
-    font-size: 11pt;
-  }
+  .col-day { position: static; }
+  tr { break-inside: avoid; }
+  .option { min-height: 0; padding: 1px 6px; }
+  .option span { font-size: 11pt; }
 
   .option input {
     width: 13px;
     height: 13px;
+    print-color-adjust: exact;
   }
 
-  .chip, .stat {
-    border-color: #000;
-    color: #000;
-  }
-
-  .stat b,
-  .stat.highlight b {
-    color: #000;
-  }
-
-  .grand {
-    break-before: page;
-  }
-
-  .notes label {
-    color: #000;
-  }
-
-  .notes textarea {
-    border-color: #000;
-    color: #000;
-    background: none;
-  }
+  .chip, .stat { border-color: #000; color: #000; }
+  .stat b, .stat.highlight b { color: #000; }
+  .grand { break-before: page; }
+  .notes label { color: #000; }
+  .notes textarea { border-color: #000; color: #000; background: none; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- Welcome page -->
 <section class="welcome" id="welcome" aria-labelledby="welcomeTitle">
   <div class="welcome-card">
     <div class="welcome-emoji" aria-hidden="true">💞🍽️</div>
     <h1 id="welcomeTitle">Abrina</h1>
     <p class="welcome-subtitle">Food Register</p>
-    <button class="enter-button" id="enterApp" type="button">
-      Open Food Register
-    </button>
+    <button class="enter-button" id="enterApp" type="button">Open Food Register</button>
     <div class="welcome-foot">A little record of every meal, together ♡</div>
   </div>
 </section>
 
-<!-- Main application -->
 <div id="app" hidden>
   <div class="wrap">
-
     <header>
       <div class="heart" aria-hidden="true">💑</div>
-
       <div>
         <h1 id="title"></h1>
         <div class="names" id="names"></div>
@@ -672,9 +465,7 @@ dialog .detail {
       </div>
     </header>
 
-    <nav class="tabs" id="tabs" aria-label="Months"></nav>
     <main class="sheet" id="sheet"></main>
-
   </div>
 </div>
 
@@ -682,7 +473,6 @@ dialog .detail {
   <h3 id="dialogTitle"></h3>
   <p id="dialogDetail" class="detail"></p>
   <p id="dialogEffect"></p>
-
   <div class="actions">
     <button id="dialogCancel">Cancel</button>
     <button id="dialogOk" class="on"></button>
@@ -697,7 +487,7 @@ const CONFIG = {
   names: ["Abrish", "Martina"],
   pricePerServing: 110,
   daysPerMonth: 30,
-  storageKey: "abrina:food-note:v1",
+  storageKey: "abrina:food-note:v1"
 };
 
 const MONTHS = [
@@ -709,21 +499,13 @@ const MONTHS = [
   { n: 7, name: "Megabit" },
   { n: 8, name: "Miazia" },
   { n: 9, name: "Ginbot" },
-  { n: 10, name: "Sene" },
+  { n: 10, name: "Sene" }
 ];
 
 const MEALS = ["b", "l", "d"];
 const FOODS = ["s", "p"];
-
-const MEAL_CLASS = {
-  b: "breakfast",
-  l: "lunch",
-  d: "dinner"
-};
-
-const CELL_KEYS = MEALS.flatMap(
-  meal => FOODS.map(food => meal + food)
-);
+const MEAL_CLASS = { b: "breakfast", l: "lunch", d: "dinner" };
+const CELL_KEYS = MEALS.flatMap(meal => FOODS.map(food => meal + food));
 
 const LABEL = {
   day: "Day",
@@ -731,10 +513,8 @@ const LABEL = {
   l: "Lunch",
   d: "Dinner",
   s: "Shiro",
-  p: "Spris",
+  p: "Spris"
 };
-
-/* Calculations */
 
 function dayItems(day) {
   const ticks = (day && day.ticks) || {};
@@ -742,15 +522,7 @@ function dayItems(day) {
 }
 
 function emptyStats() {
-  return {
-    shiro: 0,
-    spris: 0,
-    b: 0,
-    l: 0,
-    d: 0,
-    items: 0,
-    birr: 0
-  };
+  return { shiro: 0, spris: 0, b: 0, l: 0, d: 0, items: 0, birr: 0 };
 }
 
 function monthStats(record, price) {
@@ -758,8 +530,7 @@ function monthStats(record, price) {
   if (!record) return stats;
 
   for (let day = 1; day <= CONFIG.daysPerMonth; day++) {
-    const ticks =
-      (record.days[day] && record.days[day].ticks) || {};
+    const ticks = (record.days[day] && record.days[day].ticks) || {};
 
     for (const key of CELL_KEYS) {
       if (ticks[key] !== true) continue;
@@ -786,31 +557,19 @@ function sumStats(list) {
   return total;
 }
 
-/* Ethiopian calendar */
-
 function julianDay(year, month, day) {
   const a = Math.floor((14 - month) / 12);
   const y = year + 4800 - a;
   const m = month + 12 * a - 3;
 
-  return day
-    + Math.floor((153 * m + 2) / 5)
-    + 365 * y
-    + Math.floor(y / 4)
-    - Math.floor(y / 100)
-    + Math.floor(y / 400)
-    - 32045;
+  return day + Math.floor((153 * m + 2) / 5) + 365 * y +
+    Math.floor(y / 4) - Math.floor(y / 100) +
+    Math.floor(y / 400) - 32045;
 }
 
 function ethiopianToday() {
   const now = new Date();
-
-  const jd = julianDay(
-    now.getFullYear(),
-    now.getMonth() + 1,
-    now.getDate()
-  ) - 1723856;
-
+  const jd = julianDay(now.getFullYear(), now.getMonth() + 1, now.getDate()) - 1723856;
   const r = ((jd % 1461) + 1461) % 1461;
   const cycle = Math.floor(jd / 1461);
   const n = (r % 365) + 365 * Math.floor(r / 1460);
@@ -818,11 +577,9 @@ function ethiopianToday() {
   return {
     year: 4 * cycle + Math.floor(r / 365) - Math.floor(r / 1460),
     month: Math.floor(n / 30) + 1,
-    day: (n % 30) + 1,
+    day: (n % 30) + 1
   };
 }
-
-/* Storage */
 
 const Store = {
   data: { v: 1, years: {} },
@@ -832,13 +589,8 @@ const Store = {
       const raw = localStorage.getItem(CONFIG.storageKey);
       const parsed = raw && JSON.parse(raw);
 
-      if (parsed && parsed.v === 1) {
-        this.data = parsed;
-      }
-
-      if (this.migrateTicks()) {
-        this.persist();
-      }
+      if (parsed && parsed.v === 1) this.data = parsed;
+      if (this.migrateTicks()) this.persist();
     } catch (error) {
       console.warn("Saved data could not be read", error);
     }
@@ -864,10 +616,7 @@ const Store = {
 
   persist() {
     try {
-      localStorage.setItem(
-        CONFIG.storageKey,
-        JSON.stringify(this.data)
-      );
+      localStorage.setItem(CONFIG.storageKey, JSON.stringify(this.data));
       return true;
     } catch (error) {
       console.error(error);
@@ -885,14 +634,9 @@ const Store = {
   },
 
   stats(year, n) {
-    return monthStats(
-      this.peek(year, n),
-      CONFIG.pricePerServing
-    );
-  },
+    return monthStats(this.peek(year, n), CONFIG.pricePerServing);
+  }
 };
-
-/* State and helpers */
 
 const today = ethiopianToday();
 
@@ -902,12 +646,8 @@ const state = {
 };
 
 const $ = id => document.getElementById(id);
-
-const formatNumber = n =>
-  n.toLocaleString("en-US", { maximumFractionDigits: 2 });
-
+const formatNumber = n => n.toLocaleString("en-US", { maximumFractionDigits: 2 });
 const formatBirr = n => `${formatNumber(n)} Birr`;
-
 const currentMonth = () => MONTHS[state.monthIndex];
 
 const isToday = day =>
@@ -917,18 +657,14 @@ const isToday = day =>
 
 function el(tag, className, text) {
   const node = document.createElement(tag);
-
   if (className) node.className = className;
   if (text != null) node.textContent = text;
-
   return node;
 }
 
 function describe(day, meal, food) {
   return `${LABEL.day} ${day}, ${LABEL[meal]}, ${LABEL[food]}`;
 }
-
-/* Autosave */
 
 let saveTimer = null;
 
@@ -951,25 +687,14 @@ window.addEventListener("pagehide", () => {
   Store.persist();
 });
 
-/* Confirmation dialog */
-
 function confirmTick(day, meal, food, willTick) {
-  $("dialogTitle").textContent = willTick
-    ? "Tick this item?"
-    : "Untick this item?";
-
-  $("dialogDetail").textContent =
-    describe(day, meal, food);
-
-  $("dialogEffect").textContent =
-    `${willTick ? "+" : "-"}${formatBirr(CONFIG.pricePerServing)}`;
-
-  $("dialogOk").textContent =
-    willTick ? "Tick" : "Untick";
+  $("dialogTitle").textContent = willTick ? "Tick this item?" : "Untick this item?";
+  $("dialogDetail").textContent = describe(day, meal, food);
+  $("dialogEffect").textContent = `${willTick ? "+" : "-"}${formatBirr(CONFIG.pricePerServing)}`;
+  $("dialogOk").textContent = willTick ? "Tick" : "Untick";
 
   const dialog = $("dialog");
   dialog.showModal();
-  $("dialogCancel").focus();
 
   return new Promise(resolve => {
     const finish = answer => {
@@ -987,72 +712,15 @@ function confirmTick(day, meal, food, willTick) {
   });
 }
 
-/* Header */
-
 function renderHeader() {
   $("title").textContent = CONFIG.noteName;
-  $("names").textContent =
-    `${CONFIG.names[0]} 💞 ${CONFIG.names[1]}`;
-
-  $("price").textContent =
-    `${formatBirr(CONFIG.pricePerServing)} per serving`;
-
+  $("names").textContent = `${CONFIG.names[0]} 💞 ${CONFIG.names[1]}`;
+  $("price").textContent = `${formatBirr(CONFIG.pricePerServing)} per serving`;
   $("year").textContent = `${state.year} E.C.`;
 }
 
-/* Month tabs */
-
-function renderTabs() {
-  const nav = $("tabs");
-  const scrollLeft = nav.scrollLeft;
-
-  nav.textContent = "";
-
-  MONTHS.forEach((month, index) => {
-    const tab = el(
-      "button",
-      index === state.monthIndex ? "tab on" : "tab"
-    );
-
-    tab.append(
-      el("span", null, month.name),
-      el(
-        "small",
-        null,
-        formatBirr(Store.stats(state.year, month.n).birr)
-      )
-    );
-
-    tab.onclick = () => {
-      state.monthIndex = index;
-      renderAll();
-    };
-
-    nav.append(tab);
-  });
-
-  nav.scrollLeft = scrollLeft;
-}
-
-function centerActiveTab() {
-  const nav = $("tabs");
-  const tab = nav.children[state.monthIndex];
-
-  if (tab) {
-    nav.scrollLeft =
-      tab.offsetLeft -
-      (nav.clientWidth - tab.offsetWidth) / 2;
-  }
-}
-
-/* Statistics */
-
 function renderStats() {
-  const stats = Store.stats(
-    state.year,
-    currentMonth().n
-  );
-
+  const stats = Store.stats(state.year, currentMonth().n);
   const box = $("stats");
   box.textContent = "";
 
@@ -1063,22 +731,12 @@ function renderStats() {
     ["Total lunch", stats.l],
     ["Total dinner", stats.d],
     ["Total items", stats.items],
-    ["Month total (Birr)", formatNumber(stats.birr)],
+    ["Month total (Birr)", formatNumber(stats.birr)]
   ];
 
   tiles.forEach(([label, value], index) => {
-    const tile = el(
-      "div",
-      index >= tiles.length - 2
-        ? "stat highlight"
-        : "stat"
-    );
-
-    tile.append(
-      el("small", null, label),
-      el("b", null, String(value))
-    );
-
+    const tile = el("div", index >= tiles.length - 2 ? "stat highlight" : "stat");
+    tile.append(el("small", null, label), el("b", null, String(value)));
     box.append(tile);
   });
 
@@ -1088,14 +746,7 @@ function renderStats() {
 function renderGrandTotal() {
   const section = $("grand");
   section.textContent = "";
-
-  section.append(
-    el(
-      "h3",
-      null,
-      `Grand total, all nine months, ${state.year} E.C.`
-    )
-  );
+  section.append(el("h3", null, `Grand total, all nine months, ${state.year} E.C.`));
 
   const head = el("thead");
   const headRow = el("tr");
@@ -1113,20 +764,10 @@ function renderGrandTotal() {
     const stats = Store.stats(state.year, month.n);
     allStats.push(stats);
 
-    const row = el(
-      "tr",
-      index === state.monthIndex ? "current" : ""
-    );
+    const row = el("tr", index === state.monthIndex ? "current" : "");
 
-    [
-      month.name,
-      stats.shiro,
-      stats.spris,
-      stats.items,
-      formatNumber(stats.birr)
-    ].forEach(value => {
-      row.append(el("td", null, String(value)));
-    });
+    [month.name, stats.shiro, stats.spris, stats.items, formatNumber(stats.birr)]
+      .forEach(value => row.append(el("td", null, String(value))));
 
     body.append(row);
   });
@@ -1135,31 +776,20 @@ function renderGrandTotal() {
   const foot = el("tfoot");
   const footRow = el("tr");
 
-  [
-    "Grand total",
-    total.shiro,
-    total.spris,
-    total.items,
-    formatBirr(total.birr)
-  ].forEach(value => {
-    footRow.append(el("td", null, String(value)));
-  });
+  ["Grand total", total.shiro, total.spris, total.items, formatBirr(total.birr)]
+    .forEach(value => footRow.append(el("td", null, String(value))));
 
   foot.append(footRow);
 
   const table = el("table");
   table.append(head, body, foot);
-
   section.append(table);
 }
 
 function renderTotals() {
   renderStats();
   renderGrandTotal();
-  renderTabs();
 }
-
-/* Daily totals */
 
 function renderDayTotals(day) {
   const record = Store.peek(state.year, currentMonth().n);
@@ -1169,26 +799,19 @@ function renderDayTotals(day) {
   const birr = $(`birr-${day}`);
 
   items.textContent = String(count);
-  birr.textContent = formatBirr(
-    count * CONFIG.pricePerServing
-  );
+  birr.textContent = formatBirr(count * CONFIG.pricePerServing);
 
   items.classList.toggle("zero", count === 0);
   birr.classList.toggle("zero", count === 0);
 }
-
-/* Food selection */
 
 function setTick(day, key, ticked) {
   const record = Store.month(state.year, currentMonth().n);
   const dayRecord = (record.days[day] ??= {});
   const ticks = (dayRecord.ticks ??= {});
 
-  if (ticked) {
-    ticks[key] = true;
-  } else {
-    delete ticks[key];
-  }
+  if (ticked) ticks[key] = true;
+  else delete ticks[key];
 
   renderDayTotals(day);
   renderTotals();
@@ -1202,23 +825,14 @@ function createOption(day, meal, food, ticks) {
 
   box.type = "checkbox";
   box.checked = ticks[key] === true;
-
-  box.setAttribute(
-    "aria-label",
-    describe(day, meal, food)
-  );
+  box.setAttribute("aria-label", describe(day, meal, food));
 
   box.addEventListener("click", async event => {
     event.preventDefault();
 
     const record = Store.peek(state.year, currentMonth().n);
     const dayRecord = record && record.days[day];
-
-    const willTick = !(
-      dayRecord &&
-      dayRecord.ticks &&
-      dayRecord.ticks[key]
-    );
+    const willTick = !(dayRecord && dayRecord.ticks && dayRecord.ticks[key]);
 
     if (await confirmTick(day, meal, food, willTick)) {
       box.checked = willTick;
@@ -1226,37 +840,21 @@ function createOption(day, meal, food, ticks) {
     }
   });
 
-  label.append(
-    box,
-    el("span", null, LABEL[food])
-  );
-
+  label.append(box, el("span", null, LABEL[food]));
   return label;
 }
 
-/* Daily table */
-
 function createDayRow(day, record) {
-  const ticks =
-    (record.days[day] && record.days[day].ticks) || {};
-
+  const ticks = (record.days[day] && record.days[day].ticks) || {};
   const row = el("tr");
 
-  row.append(
-    el(
-      "td",
-      isToday(day) ? "col-day today" : "col-day",
-      String(day)
-    )
-  );
+  row.append(el("td", isToday(day) ? "col-day today" : "col-day", String(day)));
 
   MEALS.forEach(meal => {
     const cell = el("td", MEAL_CLASS[meal]);
 
     FOODS.forEach(food => {
-      cell.append(
-        createOption(day, meal, food, ticks)
-      );
+      cell.append(createOption(day, meal, food, ticks));
     });
 
     row.append(cell);
@@ -1269,7 +867,6 @@ function createDayRow(day, record) {
   birr.id = `birr-${day}`;
 
   row.append(items, birr);
-
   return row;
 }
 
@@ -1280,7 +877,7 @@ function createTable(record) {
     ["", LABEL.l],
     ["", LABEL.d],
     ["col-items", "Items"],
-    ["col-birr", "Birr"],
+    ["col-birr", "Birr"]
   ];
 
   const head = el("thead");
@@ -1307,52 +904,37 @@ function createTable(record) {
   return wrap;
 }
 
-/* Notes */
-
 function createNotes(record) {
   const wrap = el("div", "notes");
   const label = el("label", null, "Notes");
   const field = el("textarea");
 
   label.htmlFor = "notes";
-
   field.id = "notes";
   field.maxLength = 2000;
   field.value = record.notes ?? "";
 
   field.oninput = () => {
-    Store.month(state.year, currentMonth().n).notes =
-      field.value;
-
+    Store.month(state.year, currentMonth().n).notes = field.value;
     queueSave();
   };
 
   wrap.append(label, field);
-
   return wrap;
 }
 
-/* Render selected month */
-
 function renderSheet() {
   const month = currentMonth();
-
-  const record = Store.peek(state.year, month.n) ?? {
-    days: {},
-    notes: ""
-  };
-
+  const record = Store.peek(state.year, month.n) ?? { days: {}, notes: "" };
   const sheet = $("sheet");
+
   sheet.textContent = "";
 
   const chipValue = el("b");
   chipValue.id = "monthBirr";
 
   const chip = el("div", "chip");
-  chip.append(
-    el("span", null, "Month total"),
-    chipValue
-  );
+  chip.append(el("span", null, "Month total"), chipValue);
 
   const status = el("span", "status");
   status.id = "status";
@@ -1370,35 +952,15 @@ function renderSheet() {
   prev.onclick = () => changeMonth(-1);
   next.onclick = () => changeMonth(1);
 
+  /*
+    The dropdown has been removed.
+    The arrows are now the only month navigation controls.
+  */
+
   const heading = el("div", "month-nav");
+  const monthTitle = el("h2", null, `${month.name} ${state.year}`);
 
-  const monthSelect = el("select", "month-select");
-
-  monthSelect.setAttribute(
-    "aria-label",
-    "Select Ethiopian month"
-  );
-
-  MONTHS.forEach((item, index) => {
-    const option = el("option", null, item.name);
-
-    option.value = String(index);
-    option.selected = index === state.monthIndex;
-
-    monthSelect.append(option);
-  });
-
-  monthSelect.onchange = () => {
-    state.monthIndex = Number(monthSelect.value);
-    renderAll();
-  };
-
-  heading.append(
-    prev,
-    el("h2", null, `${month.name} ${state.year}`),
-    monthSelect,
-    next
-  );
+  heading.append(prev, monthTitle, next);
 
   const top = el("div", "top");
   top.append(heading, chip, status);
@@ -1427,10 +989,7 @@ function renderSheet() {
 function renderAll() {
   renderHeader();
   renderSheet();
-  centerActiveTab();
 }
-
-/* Navigation */
 
 function changeYear(step) {
   state.year += step;
@@ -1446,22 +1005,17 @@ function changeMonth(step) {
   renderAll();
 }
 
-/* Swipe navigation */
+/* Mobile swipe navigation */
 
 function enableSwipe(target) {
   const MIN_DISTANCE = 70;
-
   let startX = 0;
   let startY = 0;
   let tracking = false;
 
   target.addEventListener("touchstart", event => {
-    const scroller = event.target.closest(".table-wrap, .tabs");
     const blocked = event.target.closest("dialog, textarea");
-
-    tracking =
-      !blocked &&
-      (!scroller || scroller.scrollWidth <= scroller.clientWidth);
+    tracking = !blocked;
 
     startX = event.touches[0].clientX;
     startY = event.touches[0].clientY;
@@ -1484,29 +1038,22 @@ function enableSwipe(target) {
   }, { passive: true });
 }
 
-/* Year controls */
-
 $("yearPrev").onclick = () => changeYear(-1);
 $("yearNext").onclick = () => changeYear(1);
 
 enableSwipe(document.body);
-
-/* Welcome button */
 
 $("enterApp").addEventListener("click", () => {
   $("welcome").hidden = true;
   $("app").hidden = false;
 
   state.monthIndex = 0;
-
   renderAll();
 });
 
-/* Initialize */
-
 Store.load();
 renderAll();
-
 </script>
+
 </body>
 </html>
