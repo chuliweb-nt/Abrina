@@ -1,444 +1,637 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Abrina</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Space+Grotesk:wght@400;600;700&display=swap">
+<title>Abrina - Food Register</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Caveat:wght@500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap">
 
 <style>
 :root {
-  --night: #0a0e1f;
-  --panel: rgba(255,255,255,.045);
-  --edge: rgba(160,185,255,.22);
-  --text: #e9edff;
-  --muted: #93a0cc;
-  --rose: #ff7aa8;
-  --cyan: #62e6ff;
-  --gold: #ffd27a;
-  --breakfast: rgba(255,210,122,.07);
-  --lunch: rgba(98,230,255,.06);
-  --dinner: rgba(255,122,168,.07);
-  --hand: "Caveat", cursive;
-  --ui: "Space Grotesk", system-ui, sans-serif;
-  color-scheme: dark;
+  --night:#0a0e1f;
+  --panel:rgba(255,255,255,.045);
+  --edge:rgba(160,185,255,.22);
+  --text:#e9edff;
+  --muted:#93a0cc;
+  --rose:#ff7aa8;
+  --cyan:#62e6ff;
+  --gold:#ffd27a;
+  --hand:"Caveat",cursive;
+  --ui:"Space Grotesk",system-ui,sans-serif;
+  color-scheme:dark;
 }
 
-* { box-sizing: border-box; }
+* { box-sizing:border-box; }
 
 body {
-  margin: 0;
-  min-height: 100vh;
-  color: var(--text);
-  font: 16px/1.45 var(--ui);
-  padding: env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);
+  margin:0;
+  min-height:100vh;
+  padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);
+  color:var(--text);
+  font:16px/1.4 var(--ui);
   background:
-    radial-gradient(900px 500px at 8% -10%,rgba(255,122,168,.22),transparent 60%),
-    radial-gradient(900px 500px at 100% 0%,rgba(98,230,255,.18),transparent 60%),
+    radial-gradient(900px 500px at 8% -10%,rgba(255,122,168,.18),transparent 60%),
+    radial-gradient(900px 500px at 100% 0%,rgba(98,230,255,.15),transparent 60%),
     var(--night);
-  background-attachment: fixed;
 }
 
-.wrap { max-width: 960px; margin: 0 auto; padding: 14px; }
+button,select,textarea { font:inherit; }
 
-button {
-  font: inherit;
-  color: var(--text);
-  background: var(--panel);
-  border: 1px solid var(--edge);
-  border-radius: 10px;
-  padding: 8px 14px;
-  min-height: 40px;
-  cursor: pointer;
-}
-
-button:disabled { opacity: .35; cursor: default; }
-
-button:focus-visible,
-textarea:focus-visible {
-  outline: 2px solid var(--cyan);
-  outline-offset: 2px;
-}
-
-button.on {
-  background: linear-gradient(135deg,var(--rose),#b58bff);
-  border-color: transparent;
-  color: #190a18;
-  font-weight: 700;
+.wrap {
+  max-width:960px;
+  margin:auto;
+  padding:12px;
 }
 
 header {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  flex-wrap: wrap;
-  margin: 6px 0 16px;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  margin:5px 0 18px;
 }
 
 .heart {
-  font-size: 2.6rem;
-  line-height: 1;
+  font-size:2.4rem;
+  line-height:1;
 }
 
 h1 {
-  margin: 0;
-  font: 700 2.3rem/1 var(--ui);
-  letter-spacing: -.02em;
-  background: linear-gradient(90deg,var(--rose),var(--cyan));
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
+  margin:0;
+  font-size:2.2rem;
+  line-height:1.1;
+  background:linear-gradient(90deg,var(--rose),var(--cyan));
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
 }
 
-.names { font-family: var(--hand); font-size: 1.5rem; margin-top: 2px; }
+.names {
+  font:1.45rem var(--hand);
+  margin-top:3px;
+}
 
 .meta {
-  display: flex;
-  gap: 14px;
-  flex-wrap: wrap;
-  color: var(--muted);
-  font-size: .85rem;
+  display:flex;
+  gap:12px;
+  flex-wrap:wrap;
+  color:var(--muted);
+  font-size:.84rem;
+  margin-top:3px;
 }
 
-.tools { margin-left: auto; display: flex; gap: 8px; align-items: center; }
-
 .sheet {
-  background: var(--panel);
-  border: 1px solid var(--edge);
-  border-radius: 18px;
-  padding: 16px;
-  backdrop-filter: blur(6px);
+  background:var(--panel);
+  border:1px solid var(--edge);
+  border-radius:18px;
+  padding:15px;
+  backdrop-filter:blur(6px);
 }
 
 .top {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  flex-wrap: wrap;
-  gap: 10px;
-  margin-bottom: 12px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+  flex-wrap:wrap;
+  margin-bottom:15px;
 }
 
-.top h2 { margin: 0; font: 700 1.6rem/1.1 var(--ui); }
-
-.month-nav {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: nowrap;
+.page-heading {
+  min-width:0;
 }
 
-.month-nav h2 {
-  min-width: 0;
-  text-align: center;
+.page-heading h2 {
+  margin:0;
+  font-size:1.55rem;
+  line-height:1.2;
+}
+
+.page-label {
+  color:var(--muted);
+  font-size:.76rem;
+  margin-top:3px;
+}
+
+.month-select {
+  display:block;
+  width:auto;
+  max-width:145px;
+  min-width:112px;
+  padding:8px 25px 8px 10px;
+  border:1px solid var(--edge);
+  border-radius:10px;
+  background:#171d35;
+  color:var(--text);
+  font-size:.86rem;
+  font-weight:600;
 }
 
 .chip {
-  display: inline-flex;
-  gap: 8px;
-  align-items: baseline;
-  border: 1px solid var(--gold);
-  border-radius: 999px;
-  padding: 6px 14px;
-  color: var(--gold);
+  display:inline-flex;
+  align-items:center;
+  gap:7px;
+  padding:6px 13px;
+  border:1px solid var(--gold);
+  border-radius:999px;
+  color:var(--gold);
+  margin:2px 0 14px;
 }
 
-.chip b { font-size: 1.25rem; }
-.status { color: var(--muted); font-size: .85rem; }
+.chip b { font-size:1.15rem; }
+
+.status {
+  color:var(--muted);
+  font-size:.78rem;
+  margin-left:auto;
+}
 
 .table-wrap {
-  overflow-x: auto;
-  border: 1px solid var(--edge);
-  border-radius: 12px;
+  overflow-x:auto;
+  border:1px solid var(--edge);
+  border-radius:12px;
 }
 
 table {
-  width: 100%;
-  min-width: 640px;
-  border-collapse: collapse;
-  table-layout: fixed;
+  width:100%;
+  min-width:620px;
+  border-collapse:collapse;
+  table-layout:fixed;
 }
 
-th, td {
-  border-bottom: 1px solid var(--edge);
-  border-right: 1px solid var(--edge);
-  padding: 0;
-  vertical-align: middle;
+th,td {
+  border-bottom:1px solid var(--edge);
+  border-right:1px solid var(--edge);
+  padding:0;
+  vertical-align:middle;
 }
 
-th:last-child, td:last-child { border-right: 0; }
+th:last-child,td:last-child { border-right:0; }
 
 th {
-  padding: 10px 6px;
-  text-align: center;
-  font-weight: 600;
-  background: rgba(10,14,31,.6);
+  padding:10px 5px;
+  text-align:center;
+  background:rgba(10,14,31,.65);
+  font-weight:600;
 }
 
 .col-day {
-  width: 52px;
-  text-align: center;
-  font-weight: 700;
-  color: var(--cyan);
-  position: sticky;
-  left: 0;
-  background: #12172c;
-  z-index: 1;
+  width:48px;
+  text-align:center;
+  font-weight:700;
+  color:var(--cyan);
+  position:sticky;
+  left:0;
+  background:#12172c;
+  z-index:1;
 }
 
-th.col-day { background: #0f1428; }
-td.col-day.today { background: var(--cyan); color: #06121a; }
-.col-items { width: 74px; text-align: center; }
-.col-birr { width: 104px; text-align: right; }
-td.col-items { font-weight: 700; font-size: 1.1rem; }
+th.col-day { background:#0f1428; }
+
+.col-items {
+  width:65px;
+  text-align:center;
+}
+
+.col-birr {
+  width:95px;
+  text-align:right;
+  padding-right:8px;
+}
+
+td.col-items {
+  font-weight:700;
+  font-size:1rem;
+}
 
 td.col-birr {
-  padding-right: 10px;
-  font-weight: 700;
-  color: var(--gold);
-  font-size: 1.05rem;
+  font-weight:700;
+  color:var(--gold);
+  font-size:.95rem;
 }
 
-td.zero { color: var(--muted); font-weight: 400; }
-.breakfast { background: var(--breakfast); }
-.lunch { background: var(--lunch); }
-.dinner { background: var(--dinner); }
+.zero { color:var(--muted)!important; }
+
+.breakfast { background:rgba(255,210,122,.07); }
+.lunch { background:rgba(98,230,255,.06); }
+.dinner { background:rgba(255,122,168,.07); }
 
 .option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 7px 12px;
-  min-height: 40px;
+  display:flex;
+  align-items:center;
+  gap:9px;
+  min-height:39px;
+  padding:6px 10px;
 }
 
-.option + .option { border-top: 1px dashed var(--edge); }
+.option + .option {
+  border-top:1px dashed var(--edge);
+}
 
 .option input {
-  width: 22px;
-  height: 22px;
-  margin: 0;
-  accent-color: var(--rose);
-  flex: 0 0 auto;
+  width:21px;
+  height:21px;
+  margin:0;
+  accent-color:var(--rose);
+  flex:0 0 auto;
 }
 
 .option span {
-  font-family: var(--hand);
-  font-size: 1.3rem;
-  line-height: 1;
+  font:1.25rem var(--hand);
+  line-height:1;
 }
 
-.option:has(input:checked) { background: rgba(255,255,255,.07); }
+.option:has(input:checked) {
+  background:rgba(255,255,255,.07);
+}
+
+/* Mobile day cards */
+
+.mobile-days { display:none; }
+
+.day-card {
+  border:1px solid var(--edge);
+  border-radius:12px;
+  overflow:hidden;
+  margin-bottom:9px;
+  background:rgba(10,14,31,.35);
+}
+
+.day-card-head {
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:8px;
+  padding:8px 10px;
+  background:rgba(98,230,255,.07);
+  border-bottom:1px solid var(--edge);
+}
+
+.day-number {
+  color:var(--cyan);
+  font-weight:700;
+  font-size:.94rem;
+}
+
+.day-total {
+  color:var(--gold);
+  font-size:.8rem;
+  font-weight:600;
+}
+
+.day-meal {
+  display:grid;
+  grid-template-columns:75px minmax(0,1fr);
+  align-items:stretch;
+  border-bottom:1px solid var(--edge);
+}
+
+.day-meal:last-child { border-bottom:0; }
+
+.meal-name {
+  display:flex;
+  align-items:center;
+  padding:7px;
+  font-size:.77rem;
+  font-weight:600;
+  border-right:1px solid var(--edge);
+  color:var(--muted);
+}
+
+.meal-options {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  min-width:0;
+}
+
+.meal-options .option {
+  min-width:0;
+  padding:6px 7px;
+  gap:6px;
+  min-height:37px;
+}
+
+.meal-options .option + .option {
+  border-top:0;
+  border-left:1px dashed var(--edge);
+}
+
+.meal-options .option input {
+  width:19px;
+  height:19px;
+}
+
+.meal-options .option span {
+  font-size:1.15rem;
+}
+
+.mobile-day-totals {
+  display:flex;
+  justify-content:flex-end;
+  gap:12px;
+  padding:5px 10px;
+  color:var(--muted);
+  font-size:.75rem;
+  border-top:1px dashed var(--edge);
+}
+
+.mobile-day-totals b { color:var(--gold); }
 
 .stats {
-  display: grid;
-  grid-template-columns: repeat(auto-fit,minmax(120px,1fr));
-  gap: 8px;
-  margin-top: 14px;
+  display:grid;
+  grid-template-columns:repeat(4,minmax(0,1fr));
+  gap:8px;
+  margin-top:14px;
 }
 
 .stat {
-  border: 1px solid var(--edge);
-  border-radius: 12px;
-  padding: 10px 12px;
-  background: rgba(10,14,31,.5);
+  border:1px solid var(--edge);
+  border-radius:11px;
+  padding:9px 10px;
+  background:rgba(10,14,31,.45);
+  min-width:0;
 }
 
-.stat small { display: block; color: var(--muted); font-size: .8rem; }
-.stat b { font-size: 1.35rem; }
-.stat.highlight { border-color: var(--gold); }
-.stat.highlight b { color: var(--gold); }
-
-.grand { margin-top: 18px; }
-.grand h3 { margin: 0 0 8px; font: 700 1.2rem var(--ui); }
-.grand table { min-width: 0; table-layout: auto; }
-.grand th, .grand td { padding: 8px 10px; text-align: right; }
-.grand th:first-child, .grand td:first-child { text-align: left; }
-.grand tr.current td { background: rgba(255,255,255,.06); }
-
-.grand tfoot td {
-  font-weight: 700;
-  color: var(--gold);
-  background: rgba(10,14,31,.6);
+.stat small {
+  display:block;
+  color:var(--muted);
+  font-size:.75rem;
 }
 
-.notes { margin-top: 16px; }
+.stat b {
+  display:block;
+  font-size:1.15rem;
+  overflow-wrap:anywhere;
+}
+
+.stat.highlight { border-color:var(--gold); }
+.stat.highlight b { color:var(--gold); }
+
+.notes { margin-top:15px; }
 
 .notes label {
-  display: block;
-  font-family: var(--hand);
-  font-size: 1.6rem;
-  color: var(--rose);
+  display:block;
+  font:1.5rem var(--hand);
+  color:var(--rose);
+  margin-bottom:5px;
 }
 
 .notes textarea {
-  display: block;
-  width: 100%;
-  min-height: 110px;
-  padding: 0 12px;
-  color: var(--text);
-  font: 500 1.3rem/32px var(--hand);
-  resize: vertical;
-  border: 1px solid var(--edge);
-  border-radius: 12px;
-  background: repeating-linear-gradient(
-    transparent 0 31px,
-    rgba(160,185,255,.16) 31px 32px
+  display:block;
+  width:100%;
+  min-height:95px;
+  padding:5px 10px;
+  color:var(--text);
+  font:1.25rem/30px var(--hand);
+  resize:vertical;
+  border:1px solid var(--edge);
+  border-radius:11px;
+  background:repeating-linear-gradient(
+    transparent 0 29px,
+    rgba(160,185,255,.16) 29px 30px
   );
 }
 
+.summary-page h2 {
+  margin:0 0 5px;
+  font-size:1.5rem;
+}
+
+.summary-description {
+  color:var(--muted);
+  margin:0 0 14px;
+  font-size:.85rem;
+}
+
+.summary-table {
+  overflow-x:auto;
+  border:1px solid var(--edge);
+  border-radius:11px;
+}
+
+.summary-table table {
+  min-width:0;
+  table-layout:auto;
+}
+
+.summary-table th,.summary-table td {
+  padding:9px 7px;
+  text-align:right;
+  font-size:.85rem;
+}
+
+.summary-table th:first-child,
+.summary-table td:first-child { text-align:left; }
+
+.summary-table tfoot td {
+  color:var(--gold);
+  font-weight:700;
+}
+
+.summary-total {
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:8px;
+  margin-top:13px;
+}
+
 dialog {
-  width: min(92vw,380px);
-  padding: 22px;
-  color: var(--text);
-  background: #131936;
-  border: 1px solid var(--edge);
-  border-radius: 16px;
+  width:min(92vw,360px);
+  padding:20px;
+  color:var(--text);
+  background:#131936;
+  border:1px solid var(--edge);
+  border-radius:15px;
 }
 
-dialog::backdrop {
-  background: rgba(5,7,16,.7);
-  backdrop-filter: blur(3px);
-}
+dialog::backdrop { background:rgba(5,7,16,.72); }
 
-dialog h3 { margin: 0 0 6px; font: 700 1.25rem var(--ui); }
-dialog p { margin: 0; color: var(--muted); }
-dialog .detail { color: var(--text); font-family: var(--hand); font-size: 1.5rem; margin: 8px 0 2px; }
+dialog h3 { margin:0 0 6px; }
+dialog p { margin:0; color:var(--muted); }
+dialog .detail { color:var(--text); font:1.4rem var(--hand); margin:8px 0; }
 
 .actions {
-  display: flex;
-  gap: 10px;
-  justify-content: flex-end;
-  margin-top: 18px;
+  display:flex;
+  justify-content:flex-end;
+  gap:8px;
+  margin-top:16px;
 }
 
-/* Welcome screen */
+.actions button {
+  padding:8px 14px;
+  border:1px solid var(--edge);
+  border-radius:9px;
+  background:#202945;
+  color:var(--text);
+}
+
+/* Welcome */
 
 .welcome {
-  min-height: 100svh;
-  display: grid;
-  place-items: center;
-  padding: 24px;
-  text-align: center;
+  min-height:100svh;
+  display:grid;
+  place-items:center;
+  padding:22px;
+  text-align:center;
   background:
-    radial-gradient(650px 420px at 50% 25%,rgba(255,122,168,.19),transparent 68%),
-    radial-gradient(650px 420px at 90% 90%,rgba(98,230,255,.13),transparent 65%),
+    radial-gradient(650px 420px at 50% 25%,rgba(255,122,168,.18),transparent 68%),
     var(--night);
 }
 
 .welcome-card {
-  width: min(100%,520px);
-  padding: clamp(28px,7vw,54px) 24px;
-  border: 1px solid var(--edge);
-  border-radius: 28px;
-  background: rgba(255,255,255,.055);
-  box-shadow: 0 24px 80px rgba(0,0,0,.28);
+  width:min(100%,500px);
+  padding:40px 22px;
+  border:1px solid var(--edge);
+  border-radius:25px;
+  background:rgba(255,255,255,.05);
 }
 
 .welcome-emoji {
-  font-size: clamp(3.5rem,12vw,5.5rem);
-  line-height: 1.2;
-  margin-bottom: 14px;
+  font-size:4.5rem;
+  margin-bottom:12px;
 }
 
-.welcome h1 { margin: 0; font-size: clamp(2.8rem,10vw,4.2rem); }
+.welcome h1 { font-size:clamp(2.8rem,10vw,4rem); }
 
 .welcome-subtitle {
-  margin: 12px 0 28px;
-  color: var(--muted);
-  font-size: 1.08rem;
-  letter-spacing: .08em;
-  text-transform: uppercase;
+  color:var(--muted);
+  font-size:.95rem;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  margin:12px 0 25px;
 }
 
 .enter-button {
-  min-height: 52px;
-  padding: 12px 28px;
-  border: 0;
-  border-radius: 999px;
-  color: #190a18;
-  background: linear-gradient(110deg,var(--rose),#c69aff 55%,var(--cyan));
-  font-weight: 700;
-  font-size: 1rem;
+  min-height:48px;
+  padding:11px 25px;
+  border:0;
+  border-radius:999px;
+  color:#190a18;
+  background:linear-gradient(110deg,var(--rose),#c69aff 55%,var(--cyan));
+  font-weight:700;
 }
 
-.welcome-foot { margin-top: 22px; color: var(--muted); font: 1.25rem var(--hand); }
+.welcome-foot {
+  margin-top:20px;
+  color:var(--muted);
+  font:1.2rem var(--hand);
+}
 
-#app[hidden], #welcome[hidden] { display: none !important; }
+#app[hidden],#welcome[hidden] { display:none!important; }
 
-/* Mobile layout */
+@media(max-width:600px) {
+  .wrap { padding:8px; }
 
-@media (max-width: 560px) {
-  h1 { font-size: 1.9rem; }
-  .wrap { padding: 8px; }
-  .sheet { padding: 10px; }
-
-  .month-nav {
-    width: 100%;
-    justify-content: space-between;
-    gap: 7px;
+  header {
+    gap:9px;
+    margin:5px 2px 13px;
   }
 
-  .month-nav h2 {
-    flex: 1;
-    font-size: 1.2rem;
-    overflow-wrap: anywhere;
+  .heart { font-size:2rem; }
+
+  h1 { font-size:1.8rem; }
+
+  .names { font-size:1.25rem; }
+
+  .meta {
+    font-size:.74rem;
+    gap:8px;
   }
 
-  .month-nav button {
-    flex: 0 0 42px;
-    min-width: 42px;
-    padding: 6px;
+  .sheet {
+    padding:10px;
+    border-radius:15px;
   }
 
-  .tools { margin-left: auto; }
+  .top {
+    margin-bottom:11px;
+    gap:6px;
+  }
+
+  .page-heading h2 { font-size:1.25rem; }
+
+  .month-select {
+    min-width:105px;
+    max-width:125px;
+    padding:7px 20px 7px 8px;
+    font-size:.8rem;
+  }
+
+  .chip {
+    padding:5px 10px;
+    font-size:.84rem;
+    margin-bottom:10px;
+  }
+
+  .chip b { font-size:1rem; }
+
+  .table-wrap { display:none; }
+  .mobile-days { display:block; }
+
+  .stats {
+    grid-template-columns:repeat(2,minmax(0,1fr));
+    gap:7px;
+    margin-top:12px;
+  }
+
+  .stat { padding:8px; }
+  .stat small { font-size:.72rem; }
+  .stat b { font-size:1.05rem; }
+
+  .notes { margin-top:12px; }
+  .notes label { font-size:1.35rem; }
+
+  .notes textarea {
+    min-height:85px;
+    font-size:1.15rem;
+  }
+
+  .status { font-size:.7rem; }
+
+  .summary-table th,.summary-table td {
+    padding:7px 4px;
+    font-size:.76rem;
+  }
+}
+
+@media(max-width:360px) {
+  .day-meal { grid-template-columns:65px minmax(0,1fr); }
+  .meal-options .option { padding:5px; gap:4px; }
+  .meal-options .option span { font-size:1.05rem; }
+  .meal-options .option input { width:17px; height:17px; }
+  .month-select { min-width:96px; max-width:110px; }
 }
 
 @media print {
-  @page { size: A4 portrait; margin: 10mm; }
+  @page { size:A4 portrait; margin:10mm; }
 
-  body { background: #fff; color: #000; font-size: 10pt; }
-  .wrap { max-width: none; padding: 0; }
-  .tools, .status, .month-nav button, dialog, .welcome { display: none !important; }
-  .heart { filter: none; }
-  h1 { background: none; color: #000; -webkit-text-fill-color: #000; }
-  .meta { color: #000; }
-  .sheet { border: 0; background: #fff; padding: 0; }
-  .table-wrap { overflow: visible; border: 1px solid #000; }
-  table { min-width: 0; }
-
-  th, td {
-    border-color: #000 !important;
-    color: #000 !important;
-    background: #fff !important;
-  }
-
-  .col-day { position: static; }
-  tr { break-inside: avoid; }
-  .option { min-height: 0; padding: 1px 6px; }
-  .option span { font-size: 11pt; }
-
-  .option input {
-    width: 13px;
-    height: 13px;
-    print-color-adjust: exact;
-  }
-
-  .chip, .stat { border-color: #000; color: #000; }
-  .stat b, .stat.highlight b { color: #000; }
-  .grand { break-before: page; }
-  .notes label { color: #000; }
-  .notes textarea { border-color: #000; color: #000; background: none; }
+  body { background:#fff; color:#000; }
+  .wrap { max-width:none; padding:0; }
+  .tools,.month-select,.welcome,dialog,.status { display:none!important; }
+  .sheet { background:#fff; border:0; padding:0; }
+  .table-wrap { display:block!important; overflow:visible; border:1px solid #000; }
+  .mobile-days { display:none!important; }
+  table { min-width:0; }
+  th,td { border-color:#000!important; color:#000!important; background:#fff!important; }
+  .col-day { position:static; }
+  .option { min-height:0; padding:2px 5px; }
+  .option span { font-size:11pt; }
+  .option input { width:13px; height:13px; }
+  .chip,.stat { border-color:#000; color:#000; }
+  .stat b,.stat.highlight b { color:#000; }
+  .notes label { color:#000; }
+  .notes textarea { border-color:#000; color:#000; background:none; }
+  .summary-table { overflow:visible; }
 }
 </style>
 </head>
 
 <body>
 
-<section class="welcome" id="welcome" aria-labelledby="welcomeTitle">
+<section class="welcome" id="welcome">
   <div class="welcome-card">
-    <div class="welcome-emoji" aria-hidden="true">💞🍽️</div>
-    <h1 id="welcomeTitle">Abrina</h1>
+    <div class="welcome-emoji">💞🍽️</div>
+    <h1>Abrina</h1>
     <p class="welcome-subtitle">Food Register</p>
     <button class="enter-button" id="enterApp" type="button">Open Food Register</button>
     <div class="welcome-foot">A little record of every meal, together ♡</div>
@@ -447,25 +640,21 @@ dialog .detail { color: var(--text); font-family: var(--hand); font-size: 1.5rem
 
 <div id="app" hidden>
   <div class="wrap">
+
     <header>
-      <div class="heart" aria-hidden="true">💑</div>
+      <div class="heart">💑</div>
       <div>
-        <h1 id="title"></h1>
+        <h1 id="title">Abrina</h1>
         <div class="names" id="names"></div>
         <div class="meta">
           <span>Food register</span>
           <span id="price"></span>
         </div>
       </div>
-
-      <div class="tools">
-        <button id="yearPrev" aria-label="Previous year">‹</button>
-        <strong id="year"></strong>
-        <button id="yearNext" aria-label="Next year">›</button>
-      </div>
     </header>
 
     <main class="sheet" id="sheet"></main>
+
   </div>
 </div>
 
@@ -474,8 +663,8 @@ dialog .detail { color: var(--text); font-family: var(--hand); font-size: 1.5rem
   <p id="dialogDetail" class="detail"></p>
   <p id="dialogEffect"></p>
   <div class="actions">
-    <button id="dialogCancel">Cancel</button>
-    <button id="dialogOk" class="on"></button>
+    <button id="dialogCancel" type="button">Cancel</button>
+    <button id="dialogOk" type="button">Confirm</button>
   </div>
 </dialog>
 
@@ -483,129 +672,133 @@ dialog .detail { color: var(--text); font-family: var(--hand); font-size: 1.5rem
 "use strict";
 
 const CONFIG = {
-  noteName: "Abrina",
-  names: ["Abrish", "Martina"],
-  pricePerServing: 110,
-  daysPerMonth: 30,
-  storageKey: "abrina:food-note:v1"
+  noteName:"Abrina",
+  names:["Abrish","Martina"],
+  pricePerServing:110,
+  daysPerMonth:30,
+  storageKey:"abrina:food-note:v1"
 };
 
 const MONTHS = [
-  { n: 2, name: "Tikimt" },
-  { n: 3, name: "Hidar" },
-  { n: 4, name: "Tahsas" },
-  { n: 5, name: "Tir" },
-  { n: 6, name: "Yekatit" },
-  { n: 7, name: "Megabit" },
-  { n: 8, name: "Miazia" },
-  { n: 9, name: "Ginbot" },
-  { n: 10, name: "Sene" }
+  {n:2,name:"Tikimt"},
+  {n:3,name:"Hidar"},
+  {n:4,name:"Tahsas"},
+  {n:5,name:"Tir"},
+  {n:6,name:"Yekatit"},
+  {n:7,name:"Megabit"},
+  {n:8,name:"Miazia"},
+  {n:9,name:"Ginbot"},
+  {n:10,name:"Sene"}
 ];
 
-const MEALS = ["b", "l", "d"];
-const FOODS = ["s", "p"];
-const MEAL_CLASS = { b: "breakfast", l: "lunch", d: "dinner" };
-const CELL_KEYS = MEALS.flatMap(meal => FOODS.map(food => meal + food));
+const SUMMARY_INDEX=MONTHS.length;
+const MEALS=["b","l","d"];
+const FOODS=["s","p"];
+const MEAL_CLASS={b:"breakfast",l:"lunch",d:"dinner"};
 
-const LABEL = {
-  day: "Day",
-  b: "Breakfast",
-  l: "Lunch",
-  d: "Dinner",
-  s: "Shiro",
-  p: "Spris"
+const LABEL={
+  day:"Day",
+  b:"Breakfast",
+  l:"Lunch",
+  d:"Dinner",
+  s:"Shiro",
+  p:"Spris"
 };
 
-function dayItems(day) {
-  const ticks = (day && day.ticks) || {};
-  return CELL_KEYS.filter(key => ticks[key] === true).length;
-}
-
 function emptyStats() {
-  return { shiro: 0, spris: 0, b: 0, l: 0, d: 0, items: 0, birr: 0 };
+  return {shiro:0,spris:0,b:0,l:0,d:0,items:0,birr:0};
 }
 
-function monthStats(record, price) {
-  const stats = emptyStats();
+function dayItems(day) {
+  const ticks=(day && day.ticks)||{};
+  return MEALS.reduce((sum,meal)=>{
+    return sum+FOODS.filter(food=>ticks[meal+food]===true).length;
+  },0);
+}
+
+function monthStats(record,price) {
+  const stats=emptyStats();
   if (!record) return stats;
 
-  for (let day = 1; day <= CONFIG.daysPerMonth; day++) {
-    const ticks = (record.days[day] && record.days[day].ticks) || {};
+  for (let day=1;day<=CONFIG.daysPerMonth;day++) {
+    const ticks=(record.days[day] && record.days[day].ticks)||{};
 
-    for (const key of CELL_KEYS) {
-      if (ticks[key] !== true) continue;
+    for (const meal of MEALS) {
+      for (const food of FOODS) {
+        if (ticks[meal+food]!==true) continue;
 
-      stats.items++;
-      stats[key[1] === "s" ? "shiro" : "spris"]++;
-      stats[key[0]]++;
+        stats.items++;
+        stats[food==="s"?"shiro":"spris"]++;
+        stats[meal]++;
+      }
     }
   }
 
-  stats.birr = stats.items * price;
+  stats.birr=stats.items*price;
   return stats;
 }
 
 function sumStats(list) {
-  const total = emptyStats();
+  const total=emptyStats();
 
   for (const stats of list) {
-    for (const field of Object.keys(total)) {
-      total[field] += stats[field];
-    }
+    Object.keys(total).forEach(key=>{
+      total[key]+=stats[key];
+    });
   }
 
   return total;
 }
 
-function julianDay(year, month, day) {
-  const a = Math.floor((14 - month) / 12);
-  const y = year + 4800 - a;
-  const m = month + 12 * a - 3;
+function julianDay(year,month,day) {
+  const a=Math.floor((14-month)/12);
+  const y=year+4800-a;
+  const m=month+12*a-3;
 
-  return day + Math.floor((153 * m + 2) / 5) + 365 * y +
-    Math.floor(y / 4) - Math.floor(y / 100) +
-    Math.floor(y / 400) - 32045;
+  return day+Math.floor((153*m+2)/5)+365*y+
+    Math.floor(y/4)-Math.floor(y/100)+
+    Math.floor(y/400)-32045;
 }
 
 function ethiopianToday() {
-  const now = new Date();
-  const jd = julianDay(now.getFullYear(), now.getMonth() + 1, now.getDate()) - 1723856;
-  const r = ((jd % 1461) + 1461) % 1461;
-  const cycle = Math.floor(jd / 1461);
-  const n = (r % 365) + 365 * Math.floor(r / 1460);
+  const now=new Date();
+  const jd=julianDay(now.getFullYear(),now.getMonth()+1,now.getDate())-1723856;
+  const r=((jd%1461)+1461)%1461;
+  const cycle=Math.floor(jd/1461);
+  const n=(r%365)+365*Math.floor(r/1460);
 
   return {
-    year: 4 * cycle + Math.floor(r / 365) - Math.floor(r / 1460),
-    month: Math.floor(n / 30) + 1,
-    day: (n % 30) + 1
+    year:4*cycle+Math.floor(r/365)-Math.floor(r/1460),
+    month:Math.floor(n/30)+1,
+    day:(n%30)+1
   };
 }
 
-const Store = {
-  data: { v: 1, years: {} },
+const Store={
+  data:{v:1,years:{}},
 
   load() {
     try {
-      const raw = localStorage.getItem(CONFIG.storageKey);
-      const parsed = raw && JSON.parse(raw);
+      const raw=localStorage.getItem(CONFIG.storageKey);
+      const parsed=raw && JSON.parse(raw);
 
-      if (parsed && parsed.v === 1) this.data = parsed;
+      if (parsed && parsed.v===1) this.data=parsed;
       if (this.migrateTicks()) this.persist();
-    } catch (error) {
-      console.warn("Saved data could not be read", error);
+    } catch(error) {
+      console.warn("Saved data could not be read",error);
     }
   },
 
   migrateTicks() {
-    let changed = false;
+    let changed=false;
 
-    for (const months of Object.values(this.data.years)) {
-      for (const record of Object.values(months)) {
-        for (const day of Object.values(record.days || {})) {
+    for (const months of Object.values(this.data.years||{})) {
+      for (const record of Object.values(months||{})) {
+        for (const day of Object.values(record.days||{})) {
           if (day.c && !day.ticks) {
-            day.ticks = day.c;
+            day.ticks=day.c;
             delete day.c;
-            changed = true;
+            changed=true;
           }
         }
       }
@@ -616,96 +809,95 @@ const Store = {
 
   persist() {
     try {
-      localStorage.setItem(CONFIG.storageKey, JSON.stringify(this.data));
+      localStorage.setItem(CONFIG.storageKey,JSON.stringify(this.data));
       return true;
-    } catch (error) {
+    } catch(error) {
       console.error(error);
       return false;
     }
   },
 
-  month(year, n) {
-    const yearData = (this.data.years[year] ??= {});
-    return (yearData[n] ??= { days: {}, notes: "" });
+  month(year,n) {
+    const yearData=(this.data.years[year]??={});
+    return (yearData[n]??={days:{},notes:""});
   },
 
-  peek(year, n) {
-    return this.data.years[year]?.[n] ?? null;
+  peek(year,n) {
+    return this.data.years[year]?.[n]??null;
   },
 
-  stats(year, n) {
-    return monthStats(this.peek(year, n), CONFIG.pricePerServing);
+  stats(year,n) {
+    return monthStats(this.peek(year,n),CONFIG.pricePerServing);
   }
 };
 
-const today = ethiopianToday();
+const today=ethiopianToday();
 
-const state = {
-  year: today.year,
-  monthIndex: 0
+const state={
+  year:today.year,
+  pageIndex:Math.max(0,MONTHS.findIndex(month=>month.n===today.month))
 };
 
-const $ = id => document.getElementById(id);
-const formatNumber = n => n.toLocaleString("en-US", { maximumFractionDigits: 2 });
-const formatBirr = n => `${formatNumber(n)} Birr`;
-const currentMonth = () => MONTHS[state.monthIndex];
+const $=id=>document.getElementById(id);
 
-const isToday = day =>
-  state.year === today.year &&
-  currentMonth().n === today.month &&
-  day === today.day;
+const formatNumber=n=>n.toLocaleString("en-US",{maximumFractionDigits:2});
+const formatBirr=n=>`${formatNumber(n)} Birr`;
 
-function el(tag, className, text) {
-  const node = document.createElement(tag);
-  if (className) node.className = className;
-  if (text != null) node.textContent = text;
+function isSummary() {
+  return state.pageIndex===SUMMARY_INDEX;
+}
+
+function currentMonth() {
+  return MONTHS[state.pageIndex];
+}
+
+function el(tag,className,text) {
+  const node=document.createElement(tag);
+  if (className) node.className=className;
+  if (text!=null) node.textContent=text;
   return node;
 }
 
-function describe(day, meal, food) {
-  return `${LABEL.day} ${day}, ${LABEL[meal]}, ${LABEL[food]}`;
-}
-
-let saveTimer = null;
+let saveTimer=null;
 
 function queueSave() {
-  setStatus("Saving");
+  setStatus("Saving...");
   clearTimeout(saveTimer);
 
-  saveTimer = setTimeout(() => {
-    setStatus(Store.persist() ? "Saved" : "Could not save");
-  }, 250);
+  saveTimer=setTimeout(()=>{
+    setStatus(Store.persist()?"Saved":"Could not save");
+  },250);
 }
 
 function setStatus(message) {
-  const status = $("status");
-  if (status) status.textContent = message;
+  const status=$("status");
+  if (status) status.textContent=message;
 }
 
-window.addEventListener("pagehide", () => {
+window.addEventListener("pagehide",()=>{
   clearTimeout(saveTimer);
   Store.persist();
 });
 
-function confirmTick(day, meal, food, willTick) {
-  $("dialogTitle").textContent = willTick ? "Tick this item?" : "Untick this item?";
-  $("dialogDetail").textContent = describe(day, meal, food);
-  $("dialogEffect").textContent = `${willTick ? "+" : "-"}${formatBirr(CONFIG.pricePerServing)}`;
-  $("dialogOk").textContent = willTick ? "Tick" : "Untick";
+function confirmTick(day,meal,food,willTick) {
+  $("dialogTitle").textContent=willTick?"Tick this item?":"Untick this item?";
+  $("dialogDetail").textContent=`Day ${day} · ${LABEL[meal]} · ${LABEL[food]}`;
+  $("dialogEffect").textContent=`${willTick?"+":"-"}${formatBirr(CONFIG.pricePerServing)}`;
+  $("dialogOk").textContent=willTick?"Tick":"Untick";
 
-  const dialog = $("dialog");
+  const dialog=$("dialog");
   dialog.showModal();
 
-  return new Promise(resolve => {
-    const finish = answer => {
+  return new Promise(resolve=>{
+    const finish=answer=>{
       dialog.close();
       resolve(answer);
     };
 
-    $("dialogOk").onclick = () => finish(true);
-    $("dialogCancel").onclick = () => finish(false);
+    $("dialogOk").onclick=()=>finish(true);
+    $("dialogCancel").onclick=()=>finish(false);
 
-    dialog.oncancel = event => {
+    dialog.oncancel=event=>{
       event.preventDefault();
       finish(false);
     };
@@ -713,347 +905,411 @@ function confirmTick(day, meal, food, willTick) {
 }
 
 function renderHeader() {
-  $("title").textContent = CONFIG.noteName;
-  $("names").textContent = `${CONFIG.names[0]} 💞 ${CONFIG.names[1]}`;
-  $("price").textContent = `${formatBirr(CONFIG.pricePerServing)} per serving`;
-  $("year").textContent = `${state.year} E.C.`;
+  $("title").textContent=CONFIG.noteName;
+  $("names").textContent=`${CONFIG.names[0]} 💞 ${CONFIG.names[1]}`;
+  $("price").textContent=`${formatBirr(CONFIG.pricePerServing)} per serving`;
 }
 
-function renderStats() {
-  const stats = Store.stats(state.year, currentMonth().n);
-  const box = $("stats");
-  box.textContent = "";
+function makeMonthSelector() {
+  const select=el("select","month-select");
+  select.id="monthSelect";
+  select.setAttribute("aria-label","Select month");
 
-  const tiles = [
-    ["Total Shiro", stats.shiro],
-    ["Total Spris", stats.spris],
-    ["Total breakfast", stats.b],
-    ["Total lunch", stats.l],
-    ["Total dinner", stats.d],
-    ["Total items", stats.items],
-    ["Month total (Birr)", formatNumber(stats.birr)]
-  ];
-
-  tiles.forEach(([label, value], index) => {
-    const tile = el("div", index >= tiles.length - 2 ? "stat highlight" : "stat");
-    tile.append(el("small", null, label), el("b", null, String(value)));
-    box.append(tile);
+  MONTHS.forEach((month,index)=>{
+    const option=el("option",null,month.name);
+    option.value=String(index);
+    select.append(option);
   });
 
-  $("monthBirr").textContent = formatBirr(stats.birr);
+  const summaryOption=el("option",null,"Year Summary");
+  summaryOption.value=String(SUMMARY_INDEX);
+  select.append(summaryOption);
+
+  select.value=String(state.pageIndex);
+
+  select.addEventListener("change",()=>{
+    state.pageIndex=Number(select.value);
+    renderSheet();
+    window.scrollTo(0,0);
+  });
+
+  return select;
 }
 
-function renderGrandTotal() {
-  const section = $("grand");
-  section.textContent = "";
-  section.append(el("h3", null, `Grand total, all nine months, ${state.year} E.C.`));
+function makeTop() {
+  const top=el("div","top");
+  const heading=el("div","page-heading");
 
-  const head = el("thead");
-  const headRow = el("tr");
+  if (isSummary()) {
+    heading.append(
+      el("h2",null,`Year Summary ${state.year}`),
+      el("div","page-label","Annual totals")
+    );
+  } else {
+    heading.append(
+      el("h2",null,`${currentMonth().name} ${state.year}`),
+      el("div","page-label",`Month ${state.pageIndex+1} of ${MONTHS.length}`)
+    );
+  }
 
-  ["Month", LABEL.s, LABEL.p, "Items", "Birr"].forEach(label => {
-    headRow.append(el("th", null, label));
+  top.append(heading,makeMonthSelector());
+  return top;
+}
+
+function makeOption(day,meal,food,ticks) {
+  const key=meal+food;
+  const label=el("label","option");
+  const box=el("input");
+
+  box.type="checkbox";
+  box.checked=ticks[key]===true;
+  box.setAttribute("aria-label",`Day ${day} ${LABEL[meal]} ${LABEL[food]}`);
+
+  box.addEventListener("click",async event=>{
+    event.preventDefault();
+
+    const record=Store.peek(state.year,currentMonth().n);
+    const dayRecord=record && record.days[day];
+    const existing=dayRecord && dayRecord.ticks && dayRecord.ticks[key];
+    const willTick=!existing;
+
+    if (await confirmTick(day,meal,food,willTick)) {
+      box.checked=willTick;
+      setTick(day,key,willTick);
+    }
+  });
+
+  label.append(box,el("span",null,LABEL[food]));
+  return label;
+}
+
+function createDesktopTable(record) {
+  const head=el("thead");
+  const headRow=el("tr");
+
+  [
+    ["col-day","Day"],
+    ["","Breakfast"],
+    ["","Lunch"],
+    ["","Dinner"],
+    ["col-items","Items"],
+    ["col-birr","Birr"]
+  ].forEach(([className,label])=>{
+    headRow.append(el("th",className,label));
   });
 
   head.append(headRow);
 
-  const body = el("tbody");
-  const allStats = [];
+  const body=el("tbody");
 
-  MONTHS.forEach((month, index) => {
-    const stats = Store.stats(state.year, month.n);
+  for (let day=1;day<=CONFIG.daysPerMonth;day++) {
+    const row=el("tr");
+    const ticks=(record.days[day] && record.days[day].ticks)||{};
+
+    row.append(el("td","col-day",String(day)));
+
+    MEALS.forEach(meal=>{
+      const cell=el("td",MEAL_CLASS[meal]);
+
+      FOODS.forEach(food=>{
+        cell.append(makeOption(day,meal,food,ticks));
+      });
+
+      row.append(cell);
+    });
+
+    const items=el("td","col-items");
+    const birr=el("td","col-birr");
+
+    items.id=`desktop-items-${day}`;
+    birr.id=`desktop-birr-${day}`;
+
+    row.append(items,birr);
+    body.append(row);
+  }
+
+  const table=el("table");
+  table.append(head,body);
+
+  const wrap=el("div","table-wrap");
+  wrap.append(table);
+  return wrap;
+}
+
+function createMobileDays(record) {
+  const container=el("div","mobile-days");
+
+  for (let day=1;day<=CONFIG.daysPerMonth;day++) {
+    const ticks=(record.days[day] && record.days[day].ticks)||{};
+    const card=el("section","day-card");
+    card.id=`mobile-day-${day}`;
+
+    const head=el("div","day-card-head");
+    head.append(
+      el("span","day-number",`Day ${day}`),
+      el("span","day-total",`${dayItems({ticks})} items · ${formatBirr(dayItems({ticks})*CONFIG.pricePerServing)}`)
+    );
+
+    card.append(head);
+
+    MEALS.forEach(meal=>{
+      const mealRow=el("div",`day-meal ${MEAL_CLASS[meal]}`);
+      const mealName=el("div","meal-name",LABEL[meal]);
+      const options=el("div","meal-options");
+
+      FOODS.forEach(food=>{
+        options.append(makeOption(day,meal,food,ticks));
+      });
+
+      mealRow.append(mealName,options);
+      card.append(mealRow);
+    });
+
+    const totals=el("div","mobile-day-totals");
+    totals.id=`mobile-totals-${day}`;
+    card.append(totals);
+
+    container.append(card);
+  }
+
+  return container;
+}
+
+function updateDayTotals(day) {
+  const record=Store.peek(state.year,currentMonth().n);
+  const dayRecord=record && record.days[day];
+  const count=dayItems(dayRecord);
+  const birr=count*CONFIG.pricePerServing;
+
+  const desktopItems=$(`desktop-items-${day}`);
+  const desktopBirr=$(`desktop-birr-${day}`);
+
+  if (desktopItems) {
+    desktopItems.textContent=String(count);
+    desktopItems.classList.toggle("zero",count===0);
+  }
+
+  if (desktopBirr) {
+    desktopBirr.textContent=formatBirr(birr);
+    desktopBirr.classList.toggle("zero",count===0);
+  }
+
+  const mobileCard=$(`mobile-day-${day}`);
+
+  if (mobileCard) {
+    const head=mobileCard.querySelector(".day-total");
+    if (head) head.textContent=`${count} items · ${formatBirr(birr)}`;
+
+    const totals=$(`mobile-totals-${day}`);
+    if (totals) {
+      totals.textContent="";
+      totals.append(
+        el("span",null,`Items: ${count}`),
+        el("span",null,formatBirr(birr))
+      );
+    }
+  }
+}
+
+function setTick(day,key,ticked) {
+  const record=Store.month(state.year,currentMonth().n);
+  const dayRecord=(record.days[day]??={});
+  const ticks=(dayRecord.ticks??={});
+
+  if (ticked) ticks[key]=true;
+  else delete ticks[key];
+
+  updateDayTotals(day);
+  renderStats();
+  queueSave();
+}
+
+function renderStats() {
+  const stats=Store.stats(state.year,currentMonth().n);
+  const box=$("stats");
+  if (!box) return;
+
+  box.textContent="";
+
+  const tiles=[
+    ["Shiro",stats.shiro],
+    ["Spris",stats.spris],
+    ["Breakfast",stats.b],
+    ["Lunch",stats.l],
+    ["Dinner",stats.d],
+    ["Total items",stats.items],
+    ["Month total",formatBirr(stats.birr)]
+  ];
+
+  tiles.forEach(([label,value],index)=>{
+    const tile=el("div",index===tiles.length-1?"stat highlight":"stat");
+    tile.append(el("small",null,label),el("b",null,String(value)));
+    box.append(tile);
+  });
+
+  $("monthBirr").textContent=formatBirr(stats.birr);
+}
+
+function createNotes(record) {
+  const wrap=el("div","notes");
+  const label=el("label",null,"Notes");
+  const field=el("textarea");
+
+  label.htmlFor="notes";
+  field.id="notes";
+  field.maxLength=2000;
+  field.value=record.notes??"";
+
+  field.addEventListener("input",()=>{
+    Store.month(state.year,currentMonth().n).notes=field.value;
+    queueSave();
+  });
+
+  wrap.append(label,field);
+  return wrap;
+}
+
+function renderMonthPage(sheet) {
+  const month=currentMonth();
+  const record=Store.peek(state.year,month.n)??{days:{},notes:""};
+
+  const top=makeTop();
+
+  const chipValue=el("b");
+  chipValue.id="monthBirr";
+
+  const chip=el("div","chip");
+  chip.append(el("span",null,"Month total"),chipValue);
+
+  const status=el("span","status");
+  status.id="status";
+  status.setAttribute("aria-live","polite");
+
+  sheet.append(top,chip,status);
+  sheet.append(createDesktopTable(record));
+  sheet.append(createMobileDays(record));
+
+  const stats=el("div","stats");
+  stats.id="stats";
+  sheet.append(stats);
+
+  sheet.append(createNotes(record));
+
+  for (let day=1;day<=CONFIG.daysPerMonth;day++) {
+    updateDayTotals(day);
+  }
+
+  renderStats();
+}
+
+function renderGrandTotal(section) {
+  section.textContent="";
+
+  section.append(
+    el("h2",null,"Year Summary"),
+    el("p","summary-description",`Complete totals for all nine months of ${state.year} E.C.`)
+  );
+
+  const head=el("thead");
+  const headRow=el("tr");
+
+  ["Month","Shiro","Spris","Items","Birr"].forEach(label=>{
+    headRow.append(el("th",null,label));
+  });
+
+  head.append(headRow);
+
+  const body=el("tbody");
+  const allStats=[];
+
+  MONTHS.forEach(month=>{
+    const stats=Store.stats(state.year,month.n);
     allStats.push(stats);
 
-    const row = el("tr", index === state.monthIndex ? "current" : "");
+    const row=el("tr");
 
-    [month.name, stats.shiro, stats.spris, stats.items, formatNumber(stats.birr)]
-      .forEach(value => row.append(el("td", null, String(value))));
+    [
+      month.name,
+      stats.shiro,
+      stats.spris,
+      stats.items,
+      formatNumber(stats.birr)
+    ].forEach(value=>{
+      row.append(el("td",null,String(value)));
+    });
 
     body.append(row);
   });
 
-  const total = sumStats(allStats);
-  const foot = el("tfoot");
-  const footRow = el("tr");
+  const total=sumStats(allStats);
+  const foot=el("tfoot");
+  const footRow=el("tr");
 
-  ["Grand total", total.shiro, total.spris, total.items, formatBirr(total.birr)]
-    .forEach(value => footRow.append(el("td", null, String(value))));
+  [
+    "Grand total",
+    total.shiro,
+    total.spris,
+    total.items,
+    formatBirr(total.birr)
+  ].forEach(value=>{
+    footRow.append(el("td",null,String(value)));
+  });
 
   foot.append(footRow);
 
-  const table = el("table");
-  table.append(head, body, foot);
-  section.append(table);
-}
+  const table=el("table");
+  table.append(head,body,foot);
 
-function renderTotals() {
-  renderStats();
-  renderGrandTotal();
-}
-
-function renderDayTotals(day) {
-  const record = Store.peek(state.year, currentMonth().n);
-  const count = dayItems(record && record.days[day]);
-
-  const items = $(`items-${day}`);
-  const birr = $(`birr-${day}`);
-
-  items.textContent = String(count);
-  birr.textContent = formatBirr(count * CONFIG.pricePerServing);
-
-  items.classList.toggle("zero", count === 0);
-  birr.classList.toggle("zero", count === 0);
-}
-
-function setTick(day, key, ticked) {
-  const record = Store.month(state.year, currentMonth().n);
-  const dayRecord = (record.days[day] ??= {});
-  const ticks = (dayRecord.ticks ??= {});
-
-  if (ticked) ticks[key] = true;
-  else delete ticks[key];
-
-  renderDayTotals(day);
-  renderTotals();
-  queueSave();
-}
-
-function createOption(day, meal, food, ticks) {
-  const key = meal + food;
-  const label = el("label", "option");
-  const box = el("input");
-
-  box.type = "checkbox";
-  box.checked = ticks[key] === true;
-  box.setAttribute("aria-label", describe(day, meal, food));
-
-  box.addEventListener("click", async event => {
-    event.preventDefault();
-
-    const record = Store.peek(state.year, currentMonth().n);
-    const dayRecord = record && record.days[day];
-    const willTick = !(dayRecord && dayRecord.ticks && dayRecord.ticks[key]);
-
-    if (await confirmTick(day, meal, food, willTick)) {
-      box.checked = willTick;
-      setTick(day, key, willTick);
-    }
-  });
-
-  label.append(box, el("span", null, LABEL[food]));
-  return label;
-}
-
-function createDayRow(day, record) {
-  const ticks = (record.days[day] && record.days[day].ticks) || {};
-  const row = el("tr");
-
-  row.append(el("td", isToday(day) ? "col-day today" : "col-day", String(day)));
-
-  MEALS.forEach(meal => {
-    const cell = el("td", MEAL_CLASS[meal]);
-
-    FOODS.forEach(food => {
-      cell.append(createOption(day, meal, food, ticks));
-    });
-
-    row.append(cell);
-  });
-
-  const items = el("td", "col-items");
-  const birr = el("td", "col-birr");
-
-  items.id = `items-${day}`;
-  birr.id = `birr-${day}`;
-
-  row.append(items, birr);
-  return row;
-}
-
-function createTable(record) {
-  const columns = [
-    ["col-day", LABEL.day],
-    ["", LABEL.b],
-    ["", LABEL.l],
-    ["", LABEL.d],
-    ["col-items", "Items"],
-    ["col-birr", "Birr"]
-  ];
-
-  const head = el("thead");
-  const headRow = el("tr");
-
-  columns.forEach(([className, label]) => {
-    headRow.append(el("th", className, label));
-  });
-
-  head.append(headRow);
-
-  const body = el("tbody");
-
-  for (let day = 1; day <= CONFIG.daysPerMonth; day++) {
-    body.append(createDayRow(day, record));
-  }
-
-  const table = el("table");
-  table.append(head, body);
-
-  const wrap = el("div", "table-wrap");
+  const wrap=el("div","summary-table");
   wrap.append(table);
+  section.append(wrap);
 
-  return wrap;
+  const totals=el("div","summary-total");
+
+  [
+    ["Total Shiro",total.shiro],
+    ["Total Spris",total.spris],
+    ["Total meals",total.items],
+    ["Grand total",formatBirr(total.birr)]
+  ].forEach(([label,value],index)=>{
+    const tile=el("div",index===3?"stat highlight":"stat");
+    tile.append(el("small",null,label),el("b",null,String(value)));
+    totals.append(tile);
+  });
+
+  section.append(totals);
 }
 
-function createNotes(record) {
-  const wrap = el("div", "notes");
-  const label = el("label", null, "Notes");
-  const field = el("textarea");
+function renderSummaryPage(sheet) {
+  sheet.append(makeTop());
 
-  label.htmlFor = "notes";
-  field.id = "notes";
-  field.maxLength = 2000;
-  field.value = record.notes ?? "";
-
-  field.oninput = () => {
-    Store.month(state.year, currentMonth().n).notes = field.value;
-    queueSave();
-  };
-
-  wrap.append(label, field);
-  return wrap;
+  const summary=el("section","summary-page");
+  renderGrandTotal(summary);
+  sheet.append(summary);
 }
 
 function renderSheet() {
-  const month = currentMonth();
-  const record = Store.peek(state.year, month.n) ?? { days: {}, notes: "" };
-  const sheet = $("sheet");
+  const sheet=$("sheet");
+  sheet.textContent="";
 
-  sheet.textContent = "";
-
-  const chipValue = el("b");
-  chipValue.id = "monthBirr";
-
-  const chip = el("div", "chip");
-  chip.append(el("span", null, "Month total"), chipValue);
-
-  const status = el("span", "status");
-  status.id = "status";
-  status.setAttribute("aria-live", "polite");
-
-  const prev = el("button", null, "‹");
-  const next = el("button", null, "›");
-
-  prev.setAttribute("aria-label", "Previous month");
-  next.setAttribute("aria-label", "Next month");
-
-  prev.disabled = state.monthIndex === 0;
-  next.disabled = state.monthIndex === MONTHS.length - 1;
-
-  prev.onclick = () => changeMonth(-1);
-  next.onclick = () => changeMonth(1);
-
-  /*
-    The dropdown has been removed.
-    The arrows are now the only month navigation controls.
-  */
-
-  const heading = el("div", "month-nav");
-  const monthTitle = el("h2", null, `${month.name} ${state.year}`);
-
-  heading.append(prev, monthTitle, next);
-
-  const top = el("div", "top");
-  top.append(heading, chip, status);
-
-  const stats = el("div", "stats");
-  stats.id = "stats";
-
-  const grand = el("section", "grand");
-  grand.id = "grand";
-
-  sheet.append(
-    top,
-    createTable(record),
-    stats,
-    createNotes(record),
-    grand
-  );
-
-  for (let day = 1; day <= CONFIG.daysPerMonth; day++) {
-    renderDayTotals(day);
-  }
-
-  renderTotals();
+  if (isSummary()) renderSummaryPage(sheet);
+  else renderMonthPage(sheet);
 }
 
 function renderAll() {
   renderHeader();
   renderSheet();
+  window.scrollTo(0,0);
 }
 
-function changeYear(step) {
-  state.year += step;
-  renderAll();
-}
-
-function changeMonth(step) {
-  const next = state.monthIndex + step;
-
-  if (next < 0 || next >= MONTHS.length) return;
-
-  state.monthIndex = next;
-  renderAll();
-}
-
-/* Mobile swipe navigation */
-
-function enableSwipe(target) {
-  const MIN_DISTANCE = 70;
-  let startX = 0;
-  let startY = 0;
-  let tracking = false;
-
-  target.addEventListener("touchstart", event => {
-    const blocked = event.target.closest("dialog, textarea");
-    tracking = !blocked;
-
-    startX = event.touches[0].clientX;
-    startY = event.touches[0].clientY;
-  }, { passive: true });
-
-  target.addEventListener("touchend", event => {
-    if (!tracking) return;
-
-    const dx = event.changedTouches[0].clientX - startX;
-    const dy = event.changedTouches[0].clientY - startY;
-
-    if (
-      Math.abs(dx) < MIN_DISTANCE ||
-      Math.abs(dx) < Math.abs(dy) * 1.5
-    ) {
-      return;
-    }
-
-    changeMonth(dx < 0 ? 1 : -1);
-  }, { passive: true });
-}
-
-$("yearPrev").onclick = () => changeYear(-1);
-$("yearNext").onclick = () => changeYear(1);
-
-enableSwipe(document.body);
-
-$("enterApp").addEventListener("click", () => {
-  $("welcome").hidden = true;
-  $("app").hidden = false;
-
-  state.monthIndex = 0;
+$("enterApp").addEventListener("click",()=>{
+  $("welcome").hidden=true;
+  $("app").hidden=false;
   renderAll();
 });
 
 Store.load();
 renderAll();
 </script>
-
 </body>
 </html>
