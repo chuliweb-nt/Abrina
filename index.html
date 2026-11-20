@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -10,7 +9,7 @@
 <style>
 :root {
   --night:#0a0e1f;
-  --panel:rgba(255,255,255,.045);
+  --panel:rgba(12,16,38,.84);
   --edge:rgba(160,185,255,.22);
   --text:#e9edff;
   --muted:#93a0cc;
@@ -30,15 +29,130 @@ body {
   padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);
   color:var(--text);
   font:16px/1.4 var(--ui);
-  background:
-    radial-gradient(900px 500px at 8% -10%,rgba(255,122,168,.18),transparent 60%),
-    radial-gradient(900px 500px at 100% 0%,rgba(98,230,255,.15),transparent 60%),
-    var(--night);
+  background:#d9c9f7;
 }
 
 button,select,textarea { font:inherit; }
 
+.scene {
+  position:fixed;
+  inset:0;
+  z-index:0;
+  overflow:hidden;
+  pointer-events:none;
+  background:
+    radial-gradient(circle at 18% 12%,rgba(255,255,255,.55),transparent 40%),
+    radial-gradient(circle at 85% 20%,rgba(255,190,235,.55),transparent 45%),
+    linear-gradient(180deg,#c3a8f2 0%,#d9c9f7 35%,#e9e3f8 70%,#f1f3fa 100%);
+}
+
+.balloon {
+  position:absolute;
+  top:var(--top);
+  left:var(--left);
+  width:var(--size);
+  height:calc(var(--size) * 1.18);
+  border-radius:50% 50% 48% 48% / 56% 56% 44% 44%;
+  background:
+    radial-gradient(ellipse 22% 16% at 30% 24%,rgba(255,255,255,.95),transparent 100%),
+    radial-gradient(circle at 70% 78%,var(--glow),transparent 55%),
+    radial-gradient(circle at 40% 35%,rgba(255,255,255,.55),var(--tint) 75%);
+  box-shadow:
+    inset -4px -6px 12px var(--edge-tint),
+    0 4px 14px rgba(150,110,220,.18);
+  opacity:var(--alpha);
+  filter:blur(var(--blur));
+  animation:float var(--duration) ease-in-out var(--delay) infinite alternate;
+}
+
+.balloon::before {
+  content:"";
+  position:absolute;
+  bottom:-5px;
+  left:50%;
+  width:9px;
+  height:9px;
+  background:var(--tint);
+  transform:translateX(-50%) rotate(45deg);
+  border-radius:2px;
+}
+
+.balloon::after {
+  content:"";
+  position:absolute;
+  top:100%;
+  left:50%;
+  width:1px;
+  height:calc(var(--size) * .9);
+  background:linear-gradient(rgba(255,255,255,.7),transparent);
+  transform-origin:top center;
+  animation:string var(--duration) ease-in-out var(--delay) infinite alternate;
+}
+
+.star {
+  position:absolute;
+  top:var(--top);
+  left:var(--left);
+  width:var(--size);
+  height:var(--size);
+  background:linear-gradient(135deg,#d9b8ff,#9d7be8);
+  clip-path:polygon(50% 0,62% 35%,98% 38%,70% 60%,80% 95%,50% 75%,20% 95%,30% 60%,2% 38%,38% 35%);
+  opacity:.55;
+  filter:blur(.5px);
+  animation:spin var(--duration) ease-in-out var(--delay) infinite alternate;
+}
+
+.sparkle {
+  position:absolute;
+  top:var(--top);
+  left:var(--left);
+  width:var(--size);
+  height:var(--size);
+  background:#fff;
+  clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);
+  opacity:0;
+  animation:twinkle var(--duration) ease-in-out var(--delay) infinite;
+}
+
+.dot {
+  position:absolute;
+  top:var(--top);
+  left:var(--left);
+  width:var(--size);
+  height:var(--size);
+  border-radius:50%;
+  background:rgba(255,255,255,.85);
+  opacity:0;
+  animation:twinkle var(--duration) ease-in-out var(--delay) infinite;
+}
+
+@keyframes float {
+  from { transform:translate(-8px,10px) rotate(-4deg); }
+  to   { transform:translate(10px,-14px) rotate(4deg); }
+}
+
+@keyframes string {
+  from { transform:rotate(7deg); }
+  to   { transform:rotate(-7deg); }
+}
+
+@keyframes spin {
+  from { transform:translateY(6px) rotate(-12deg); }
+  to   { transform:translateY(-8px) rotate(12deg); }
+}
+
+@keyframes twinkle {
+  0%,100% { opacity:0; transform:scale(.3); }
+  50%     { opacity:.95; transform:scale(1); }
+}
+
+@media (prefers-reduced-motion:reduce) {
+  .balloon,.balloon::after,.star,.sparkle,.dot { animation:none; }
+}
+
 .wrap {
+  position:relative;
+  z-index:1;
   max-width:960px;
   margin:auto;
   padding:12px;
@@ -60,7 +174,7 @@ h1 {
   margin:0;
   font-size:2.2rem;
   line-height:1.1;
-  background:linear-gradient(90deg,var(--rose),var(--cyan));
+  background:linear-gradient(90deg,#d63a85,#5a4bd8);
   -webkit-background-clip:text;
   background-clip:text;
   color:transparent;
@@ -69,23 +183,24 @@ h1 {
 .names {
   font:1.45rem var(--hand);
   margin-top:3px;
+  color:#2d2160;
 }
 
 .meta {
   display:flex;
   gap:12px;
   flex-wrap:wrap;
-  color:var(--muted);
+  color:#4b3f80;
   font-size:.84rem;
   margin-top:3px;
 }
 
 .sheet {
-  background:var(--panel);
-  border:1px solid var(--edge);
+  background:rgba(255,255,255,.24);
+  border:1px solid rgba(90,75,150,.28);
   border-radius:18px;
   padding:15px;
-  backdrop-filter:blur(6px);
+  backdrop-filter:blur(8px);
 }
 
 .top {
@@ -97,9 +212,7 @@ h1 {
   margin-bottom:15px;
 }
 
-.page-heading {
-  min-width:0;
-}
+.page-heading { min-width:0; }
 
 .page-heading h2 {
   margin:0;
@@ -108,7 +221,7 @@ h1 {
 }
 
 .page-label {
-  color:var(--muted);
+  color:#514477;
   font-size:.76rem;
   margin-top:3px;
 }
@@ -121,10 +234,15 @@ h1 {
   padding:8px 25px 8px 10px;
   border:1px solid var(--edge);
   border-radius:10px;
-  background:#171d35;
-  color:var(--text);
+  background:rgba(255,255,255,.58);
+  color:#30245f;
   font-size:.86rem;
   font-weight:600;
+}
+
+.month-select option {
+  color:#30245f;
+  background:#e8def8;
 }
 
 .chip {
@@ -134,14 +252,14 @@ h1 {
   padding:6px 13px;
   border:1px solid var(--gold);
   border-radius:999px;
-  color:var(--gold);
+  color:#75531a;
   margin:2px 0 14px;
 }
 
 .chip b { font-size:1.15rem; }
 
 .status {
-  color:var(--muted);
+  color:#514477;
   font-size:.78rem;
   margin-left:auto;
 }
@@ -171,22 +289,23 @@ th:last-child,td:last-child { border-right:0; }
 th {
   padding:10px 5px;
   text-align:center;
-  background:rgba(10,14,31,.65);
+  background:rgba(255,255,255,.22);
   font-weight:600;
+  color:#30245f;
 }
 
 .col-day {
   width:48px;
   text-align:center;
   font-weight:700;
-  color:var(--cyan);
+  color:#514477;
   position:sticky;
   left:0;
-  background:#12172c;
+  background:rgba(255,255,255,.30);
   z-index:1;
 }
 
-th.col-day { background:#0f1428; }
+th.col-day { background:rgba(255,255,255,.38); }
 
 .col-items {
   width:65px;
@@ -202,15 +321,16 @@ th.col-day { background:#0f1428; }
 td.col-items {
   font-weight:700;
   font-size:1rem;
+  color:#30245f;
 }
 
 td.col-birr {
   font-weight:700;
-  color:var(--gold);
+  color:#75531a;
   font-size:.95rem;
 }
 
-.zero { color:var(--muted)!important; }
+.zero { color:#81769e!important; }
 
 .breakfast { background:rgba(255,210,122,.07); }
 .lunch { background:rgba(98,230,255,.06); }
@@ -228,24 +348,48 @@ td.col-birr {
   border-top:1px dashed var(--edge);
 }
 
-.option input {
-  width:21px;
-  height:21px;
-  margin:0;
-  accent-color:var(--rose);
+.option-name {
+  font:1.25rem var(--hand);
+  line-height:1;
+  min-width:0;
+  color:#30245f;
+}
+
+.quantity-control {
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  margin-left:auto;
   flex:0 0 auto;
 }
 
-.option span {
-  font:1.25rem var(--hand);
+.quantity-control button {
+  width:27px;
+  height:27px;
+  padding:0;
+  border:1px solid rgba(90,75,150,.35);
+  border-radius:8px;
+  background:rgba(255,255,255,.55);
+  color:#30245f;
+  font:700 1rem var(--ui);
   line-height:1;
+  cursor:pointer;
+  touch-action:manipulation;
 }
 
-.option:has(input:checked) {
-  background:rgba(255,255,255,.07);
+.quantity-control button:disabled {
+  opacity:.35;
+  cursor:not-allowed;
 }
 
-/* Mobile day cards */
+.quantity-value {
+  min-width:15px;
+  text-align:center;
+  color:#30245f;
+  font:700 .9rem var(--ui);
+}
+
+.option:has(.quantity-value) { background:rgba(255,255,255,.10); }
 
 .mobile-days { display:none; }
 
@@ -254,7 +398,7 @@ td.col-birr {
   border-radius:12px;
   overflow:hidden;
   margin-bottom:9px;
-  background:rgba(10,14,31,.35);
+  background:rgba(255,255,255,.20);
 }
 
 .day-card-head {
@@ -263,18 +407,18 @@ td.col-birr {
   align-items:center;
   gap:8px;
   padding:8px 10px;
-  background:rgba(98,230,255,.07);
+  background:rgba(255,255,255,.28);
   border-bottom:1px solid var(--edge);
 }
 
 .day-number {
-  color:var(--cyan);
+  color:#514477;
   font-weight:700;
   font-size:.94rem;
 }
 
 .day-total {
-  color:var(--gold);
+  color:#75531a;
   font-size:.8rem;
   font-weight:600;
 }
@@ -295,7 +439,7 @@ td.col-birr {
   font-size:.77rem;
   font-weight:600;
   border-right:1px solid var(--edge);
-  color:var(--muted);
+  color:#514477;
 }
 
 .meal-options {
@@ -316,26 +460,22 @@ td.col-birr {
   border-left:1px dashed var(--edge);
 }
 
-.meal-options .option input {
-  width:19px;
-  height:19px;
-}
+.meal-options .quantity-control { gap:3px; }
+.meal-options .quantity-control button { width:24px; height:24px; }
 
-.meal-options .option span {
-  font-size:1.15rem;
-}
+.meal-options .option-name { font-size:1.15rem; }
 
 .mobile-day-totals {
   display:flex;
   justify-content:flex-end;
   gap:12px;
   padding:5px 10px;
-  color:var(--muted);
+  color:#514477;
   font-size:.75rem;
   border-top:1px dashed var(--edge);
 }
 
-.mobile-day-totals b { color:var(--gold); }
+.mobile-day-totals b { color:#75531a; }
 
 .stats {
   display:grid;
@@ -348,13 +488,13 @@ td.col-birr {
   border:1px solid var(--edge);
   border-radius:11px;
   padding:9px 10px;
-  background:rgba(10,14,31,.45);
+  background:rgba(255,255,255,.24);
   min-width:0;
 }
 
 .stat small {
   display:block;
-  color:var(--muted);
+  color:#514477;
   font-size:.75rem;
 }
 
@@ -362,17 +502,18 @@ td.col-birr {
   display:block;
   font-size:1.15rem;
   overflow-wrap:anywhere;
+  color:#30245f;
 }
 
-.stat.highlight { border-color:var(--gold); }
-.stat.highlight b { color:var(--gold); }
+.stat.highlight { border-color:#b18a3f; }
+.stat.highlight b { color:#75531a; }
 
 .notes { margin-top:15px; }
 
 .notes label {
   display:block;
   font:1.5rem var(--hand);
-  color:var(--rose);
+  color:#8a3970;
   margin-bottom:5px;
 }
 
@@ -381,24 +522,25 @@ td.col-birr {
   width:100%;
   min-height:95px;
   padding:5px 10px;
-  color:var(--text);
+  color:#30245f;
   font:1.25rem/30px var(--hand);
   resize:vertical;
   border:1px solid var(--edge);
   border-radius:11px;
   background:repeating-linear-gradient(
-    transparent 0 29px,
-    rgba(160,185,255,.16) 29px 30px
+    rgba(255,255,255,.18) 0 29px,
+    rgba(110,90,160,.16) 29px 30px
   );
 }
 
 .summary-page h2 {
   margin:0 0 5px;
   font-size:1.5rem;
+  color:#30245f;
 }
 
 .summary-description {
-  color:var(--muted);
+  color:#514477;
   margin:0 0 14px;
   font-size:.85rem;
 }
@@ -418,13 +560,14 @@ td.col-birr {
   padding:9px 7px;
   text-align:right;
   font-size:.85rem;
+  color:#30245f;
 }
 
 .summary-table th:first-child,
 .summary-table td:first-child { text-align:left; }
 
 .summary-table tfoot td {
-  color:var(--gold);
+  color:#75531a;
   font-weight:700;
 }
 
@@ -438,8 +581,8 @@ td.col-birr {
 dialog {
   width:min(92vw,360px);
   padding:20px;
-  color:var(--text);
-  background:#131936;
+  color:#30245f;
+  background:#e8def8;
   border:1px solid var(--edge);
   border-radius:15px;
 }
@@ -447,8 +590,8 @@ dialog {
 dialog::backdrop { background:rgba(5,7,16,.72); }
 
 dialog h3 { margin:0 0 6px; }
-dialog p { margin:0; color:var(--muted); }
-dialog .detail { color:var(--text); font:1.4rem var(--hand); margin:8px 0; }
+dialog p { margin:0; color:#514477; }
+dialog .detail { color:#30245f; font:1.4rem var(--hand); margin:8px 0; }
 
 .actions {
   display:flex;
@@ -461,21 +604,18 @@ dialog .detail { color:var(--text); font:1.4rem var(--hand); margin:8px 0; }
   padding:8px 14px;
   border:1px solid var(--edge);
   border-radius:9px;
-  background:#202945;
-  color:var(--text);
+  background:#e8def8;
+  color:#30245f;
 }
 
-/* Welcome */
-
 .welcome {
+  position:relative;
+  z-index:1;
   min-height:100svh;
   display:grid;
   place-items:center;
   padding:22px;
   text-align:center;
-  background:
-    radial-gradient(650px 420px at 50% 25%,rgba(255,122,168,.18),transparent 68%),
-    var(--night);
 }
 
 .welcome-card {
@@ -483,7 +623,8 @@ dialog .detail { color:var(--text); font:1.4rem var(--hand); margin:8px 0; }
   padding:40px 22px;
   border:1px solid var(--edge);
   border-radius:25px;
-  background:rgba(255,255,255,.05);
+  background:rgba(255,255,255,.36);
+  backdrop-filter:blur(8px);
 }
 
 .welcome-emoji {
@@ -491,10 +632,15 @@ dialog .detail { color:var(--text); font:1.4rem var(--hand); margin:8px 0; }
   margin-bottom:12px;
 }
 
-.welcome h1 { font-size:clamp(2.8rem,10vw,4rem); }
+.welcome h1 {
+  font-size:clamp(2.8rem,10vw,4rem);
+  background:linear-gradient(90deg,var(--rose),#8063c7);
+  -webkit-background-clip:text;
+  background-clip:text;
+}
 
 .welcome-subtitle {
-  color:var(--muted);
+  color:#514477;
   font-size:.95rem;
   letter-spacing:.1em;
   text-transform:uppercase;
@@ -513,7 +659,7 @@ dialog .detail { color:var(--text); font:1.4rem var(--hand); margin:8px 0; }
 
 .welcome-foot {
   margin-top:20px;
-  color:var(--muted);
+  color:#514477;
   font:1.2rem var(--hand);
 }
 
@@ -597,8 +743,8 @@ dialog .detail { color:var(--text); font:1.4rem var(--hand); margin:8px 0; }
 @media(max-width:360px) {
   .day-meal { grid-template-columns:65px minmax(0,1fr); }
   .meal-options .option { padding:5px; gap:4px; }
-  .meal-options .option span { font-size:1.05rem; }
-  .meal-options .option input { width:17px; height:17px; }
+  .meal-options .option-name { font-size:1.05rem; }
+  .meal-options .quantity-control button { width:22px; height:22px; }
   .month-select { min-width:96px; max-width:110px; }
 }
 
@@ -606,17 +752,20 @@ dialog .detail { color:var(--text); font:1.4rem var(--hand); margin:8px 0; }
   @page { size:A4 portrait; margin:10mm; }
 
   body { background:#fff; color:#000; }
+  .scene { display:none!important; }
   .wrap { max-width:none; padding:0; }
   .tools,.month-select,.welcome,dialog,.status { display:none!important; }
-  .sheet { background:#fff; border:0; padding:0; }
+  h1 { background:none; color:#000; }
+  .names,.meta { color:#000; }
+  .sheet { background:#fff; border:0; padding:0; backdrop-filter:none; }
   .table-wrap { display:block!important; overflow:visible; border:1px solid #000; }
   .mobile-days { display:none!important; }
   table { min-width:0; }
   th,td { border-color:#000!important; color:#000!important; background:#fff!important; }
   .col-day { position:static; }
   .option { min-height:0; padding:2px 5px; }
-  .option span { font-size:11pt; }
-  .option input { width:13px; height:13px; }
+  .option-name { font-size:11pt; }
+  .quantity-control { display:none!important; }
   .chip,.stat { border-color:#000; color:#000; }
   .stat b,.stat.highlight b { color:#000; }
   .notes label { color:#000; }
@@ -627,6 +776,8 @@ dialog .detail { color:var(--text); font:1.4rem var(--hand); margin:8px 0; }
 </head>
 
 <body>
+
+<div class="scene" id="scene"></div>
 
 <section class="welcome" id="welcome">
   <div class="welcome-card">
@@ -640,7 +791,6 @@ dialog .detail { color:var(--text); font:1.4rem var(--hand); margin:8px 0; }
 
 <div id="app" hidden>
   <div class="wrap">
-
     <header>
       <div class="heart">💑</div>
       <div>
@@ -654,7 +804,6 @@ dialog .detail { color:var(--text); font:1.4rem var(--hand); margin:8px 0; }
     </header>
 
     <main class="sheet" id="sheet"></main>
-
   </div>
 </div>
 
@@ -670,6 +819,59 @@ dialog .detail { color:var(--text); font:1.4rem var(--hand); margin:8px 0; }
 
 <script>
 "use strict";
+
+const scene = document.getElementById("scene");
+const rand = (min, max) => Math.random() * (max - min) + min;
+
+const balloons = [
+  { left: 38, top: 6, size: 46, tint: "#f3e6ff", glow: "#e8b4f0", edge: "rgba(190,150,240,0.45)", alpha: 0.85, blur: 0 },
+  { left: 64, top: 3, size: 34, tint: "#e9ddff", glow: "#b9a2f5", edge: "rgba(160,130,235,0.4)", alpha: 0.7, blur: 0.5 },
+  { left: 4, top: 22, size: 30, tint: "#ffe3f3", glow: "#ffb3dc", edge: "rgba(240,150,200,0.4)", alpha: 0.6, blur: 1 },
+  { left: 82, top: 10, size: 52, tint: "#ffd9ef", glow: "#ff9fd2", edge: "rgba(240,130,190,0.45)", alpha: 0.8, blur: 0 },
+  { left: 90, top: 34, size: 40, tint: "#ffe0f1", glow: "#f6a8d4", edge: "rgba(240,140,195,0.4)", alpha: 0.65, blur: 1 },
+  { left: 22, top: 14, size: 24, tint: "#e4e8ff", glow: "#a9baf5", edge: "rgba(140,160,235,0.4)", alpha: 0.6, blur: 1.5 },
+  { left: 55, top: 28, size: 28, tint: "#efe4ff", glow: "#c7a8f3", edge: "rgba(170,140,235,0.4)", alpha: 0.55, blur: 1.5 },
+  { left: 8, top: 52, size: 44, tint: "#e9ddff", glow: "#b9a2f5", edge: "rgba(160,130,235,0.4)", alpha: 0.5, blur: 1.5 },
+  { left: 72, top: 60, size: 36, tint: "#ffe3f3", glow: "#ffb3dc", edge: "rgba(240,150,200,0.4)", alpha: 0.5, blur: 2 },
+  { left: 40, top: 74, size: 50, tint: "#e4e8ff", glow: "#a9baf5", edge: "rgba(140,160,235,0.4)", alpha: 0.45, blur: 2 },
+  { left: 90, top: 82, size: 30, tint: "#f3e6ff", glow: "#e8b4f0", edge: "rgba(190,150,240,0.45)", alpha: 0.5, blur: 1.5 }
+];
+
+balloons.forEach((b) => {
+  const el = document.createElement("div");
+  el.className = "balloon";
+  el.style.setProperty("--left", b.left + "%");
+  el.style.setProperty("--top", b.top + "%");
+  el.style.setProperty("--size", b.size + "px");
+  el.style.setProperty("--tint", b.tint);
+  el.style.setProperty("--glow", b.glow);
+  el.style.setProperty("--edge-tint", b.edge);
+  el.style.setProperty("--alpha", b.alpha);
+  el.style.setProperty("--blur", b.blur + "px");
+  el.style.setProperty("--duration", rand(3.5, 6) + "s");
+  el.style.setProperty("--delay", -rand(0, 5) + "s");
+  scene.appendChild(el);
+});
+
+const star = document.createElement("div");
+star.className = "star";
+star.style.setProperty("--left", "86%");
+star.style.setProperty("--top", "20%");
+star.style.setProperty("--size", "44px");
+star.style.setProperty("--duration", "5s");
+star.style.setProperty("--delay", "0s");
+scene.appendChild(star);
+
+for (let i = 0; i < 22; i++) {
+  const el = document.createElement("div");
+  el.className = i % 3 === 0 ? "dot" : "sparkle";
+  el.style.setProperty("--left", rand(2, 96) + "%");
+  el.style.setProperty("--top", rand(2, 95) + "%");
+  el.style.setProperty("--size", (i % 3 === 0 ? rand(3, 6) : rand(7, 15)) + "px");
+  el.style.setProperty("--duration", rand(2.5, 5) + "s");
+  el.style.setProperty("--delay", -rand(0, 5) + "s");
+  scene.appendChild(el);
+}
 
 const CONFIG = {
   noteName:"Abrina",
@@ -709,11 +911,18 @@ function emptyStats() {
   return {shiro:0,spris:0,b:0,l:0,d:0,items:0,birr:0};
 }
 
+function normalizeQuantity(value) {
+  // Only integer quantities 0, 1, or 2 are valid.
+  const number=Number(value);
+  if (!Number.isFinite(number)) return 0;
+  return Math.max(0,Math.min(2,Math.trunc(number)));
+}
+
 function dayItems(day) {
   const ticks=(day && day.ticks)||{};
-  return MEALS.reduce((sum,meal)=>{
-    return sum+FOODS.filter(food=>ticks[meal+food]===true).length;
-  },0);
+  return MEALS.reduce((sum,meal)=>sum+FOODS.reduce(
+    (foodSum,food)=>foodSum+normalizeQuantity(ticks[meal+food]),0
+  ),0);
 }
 
 function monthStats(record,price) {
@@ -725,11 +934,10 @@ function monthStats(record,price) {
 
     for (const meal of MEALS) {
       for (const food of FOODS) {
-        if (ticks[meal+food]!==true) continue;
-
-        stats.items++;
-        stats[food==="s"?"shiro":"spris"]++;
-        stats[meal]++;
+        const quantity=normalizeQuantity(ticks[meal+food]);
+        stats.items+=quantity;
+        stats[food==="s"?"shiro":"spris"]+=quantity;
+        stats[meal]+=quantity;
       }
     }
   }
@@ -800,6 +1008,22 @@ const Store={
             delete day.c;
             changed=true;
           }
+
+          day.ticks??={};
+
+          for (const meal of MEALS) {
+            for (const food of FOODS) {
+              const key=meal+food;
+              const oldValue=day.ticks[key];
+              const quantity=oldValue===true?1:
+                oldValue===false||oldValue==null?0:normalizeQuantity(oldValue);
+
+              if (oldValue!==quantity) changed=true;
+
+              if (quantity===0) delete day.ticks[key];
+              else day.ticks[key]=quantity;
+            }
+          }
         }
       }
     }
@@ -861,7 +1085,7 @@ function el(tag,className,text) {
 let saveTimer=null;
 
 function queueSave() {
-  setStatus("Saving...");
+  setStatus("Saving");
   clearTimeout(saveTimer);
 
   saveTimer=setTimeout(()=>{
@@ -879,108 +1103,54 @@ window.addEventListener("pagehide",()=>{
   Store.persist();
 });
 
-function confirmTick(day,meal,food,willTick) {
-  $("dialogTitle").textContent=willTick?"Tick this item?":"Untick this item?";
-  $("dialogDetail").textContent=`Day ${day} · ${LABEL[meal]} · ${LABEL[food]}`;
-  $("dialogEffect").textContent=`${willTick?"+":"-"}${formatBirr(CONFIG.pricePerServing)}`;
-  $("dialogOk").textContent=willTick?"Tick":"Untick";
-
-  const dialog=$("dialog");
-  dialog.showModal();
-
-  return new Promise(resolve=>{
-    const finish=answer=>{
-      dialog.close();
-      resolve(answer);
-    };
-
-    $("dialogOk").onclick=()=>finish(true);
-    $("dialogCancel").onclick=()=>finish(false);
-
-    dialog.oncancel=event=>{
-      event.preventDefault();
-      finish(false);
-    };
-  });
-}
-
-function renderHeader() {
-  $("title").textContent=CONFIG.noteName;
-  $("names").textContent=`${CONFIG.names[0]} 💞 ${CONFIG.names[1]}`;
-  $("price").textContent=`${formatBirr(CONFIG.pricePerServing)} per serving`;
-}
-
-function makeMonthSelector() {
-  const select=el("select","month-select");
-  select.id="monthSelect";
-  select.setAttribute("aria-label","Select month");
-
-  MONTHS.forEach((month,index)=>{
-    const option=el("option",null,month.name);
-    option.value=String(index);
-    select.append(option);
-  });
-
-  const summaryOption=el("option",null,"Year Summary");
-  summaryOption.value=String(SUMMARY_INDEX);
-  select.append(summaryOption);
-
-  select.value=String(state.pageIndex);
-
-  select.addEventListener("change",()=>{
-    state.pageIndex=Number(select.value);
-    renderSheet();
-    window.scrollTo(0,0);
-  });
-
-  return select;
-}
-
-function makeTop() {
-  const top=el("div","top");
-  const heading=el("div","page-heading");
-
-  if (isSummary()) {
-    heading.append(
-      el("h2",null,`Year Summary ${state.year}`),
-      el("div","page-label","Annual totals")
-    );
-  } else {
-    heading.append(
-      el("h2",null,`${currentMonth().name} ${state.year}`),
-      el("div","page-label",`Month ${state.pageIndex+1} of ${MONTHS.length}`)
-    );
-  }
-
-  top.append(heading,makeMonthSelector());
-  return top;
-}
-
 function makeOption(day,meal,food,ticks) {
   const key=meal+food;
-  const label=el("label","option");
-  const box=el("input");
+  const option=el("div","option");
+  const name=el("span","option-name",LABEL[food]);
+  const control=el("div","quantity-control");
+  const minus=el("button",null,"−");
+  const value=el("span","quantity-value",String(normalizeQuantity(ticks[key])));
+  const plus=el("button",null,"+");
 
-  box.type="checkbox";
-  box.checked=ticks[key]===true;
-  box.setAttribute("aria-label",`Day ${day} ${LABEL[meal]} ${LABEL[food]}`);
+  minus.type="button";
+  plus.type="button";
+  minus.setAttribute("aria-label",`Remove one ${LABEL[food]} serving`);
+  plus.setAttribute("aria-label",`Add one ${LABEL[food]} serving`);
+  value.setAttribute("aria-live","polite");
+  value.setAttribute("aria-label",`${LABEL[food]} quantity`);
 
-  box.addEventListener("click",async event=>{
-    event.preventDefault();
+  const refresh=()=>{
+    const quantity=normalizeQuantity(value.textContent);
+    value.textContent=String(quantity);
+    minus.disabled=quantity===0;
+    plus.disabled=quantity===2;
+  };
 
-    const record=Store.peek(state.year,currentMonth().n);
-    const dayRecord=record && record.days[day];
-    const existing=dayRecord && dayRecord.ticks && dayRecord.ticks[key];
-    const willTick=!existing;
+  minus.addEventListener("click",()=>{
+    const current=normalizeQuantity(value.textContent);
+    if (current===0) return;
 
-    if (await confirmTick(day,meal,food,willTick)) {
-      box.checked=willTick;
-      setTick(day,key,willTick);
-    }
+    const next=normalizeQuantity(current-1);
+    value.textContent=String(next);
+    refresh();
+    setQuantity(day,key,next);
   });
 
-  label.append(box,el("span",null,LABEL[food]));
-  return label;
+  plus.addEventListener("click",()=>{
+    const current=normalizeQuantity(value.textContent);
+    if (current===2) return;
+
+    const next=normalizeQuantity(current+1);
+    value.textContent=String(next);
+    refresh();
+    setQuantity(day,key,next);
+  });
+
+  refresh();
+  control.append(minus,value,plus);
+  option.append(name,control);
+
+  return option;
 }
 
 function createDesktopTable(record) {
@@ -992,7 +1162,7 @@ function createDesktopTable(record) {
     ["","Breakfast"],
     ["","Lunch"],
     ["","Dinner"],
-    ["col-items","Items"],
+    ["col-items","Servings"],
     ["col-birr","Birr"]
   ].forEach(([className,label])=>{
     headRow.append(el("th",className,label));
@@ -1033,6 +1203,7 @@ function createDesktopTable(record) {
 
   const wrap=el("div","table-wrap");
   wrap.append(table);
+
   return wrap;
 }
 
@@ -1045,9 +1216,10 @@ function createMobileDays(record) {
     card.id=`mobile-day-${day}`;
 
     const head=el("div","day-card-head");
+
     head.append(
       el("span","day-number",`Day ${day}`),
-      el("span","day-total",`${dayItems({ticks})} items · ${formatBirr(dayItems({ticks})*CONFIG.pricePerServing)}`)
+      el("span","day-total",`${dayItems({ticks})} servings, ${formatBirr(dayItems({ticks})*CONFIG.pricePerServing)}`)
     );
 
     card.append(head);
@@ -1098,26 +1270,33 @@ function updateDayTotals(day) {
 
   if (mobileCard) {
     const head=mobileCard.querySelector(".day-total");
-    if (head) head.textContent=`${count} items · ${formatBirr(birr)}`;
+
+    if (head) head.textContent=`${count} servings, ${formatBirr(birr)}`;
 
     const totals=$(`mobile-totals-${day}`);
+
     if (totals) {
       totals.textContent="";
       totals.append(
-        el("span",null,`Items: ${count}`),
+        el("span",null,`Servings: ${count}`),
         el("span",null,formatBirr(birr))
       );
     }
   }
 }
 
-function setTick(day,key,ticked) {
+function setQuantity(day,key,requestedQuantity) {
+  // Validate before every saved write; invalid keys are rejected.
+  const quantity=normalizeQuantity(requestedQuantity);
+
+  if (!/^[bld][sp]$/.test(key)) return;
+
   const record=Store.month(state.year,currentMonth().n);
   const dayRecord=(record.days[day]??={});
   const ticks=(dayRecord.ticks??={});
 
-  if (ticked) ticks[key]=true;
-  else delete ticks[key];
+  if (quantity===0) delete ticks[key];
+  else ticks[key]=quantity;
 
   updateDayTotals(day);
   renderStats();
@@ -1127,6 +1306,7 @@ function setTick(day,key,ticked) {
 function renderStats() {
   const stats=Store.stats(state.year,currentMonth().n);
   const box=$("stats");
+
   if (!box) return;
 
   box.textContent="";
@@ -1137,7 +1317,7 @@ function renderStats() {
     ["Breakfast",stats.b],
     ["Lunch",stats.l],
     ["Dinner",stats.d],
-    ["Total items",stats.items],
+    ["Total servings",stats.items],
     ["Month total",formatBirr(stats.birr)]
   ];
 
@@ -1166,7 +1346,51 @@ function createNotes(record) {
   });
 
   wrap.append(label,field);
+
   return wrap;
+}
+
+function renderHeader() {
+  $("title").textContent=CONFIG.noteName;
+  $("names").textContent=CONFIG.names.join(" ♡ ");
+  $("price").textContent=`${formatBirr(CONFIG.pricePerServing)} per serving`;
+}
+
+function makeTop() {
+  const top=el("div","top");
+  const heading=el("div","page-heading");
+  const title=el("h2",null,isSummary()?"Year Summary":currentMonth().name);
+  const label=el("div","page-label",`${state.year} E.C. · ${isSummary()?"All months":"Monthly food register"}`);
+
+  heading.append(title,label);
+
+  const selector=document.createElement("select");
+  selector.className="month-select";
+  selector.setAttribute("aria-label","Select month");
+
+  MONTHS.forEach((month,index)=>{
+    const option=document.createElement("option");
+    option.value=String(index);
+    option.textContent=month.name;
+    option.selected=state.pageIndex===index;
+    selector.append(option);
+  });
+
+  const summaryOption=document.createElement("option");
+  summaryOption.value=String(SUMMARY_INDEX);
+  summaryOption.textContent="Year Summary";
+  summaryOption.selected=isSummary();
+  selector.append(summaryOption);
+
+  selector.addEventListener("change",()=>{
+    state.pageIndex=Number(selector.value);
+    renderSheet();
+    window.scrollTo(0,0);
+  });
+
+  top.append(heading,selector);
+
+  return top;
 }
 
 function renderMonthPage(sheet) {
@@ -1213,7 +1437,7 @@ function renderGrandTotal(section) {
   const head=el("thead");
   const headRow=el("tr");
 
-  ["Month","Shiro","Spris","Items","Birr"].forEach(label=>{
+  ["Month","Shiro","Spris","Servings","Birr"].forEach(label=>{
     headRow.append(el("th",null,label));
   });
 
@@ -1269,7 +1493,7 @@ function renderGrandTotal(section) {
   [
     ["Total Shiro",total.shiro],
     ["Total Spris",total.spris],
-    ["Total meals",total.items],
+    ["Total servings",total.items],
     ["Grand total",formatBirr(total.birr)]
   ].forEach(([label,value],index)=>{
     const tile=el("div",index===3?"stat highlight":"stat");
