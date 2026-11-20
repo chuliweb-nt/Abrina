@@ -11,14 +11,14 @@
   --night:#0a0e1f;
   --panel:rgba(12,16,38,.84);
   --edge:rgba(160,185,255,.22);
-  --text:#e9edff;
-  --muted:#93a0cc;
+  --text:#30245f;
+  --muted:#81769e;
   --rose:#ff7aa8;
-  --cyan:#62e6ff;
-  --gold:#ffd27a;
+  --cyan:#6550a3;
+  --gold:#b18a3f;
   --hand:"Caveat",cursive;
   --ui:"Space Grotesk",system-ui,sans-serif;
-  color-scheme:dark;
+  color-scheme:light;
 }
 
 * { box-sizing:border-box; }
@@ -146,10 +146,6 @@ button,select,textarea { font:inherit; }
   50%     { opacity:.95; transform:scale(1); }
 }
 
-@media (prefers-reduced-motion:reduce) {
-  .balloon,.balloon::after,.star,.sparkle,.dot { animation:none; }
-}
-
 .wrap {
   position:relative;
   z-index:1;
@@ -212,7 +208,9 @@ h1 {
   margin-bottom:15px;
 }
 
-.page-heading { min-width:0; }
+.page-heading {
+  min-width:0;
+}
 
 .page-heading h2 {
   margin:0;
@@ -226,6 +224,66 @@ h1 {
   margin-top:3px;
 }
 
+.month-settings { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin:-4px 0 12px; }
+
+.top-tools {
+  display:flex;
+  align-items:center;
+  justify-content:flex-end;
+  flex-wrap:wrap;
+  gap:6px;
+}
+
+.tool-button {
+  min-height:34px;
+  padding:6px 10px;
+  border:1px solid rgba(90,75,150,.30);
+  border-radius:9px;
+  background:rgba(255,255,255,.45);
+  color:#30245f;
+  font-size:.78rem;
+  font-weight:600;
+  cursor:pointer;
+  touch-action:manipulation;
+}
+
+.tool-button:disabled { opacity:.4; cursor:not-allowed; }
+
+.tool-button:focus-visible,.quantity-control button:focus-visible,.month-select:focus-visible {
+  outline:3px solid rgba(101,80,163,.35);
+  outline-offset:2px;
+}
+
+.tool-button.locked {
+  background:rgba(255,210,122,.45);
+  border-color:#b18a3f;
+}
+
+.price-editor {
+  display:flex;
+  align-items:center;
+  gap:5px;
+  color:#514477;
+  font-size:.78rem;
+}
+
+.price-editor input {
+  width:76px;
+  padding:6px 7px;
+  border:1px solid rgba(90,75,150,.30);
+  border-radius:8px;
+  background:rgba(255,255,255,.55);
+  color:#30245f;
+}
+
+.hidden-file { display:none; }
+
+.month-state {
+  color:#75531a;
+  font-size:.76rem;
+  font-weight:600;
+}
+
 .month-select {
   display:block;
   width:auto;
@@ -234,15 +292,12 @@ h1 {
   padding:8px 25px 8px 10px;
   border:1px solid var(--edge);
   border-radius:10px;
-  background:rgba(255,255,255,.58);
+  background:#d9c9f7;
   color:#30245f;
+  color-scheme:light;
+  box-shadow:0 2px 8px rgba(75,55,125,.08);
   font-size:.86rem;
   font-weight:600;
-}
-
-.month-select option {
-  color:#30245f;
-  background:#e8def8;
 }
 
 .chip {
@@ -291,14 +346,13 @@ th {
   text-align:center;
   background:rgba(255,255,255,.22);
   font-weight:600;
-  color:#30245f;
 }
 
 .col-day {
   width:48px;
   text-align:center;
   font-weight:700;
-  color:#514477;
+  color:var(--cyan);
   position:sticky;
   left:0;
   background:rgba(255,255,255,.30);
@@ -321,7 +375,6 @@ th.col-day { background:rgba(255,255,255,.38); }
 td.col-items {
   font-weight:700;
   font-size:1rem;
-  color:#30245f;
 }
 
 td.col-birr {
@@ -330,7 +383,7 @@ td.col-birr {
   font-size:.95rem;
 }
 
-.zero { color:#81769e!important; }
+.zero { color:var(--muted)!important; }
 
 .breakfast { background:rgba(255,210,122,.07); }
 .lunch { background:rgba(98,230,255,.06); }
@@ -352,7 +405,6 @@ td.col-birr {
   font:1.25rem var(--hand);
   line-height:1;
   min-width:0;
-  color:#30245f;
 }
 
 .quantity-control {
@@ -412,7 +464,7 @@ td.col-birr {
 }
 
 .day-number {
-  color:#514477;
+  color:var(--cyan);
   font-weight:700;
   font-size:.94rem;
 }
@@ -461,7 +513,12 @@ td.col-birr {
 }
 
 .meal-options .quantity-control { gap:3px; }
-.meal-options .quantity-control button { width:24px; height:24px; }
+
+.meal-options .quantity-control button {
+  width:30px;
+  height:30px;
+  font-size:1.05rem;
+}
 
 .meal-options .option-name { font-size:1.15rem; }
 
@@ -502,10 +559,9 @@ td.col-birr {
   display:block;
   font-size:1.15rem;
   overflow-wrap:anywhere;
-  color:#30245f;
 }
 
-.stat.highlight { border-color:#b18a3f; }
+.stat.highlight { border-color:var(--gold); }
 .stat.highlight b { color:#75531a; }
 
 .notes { margin-top:15px; }
@@ -513,7 +569,7 @@ td.col-birr {
 .notes label {
   display:block;
   font:1.5rem var(--hand);
-  color:#8a3970;
+  color:var(--rose);
   margin-bottom:5px;
 }
 
@@ -536,7 +592,6 @@ td.col-birr {
 .summary-page h2 {
   margin:0 0 5px;
   font-size:1.5rem;
-  color:#30245f;
 }
 
 .summary-description {
@@ -560,7 +615,6 @@ td.col-birr {
   padding:9px 7px;
   text-align:right;
   font-size:.85rem;
-  color:#30245f;
 }
 
 .summary-table th:first-child,
@@ -591,7 +645,16 @@ dialog::backdrop { background:rgba(5,7,16,.72); }
 
 dialog h3 { margin:0 0 6px; }
 dialog p { margin:0; color:#514477; }
-dialog .detail { color:#30245f; font:1.4rem var(--hand); margin:8px 0; }
+dialog .detail {
+  color:#30245f;
+  font:1.4rem var(--hand);
+  margin:8px 0;
+}
+
+.dialog-warning {
+  margin-top:8px!important;
+  font-size:.84rem;
+}
 
 .actions {
   display:flex;
@@ -604,8 +667,14 @@ dialog .detail { color:#30245f; font:1.4rem var(--hand); margin:8px 0; }
   padding:8px 14px;
   border:1px solid var(--edge);
   border-radius:9px;
-  background:#e8def8;
+  background:#d9c9f7;
   color:#30245f;
+}
+
+.actions button.danger {
+  background:#f6d6e2;
+  border-color:#c56b8e;
+  color:#7b2446;
 }
 
 .welcome {
@@ -634,7 +703,7 @@ dialog .detail { color:#30245f; font:1.4rem var(--hand); margin:8px 0; }
 
 .welcome h1 {
   font-size:clamp(2.8rem,10vw,4rem);
-  background:linear-gradient(90deg,var(--rose),#8063c7);
+  background:linear-gradient(90deg,var(--rose),var(--cyan));
   -webkit-background-clip:text;
   background-clip:text;
 }
@@ -703,6 +772,19 @@ dialog .detail { color:#30245f; font:1.4rem var(--hand); margin:8px 0; }
     font-size:.8rem;
   }
 
+  .top-tools {
+    width:100%;
+    justify-content:flex-start;
+  }
+
+  .tool-button {
+    min-height:38px;
+    padding:7px 9px;
+    font-size:.76rem;
+  }
+
+  .price-editor { min-height:36px; }
+
   .chip {
     padding:5px 10px;
     font-size:.84rem;
@@ -744,7 +826,7 @@ dialog .detail { color:#30245f; font:1.4rem var(--hand); margin:8px 0; }
   .day-meal { grid-template-columns:65px minmax(0,1fr); }
   .meal-options .option { padding:5px; gap:4px; }
   .meal-options .option-name { font-size:1.05rem; }
-  .meal-options .quantity-control button { width:22px; height:22px; }
+  .meal-options .quantity-control button { width:28px; height:28px; }
   .month-select { min-width:96px; max-width:110px; }
 }
 
@@ -754,14 +836,29 @@ dialog .detail { color:#30245f; font:1.4rem var(--hand); margin:8px 0; }
   body { background:#fff; color:#000; }
   .scene { display:none!important; }
   .wrap { max-width:none; padding:0; }
-  .tools,.month-select,.welcome,dialog,.status { display:none!important; }
+  .tools,.top-tools,.month-select,.welcome,dialog,.status,.month-settings {
+    display:none!important;
+  }
   h1 { background:none; color:#000; }
   .names,.meta { color:#000; }
-  .sheet { background:#fff; border:0; padding:0; backdrop-filter:none; }
-  .table-wrap { display:block!important; overflow:visible; border:1px solid #000; }
+  .sheet {
+    background:#fff;
+    border:0;
+    padding:0;
+    backdrop-filter:none;
+  }
+  .table-wrap {
+    display:block!important;
+    overflow:visible;
+    border:1px solid #000;
+  }
   .mobile-days { display:none!important; }
   table { min-width:0; }
-  th,td { border-color:#000!important; color:#000!important; background:#fff!important; }
+  th,td {
+    border-color:#000!important;
+    color:#000!important;
+    background:#fff!important;
+  }
   .col-day { position:static; }
   .option { min-height:0; padding:2px 5px; }
   .option-name { font-size:11pt; }
@@ -769,7 +866,11 @@ dialog .detail { color:#30245f; font:1.4rem var(--hand); margin:8px 0; }
   .chip,.stat { border-color:#000; color:#000; }
   .stat b,.stat.highlight b { color:#000; }
   .notes label { color:#000; }
-  .notes textarea { border-color:#000; color:#000; background:none; }
+  .notes textarea {
+    border-color:#000;
+    color:#000;
+    background:none;
+  }
   .summary-table { overflow:visible; }
 }
 </style>
@@ -791,6 +892,7 @@ dialog .detail { color:#30245f; font:1.4rem var(--hand); margin:8px 0; }
 
 <div id="app" hidden>
   <div class="wrap">
+
     <header>
       <div class="heart">💑</div>
       <div>
@@ -804,6 +906,7 @@ dialog .detail { color:#30245f; font:1.4rem var(--hand); margin:8px 0; }
     </header>
 
     <main class="sheet" id="sheet"></main>
+
   </div>
 </div>
 
@@ -811,11 +914,14 @@ dialog .detail { color:#30245f; font:1.4rem var(--hand); margin:8px 0; }
   <h3 id="dialogTitle"></h3>
   <p id="dialogDetail" class="detail"></p>
   <p id="dialogEffect"></p>
+  <p id="dialogWarning" class="dialog-warning"></p>
   <div class="actions">
     <button id="dialogCancel" type="button">Cancel</button>
     <button id="dialogOk" type="button">Confirm</button>
   </div>
 </dialog>
+
+<input id="backupFile" class="hidden-file" type="file" accept="application/json,.json">
 
 <script>
 "use strict";
@@ -999,9 +1105,17 @@ const Store={
 
   migrateTicks() {
     let changed=false;
-
     for (const months of Object.values(this.data.years||{})) {
       for (const record of Object.values(months||{})) {
+        if (!Number.isFinite(Number(record.pricePerServing)) || Number(record.pricePerServing)<=0) {
+          record.pricePerServing=CONFIG.pricePerServing;
+          changed=true;
+        } else {
+          record.pricePerServing=Number(record.pricePerServing);
+        }
+
+        record.locked=Boolean(record.locked);
+
         for (const day of Object.values(record.days||{})) {
           if (day.c && !day.ticks) {
             day.ticks=day.c;
@@ -1019,7 +1133,6 @@ const Store={
                 oldValue===false||oldValue==null?0:normalizeQuantity(oldValue);
 
               if (oldValue!==quantity) changed=true;
-
               if (quantity===0) delete day.ticks[key];
               else day.ticks[key]=quantity;
             }
@@ -1027,7 +1140,6 @@ const Store={
         }
       }
     }
-
     return changed;
   },
 
@@ -1043,7 +1155,7 @@ const Store={
 
   month(year,n) {
     const yearData=(this.data.years[year]??={});
-    return (yearData[n]??={days:{},notes:""});
+    return (yearData[n]??={days:{},notes:"",pricePerServing:CONFIG.pricePerServing,locked:false});
   },
 
   peek(year,n) {
@@ -1051,7 +1163,8 @@ const Store={
   },
 
   stats(year,n) {
-    return monthStats(this.peek(year,n),CONFIG.pricePerServing);
+    const record=this.peek(year,n);
+    return monthStats(record,record?.pricePerServing??CONFIG.pricePerServing);
   }
 };
 
@@ -1083,14 +1196,106 @@ function el(tag,className,text) {
 }
 
 let saveTimer=null;
+const undoStack=[];
+let pendingConfirm=false;
 
 function queueSave() {
-  setStatus("Saving");
+  setStatus("Saving…");
   clearTimeout(saveTimer);
-
   saveTimer=setTimeout(()=>{
-    setStatus(Store.persist()?"Saved":"Could not save");
-  },250);
+    const ok=Store.persist();
+    setStatus(ok?`Saved locally · ${new Date().toLocaleTimeString()}`:"Save failed — export a backup");
+  },180);
+}
+
+function currentRecord() {
+  return Store.month(state.year,currentMonth().n);
+}
+
+function isMonthLocked() {
+  return Boolean(Store.peek(state.year,currentMonth().n)?.locked);
+}
+
+function currentPrice() {
+  return Number(currentRecord().pricePerServing)||CONFIG.pricePerServing;
+}
+
+function pushUndo(action) {
+  undoStack.push(action);
+  if (undoStack.length>50) undoStack.shift();
+  refreshUndoButton();
+}
+
+function refreshUndoButton() {
+  const button=$("undoButton");
+  if (button) button.disabled=undoStack.length===0;
+}
+
+function undoLast() {
+  const action=undoStack.pop();
+  if (!action) return;
+
+  const record=Store.month(action.year,action.month);
+  const dayRecord=(record.days[action.day]??={});
+  const ticks=(dayRecord.ticks??={});
+
+  if (action.before===0) delete ticks[action.key];
+  else ticks[action.key]=action.before;
+
+  if (action.year===state.year && action.month===currentMonth().n) {
+    document.querySelectorAll(`[data-quantity="${action.day}-${action.key}"]`).forEach(value=>{
+      value.textContent=String(action.before);
+      const control=value.closest(".quantity-control");
+
+      if (control) {
+        const locked=isMonthLocked();
+        control.querySelector("button:first-child").disabled=action.before===0 || locked;
+        control.querySelector("button:last-child").disabled=action.before===2 || locked;
+      }
+    });
+
+    updateDayTotals(action.day);
+    renderStats();
+  }
+
+  queueSave();
+  refreshUndoButton();
+  setStatus("Last quantity change undone · saving…");
+}
+
+function showConfirm({title,detail,effect,warning="",confirmText="Confirm",danger=false}) {
+  const dialog=$("dialog");
+
+  $("dialogTitle").textContent=title;
+  $("dialogDetail").textContent=detail;
+  $("dialogEffect").textContent=effect;
+  $("dialogWarning").textContent=warning;
+  $("dialogOk").textContent=confirmText;
+  $("dialogOk").classList.toggle("danger",danger);
+
+  if (pendingConfirm) return Promise.resolve(false);
+
+  pendingConfirm=true;
+  dialog.showModal();
+
+  return new Promise(resolve=>{
+    let finished=false;
+
+    const finish=answer=>{
+      if (finished) return;
+      finished=true;
+      pendingConfirm=false;
+      dialog.close();
+      resolve(answer);
+    };
+
+    $("dialogOk").onclick=()=>finish(true);
+    $("dialogCancel").onclick=()=>finish(false);
+    dialog.oncancel=event=>{
+      event.preventDefault();
+      finish(false);
+    };
+  });
 }
 
 function setStatus(message) {
@@ -1114,37 +1319,49 @@ function makeOption(day,meal,food,ticks) {
 
   minus.type="button";
   plus.type="button";
+
   minus.setAttribute("aria-label",`Remove one ${LABEL[food]} serving`);
   plus.setAttribute("aria-label",`Add one ${LABEL[food]} serving`);
+
   value.setAttribute("aria-live","polite");
   value.setAttribute("aria-label",`${LABEL[food]} quantity`);
+  value.dataset.quantity=`${day}-${key}`;
 
   const refresh=()=>{
     const quantity=normalizeQuantity(value.textContent);
     value.textContent=String(quantity);
-    minus.disabled=quantity===0;
-    plus.disabled=quantity===2;
+    minus.disabled=quantity===0 || isMonthLocked();
+    plus.disabled=quantity===2 || isMonthLocked();
   };
 
-  minus.addEventListener("click",()=>{
-    const current=normalizeQuantity(value.textContent);
-    if (current===0) return;
+  const change=async direction=>{
+    if (isMonthLocked()) return;
 
-    const next=normalizeQuantity(current-1);
-    value.textContent=String(next);
+    const before=normalizeQuantity(value.textContent);
+    const after=normalizeQuantity(before+direction);
+
+    if (after===before) return;
+
+    const adding=direction>0;
+
+    const confirmed=await showConfirm({
+      title:adding?"Are you sure you want to tick this item?":"Are you sure you want to untick this item?",
+      detail:`Day ${day} · ${LABEL[meal]} · ${LABEL[food]}`,
+      effect:adding?`Add 1 serving · +${formatBirr(currentPrice())}`:`Remove 1 serving · −${formatBirr(currentPrice())}`,
+      warning:`Quantity will change from ${before} to ${after}. Maximum allowed: 2.`,
+      confirmText:adding?"Yes, tick it":"Yes, untick it",
+      danger:!adding
+    });
+
+    if (!confirmed) return;
+
+    value.textContent=String(after);
     refresh();
-    setQuantity(day,key,next);
-  });
+    setQuantity(day,key,after,before);
+  };
 
-  plus.addEventListener("click",()=>{
-    const current=normalizeQuantity(value.textContent);
-    if (current===2) return;
-
-    const next=normalizeQuantity(current+1);
-    value.textContent=String(next);
-    refresh();
-    setQuantity(day,key,next);
-  });
+  minus.addEventListener("click",()=>change(-1));
+  plus.addEventListener("click",()=>change(1));
 
   refresh();
   control.append(minus,value,plus);
@@ -1213,13 +1430,14 @@ function createMobileDays(record) {
   for (let day=1;day<=CONFIG.daysPerMonth;day++) {
     const ticks=(record.days[day] && record.days[day].ticks)||{};
     const card=el("section","day-card");
+
     card.id=`mobile-day-${day}`;
 
     const head=el("div","day-card-head");
 
     head.append(
       el("span","day-number",`Day ${day}`),
-      el("span","day-total",`${dayItems({ticks})} servings, ${formatBirr(dayItems({ticks})*CONFIG.pricePerServing)}`)
+      el("span","day-total",`${dayItems({ticks})} servings, ${formatBirr(dayItems({ticks})*(Number(record.pricePerServing)||CONFIG.pricePerServing))}`)
     );
 
     card.append(head);
@@ -1239,8 +1457,8 @@ function createMobileDays(record) {
 
     const totals=el("div","mobile-day-totals");
     totals.id=`mobile-totals-${day}`;
-    card.append(totals);
 
+    card.append(totals);
     container.append(card);
   }
 
@@ -1251,7 +1469,8 @@ function updateDayTotals(day) {
   const record=Store.peek(state.year,currentMonth().n);
   const dayRecord=record && record.days[day];
   const count=dayItems(dayRecord);
-  const birr=count*CONFIG.pricePerServing;
+  const price=Number(record?.pricePerServing)||CONFIG.pricePerServing;
+  const birr=count*price;
 
   const desktopItems=$(`desktop-items-${day}`);
   const desktopBirr=$(`desktop-birr-${day}`);
@@ -1271,7 +1490,9 @@ function updateDayTotals(day) {
   if (mobileCard) {
     const head=mobileCard.querySelector(".day-total");
 
-    if (head) head.textContent=`${count} servings, ${formatBirr(birr)}`;
+    if (head) {
+      head.textContent=`${count} servings, ${formatBirr(birr)}`;
+    }
 
     const totals=$(`mobile-totals-${day}`);
 
@@ -1285,22 +1506,71 @@ function updateDayTotals(day) {
   }
 }
 
-function setQuantity(day,key,requestedQuantity) {
-  // Validate before every saved write; invalid keys are rejected.
+function setQuantity(day,key,requestedQuantity,beforeQuantity) {
   const quantity=normalizeQuantity(requestedQuantity);
 
-  if (!/^[bld][sp]$/.test(key)) return;
+  if (!/^[bld][sp]$/.test(key) || isMonthLocked()) return;
 
-  const record=Store.month(state.year,currentMonth().n);
+  const record=currentRecord();
   const dayRecord=(record.days[day]??={});
   const ticks=(dayRecord.ticks??={});
+  const before=normalizeQuantity(beforeQuantity);
 
   if (quantity===0) delete ticks[key];
   else ticks[key]=quantity;
 
+  pushUndo({
+    year:state.year,
+    month:currentMonth().n,
+    day,
+    key,
+    before,
+    after:quantity
+  });
+
   updateDayTotals(day);
   renderStats();
   queueSave();
+}
+
+function changeMonthPrice(rawValue) {
+  if (isMonthLocked()) return;
+
+  const price=Number(rawValue);
+
+  if (!Number.isFinite(price) || price<=0 || price>1000000) {
+    alert("Enter a valid price greater than 0 Birr.");
+    renderSheet();
+    return;
+  }
+
+  currentRecord().pricePerServing=Math.round(price*100)/100;
+
+  for (let day=1;day<=CONFIG.daysPerMonth;day++) {
+    updateDayTotals(day);
+  }
+
+  renderStats();
+  queueSave();
+}
+
+async function toggleMonthLock() {
+  const record=currentRecord();
+  const locking=!record.locked;
+
+  const ok=await showConfirm({
+    title:locking?"Lock this month's record?":"Unlock this month's record?",
+    detail:`${currentMonth().name} ${state.year} E.C.`,
+    effect:locking?"Entries, notes, and monthly price will become read-only.":"You will be able to edit this month's entries again.",
+    warning:locking?"You can unlock this month later.":"Please make changes carefully.",
+    confirmText:locking?"Lock month":"Unlock month"
+  });
+
+  if (!ok) return;
+
+  record.locked=locking;
+  queueSave();
+  renderSheet();
 }
 
 function renderStats() {
@@ -1339,8 +1609,15 @@ function createNotes(record) {
   field.id="notes";
   field.maxLength=2000;
   field.value=record.notes??"";
+  field.disabled=Boolean(record.locked);
+
+  if (record.locked) {
+    field.placeholder="This month's record is locked. Unlock it to edit notes.";
+  }
 
   field.addEventListener("input",()=>{
+    if (isMonthLocked()) return;
+
     Store.month(state.year,currentMonth().n).notes=field.value;
     queueSave();
   });
@@ -1353,33 +1630,40 @@ function createNotes(record) {
 function renderHeader() {
   $("title").textContent=CONFIG.noteName;
   $("names").textContent=CONFIG.names.join(" ♡ ");
-  $("price").textContent=`${formatBirr(CONFIG.pricePerServing)} per serving`;
+  $("price").textContent="Monthly food register";
 }
 
 function makeTop() {
   const top=el("div","top");
   const heading=el("div","page-heading");
-  const title=el("h2",null,isSummary()?"Year Summary":currentMonth().name);
-  const label=el("div","page-label",`${state.year} E.C. · ${isSummary()?"All months":"Monthly food register"}`);
 
-  heading.append(title,label);
+  heading.append(
+    el("h2",null,isSummary()?"Year Summary":currentMonth().name),
+    el("div","page-label",`${state.year} E.C. · ${isSummary()?"All months":"Monthly food register"}`)
+  );
 
+  const tools=el("div","top-tools");
   const selector=document.createElement("select");
+
   selector.className="month-select";
   selector.setAttribute("aria-label","Select month");
 
   MONTHS.forEach((month,index)=>{
     const option=document.createElement("option");
+
     option.value=String(index);
     option.textContent=month.name;
     option.selected=state.pageIndex===index;
+
     selector.append(option);
   });
 
   const summaryOption=document.createElement("option");
+
   summaryOption.value=String(SUMMARY_INDEX);
   summaryOption.textContent="Year Summary";
   summaryOption.selected=isSummary();
+
   selector.append(summaryOption);
 
   selector.addEventListener("change",()=>{
@@ -1388,7 +1672,45 @@ function makeTop() {
     window.scrollTo(0,0);
   });
 
-  top.append(heading,selector);
+  tools.append(selector);
+
+  const undo=el("button","tool-button","↶ Undo");
+
+  undo.id="undoButton";
+  undo.type="button";
+  undo.disabled=undoStack.length===0;
+  undo.addEventListener("click",undoLast);
+
+  tools.append(undo);
+
+  const exportButton=el("button","tool-button","↓ Backup");
+
+  exportButton.type="button";
+  exportButton.addEventListener("click",exportBackup);
+
+  tools.append(exportButton);
+
+  const importButton=el("button","tool-button","↑ Restore");
+
+  importButton.type="button";
+  importButton.addEventListener("click",()=>$("backupFile").click());
+
+  tools.append(importButton);
+
+  if (!isSummary()) {
+    const lockButton=el(
+      "button",
+      isMonthLocked()?"tool-button locked":"tool-button",
+      isMonthLocked()?"🔒 Locked":"🔓 Lock month"
+    );
+
+    lockButton.type="button";
+    lockButton.addEventListener("click",toggleMonthLock);
+
+    tools.append(lockButton);
+  }
+
+  top.append(heading,tools);
 
   return top;
 }
@@ -1403,20 +1725,45 @@ function renderMonthPage(sheet) {
   chipValue.id="monthBirr";
 
   const chip=el("div","chip");
+
   chip.append(el("span",null,"Month total"),chipValue);
 
   const status=el("span","status");
+
   status.id="status";
   status.setAttribute("aria-live","polite");
 
   sheet.append(top,chip,status);
+
+  const settings=el("div","month-settings");
+  const priceLabel=el("label","price-editor","Price per serving");
+  const priceInput=document.createElement("input");
+
+  priceInput.type="number";
+  priceInput.min="0.01";
+  priceInput.max="1000000";
+  priceInput.step="0.01";
+  priceInput.value=String(Number(record.pricePerServing)||CONFIG.pricePerServing);
+  priceInput.disabled=Boolean(record.locked);
+  priceInput.setAttribute("aria-label","Monthly price per serving in Birr");
+
+  priceInput.addEventListener("change",()=>changeMonthPrice(priceInput.value));
+
+  priceLabel.append(priceInput,document.createTextNode(" Birr"));
+  settings.append(priceLabel);
+
+  if (record.locked) {
+    settings.append(el("span","month-state","🔒 This month is read-only"));
+  }
+
+  sheet.append(settings);
   sheet.append(createDesktopTable(record));
   sheet.append(createMobileDays(record));
 
   const stats=el("div","stats");
+
   stats.id="stats";
   sheet.append(stats);
-
   sheet.append(createNotes(record));
 
   for (let day=1;day<=CONFIG.daysPerMonth;day++) {
@@ -1437,7 +1784,7 @@ function renderGrandTotal(section) {
   const head=el("thead");
   const headRow=el("tr");
 
-  ["Month","Shiro","Spris","Servings","Birr"].forEach(label=>{
+  ["Month","Price/serving","Shiro","Spris","Servings","Birr"].forEach(label=>{
     headRow.append(el("th",null,label));
   });
 
@@ -1448,12 +1795,14 @@ function renderGrandTotal(section) {
 
   MONTHS.forEach(month=>{
     const stats=Store.stats(state.year,month.n);
+
     allStats.push(stats);
 
     const row=el("tr");
 
     [
       month.name,
+      formatNumber(Number(Store.peek(state.year,month.n)?.pricePerServing)||CONFIG.pricePerServing),
       stats.shiro,
       stats.spris,
       stats.items,
@@ -1471,6 +1820,7 @@ function renderGrandTotal(section) {
 
   [
     "Grand total",
+    "—",
     total.shiro,
     total.spris,
     total.items,
@@ -1482,9 +1832,11 @@ function renderGrandTotal(section) {
   foot.append(footRow);
 
   const table=el("table");
+
   table.append(head,body,foot);
 
   const wrap=el("div","summary-table");
+
   wrap.append(table);
   section.append(wrap);
 
@@ -1497,6 +1849,7 @@ function renderGrandTotal(section) {
     ["Grand total",formatBirr(total.birr)]
   ].forEach(([label,value],index)=>{
     const tile=el("div",index===3?"stat highlight":"stat");
+
     tile.append(el("small",null,label),el("b",null,String(value)));
     totals.append(tile);
   });
@@ -1508,16 +1861,97 @@ function renderSummaryPage(sheet) {
   sheet.append(makeTop());
 
   const summary=el("section","summary-page");
+
   renderGrandTotal(summary);
   sheet.append(summary);
 }
 
+function exportBackup() {
+  clearTimeout(saveTimer);
+
+  if (!Store.persist()) {
+    alert("Could not save before exporting. Please try again.");
+    return;
+  }
+
+  const payload={
+    app:"Abrina Food Register",
+    version:1,
+    exportedAt:new Date().toISOString(),
+    data:Store.data
+  };
+
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
+  const url=URL.createObjectURL(blob);
+  const link=document.createElement("a");
+
+  link.href=url;
+  link.download=`Abrina-Food-Register-Backup-${new Date().toISOString().slice(0,10)}.json`;
+
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+
+  URL.revokeObjectURL(url);
+
+  setStatus("Backup downloaded");
+}
+
+$("backupFile").addEventListener("change",async event=>{
+  const file=event.target.files?.[0];
+
+  event.target.value="";
+
+  if (!file) return;
+
+  try {
+    const parsed=JSON.parse(await file.text());
+    const data=parsed.data??parsed;
+
+    if (!data || data.v!==1 || !data.years || typeof data.years!=="object") {
+      throw new Error("Invalid backup format");
+    }
+
+    const ok=confirm(
+      "Restore this backup? It will replace the records currently saved in this browser. Export your current data first if you want to keep a separate copy."
+    );
+
+    if (!ok) return;
+
+    const previous=Store.data;
+
+    Store.data=data;
+
+    if (Store.migrateTicks() && !Store.persist()) {
+      Store.data=previous;
+      throw new Error("Could not save restored data");
+    }
+
+    if (!Store.persist()) {
+      Store.data=previous;
+      throw new Error("Could not save restored data");
+    }
+
+    undoStack.length=0;
+
+    renderSheet();
+    setStatus("Backup restored successfully");
+
+  } catch(error) {
+    alert(`Backup could not be restored: ${error.message}`);
+  }
+});
+
 function renderSheet() {
   const sheet=$("sheet");
+
   sheet.textContent="";
 
-  if (isSummary()) renderSummaryPage(sheet);
-  else renderMonthPage(sheet);
+  if (isSummary()) {
+    renderSummaryPage(sheet);
+  } else {
+    renderMonthPage(sheet);
+  }
 }
 
 function renderAll() {
