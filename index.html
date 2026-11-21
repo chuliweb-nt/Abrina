@@ -13,1469 +13,1462 @@
 
 <style>
 :root {
-  --edge:rgba(160,185,255,.22);
-  --text:#30245f;
-  --muted:#81769e;
-  --rose:#ff7aa8;
-  --cyan:#6550a3;
-  --gold:#b18a3f;
-  --accent:#6550a3;
-  --hand:"Caveat",cursive;
-  --ui:"Space Grotesk",system-ui,sans-serif;
-  color-scheme:light;
+  --edge: rgba(160,185,255,.22);
+  --text: #30245f;
+  --muted: #81769e;
+  --rose: #ff7aa8;
+  --cyan: #6550a3;
+  --gold: #b18a3f;
+  --accent: #6550a3;
+  --hand: "Caveat", cursive;
+  --ui: "Space Grotesk", system-ui, sans-serif;
+  color-scheme: light;
 }
 
-* { box-sizing:border-box; }
+* { box-sizing: border-box; }
 
 body {
-  margin:0;
-  min-height:100vh;
-  padding:env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0);
-  color:var(--text);
-  font:16px/1.4 var(--ui);
-  background:#d9c9f7;
+  margin: 0;
+  min-height: 100vh;
+  padding: env(safe-area-inset-top, 0) 0 env(safe-area-inset-bottom, 0);
+  color: var(--text);
+  font: 16px/1.4 var(--ui);
+  background: #d9c9f7;
 }
 
-button,select,textarea,input { font:inherit; }
+button, select, textarea, input { font: inherit; }
 
 .scene {
-  position:fixed;
-  inset:0;
-  z-index:0;
-  overflow:hidden;
-  pointer-events:none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
   background:
-    radial-gradient(circle at 18% 12%,rgba(255,255,255,.55),transparent 40%),
-    radial-gradient(circle at 85% 20%,rgba(255,190,235,.55),transparent 45%),
-    linear-gradient(180deg,#c3a8f2 0%,#d9c9f7 35%,#e9e3f8 70%,#f1f3fa 100%);
+    radial-gradient(circle at 18% 12%, rgba(255,255,255,.55), transparent 40%),
+    radial-gradient(circle at 85% 20%, rgba(255,190,235,.55), transparent 45%),
+    linear-gradient(180deg, #c3a8f2 0%, #d9c9f7 35%, #e9e3f8 70%, #f1f3fa 100%);
 }
 
 .balloon {
-  position:absolute;
-  top:var(--top);
-  left:var(--left);
-  width:var(--size);
-  height:calc(var(--size) * 1.18);
-  border-radius:50% 50% 48% 48% / 56% 56% 44% 44%;
+  position: absolute;
+  top: var(--top);
+  left: var(--left);
+  width: var(--size);
+  height: calc(var(--size) * 1.18);
+  border-radius: 50% 50% 48% 48% / 56% 56% 44% 44%;
   background:
-    radial-gradient(ellipse 22% 16% at 30% 24%,rgba(255,255,255,.95),transparent 100%),
-    radial-gradient(circle at 70% 78%,var(--glow),transparent 55%),
-    radial-gradient(circle at 40% 35%,rgba(255,255,255,.55),var(--tint) 75%);
+    radial-gradient(ellipse 22% 16% at 30% 24%, rgba(255,255,255,.95), transparent 100%),
+    radial-gradient(circle at 70% 78%, var(--glow), transparent 55%),
+    radial-gradient(circle at 40% 35%, rgba(255,255,255,.55), var(--tint) 75%);
   box-shadow:
     inset -4px -6px 12px var(--edge-tint),
     0 4px 14px rgba(150,110,220,.18);
-  opacity:var(--alpha);
-  filter:blur(var(--blur));
-  animation:float var(--duration) ease-in-out var(--delay) infinite alternate;
+  opacity: var(--alpha);
+  filter: blur(var(--blur));
+  animation: float var(--duration) ease-in-out var(--delay) infinite alternate;
 }
 
 .balloon::before {
-  content:"";
-  position:absolute;
-  bottom:-5px;
-  left:50%;
-  width:9px;
-  height:9px;
-  background:var(--tint);
-  transform:translateX(-50%) rotate(45deg);
-  border-radius:2px;
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  width: 9px;
+  height: 9px;
+  background: var(--tint);
+  transform: translateX(-50%) rotate(45deg);
+  border-radius: 2px;
 }
 
 .balloon::after {
-  content:"";
-  position:absolute;
-  top:100%;
-  left:50%;
-  width:1px;
-  height:calc(var(--size) * .9);
-  background:linear-gradient(rgba(255,255,255,.7),transparent);
-  transform-origin:top center;
-  animation:string var(--duration) ease-in-out var(--delay) infinite alternate;
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  width: 1px;
+  height: calc(var(--size) * .9);
+  background: linear-gradient(rgba(255,255,255,.7), transparent);
+  transform-origin: top center;
+  animation: string var(--duration) ease-in-out var(--delay) infinite alternate;
 }
 
 .star {
-  position:absolute;
-  top:var(--top);
-  left:var(--left);
-  width:var(--size);
-  height:var(--size);
-  background:linear-gradient(135deg,#d9b8ff,#9d7be8);
-  clip-path:polygon(50% 0,62% 35%,98% 38%,70% 60%,80% 95%,50% 75%,20% 95%,30% 60%,2% 38%,38% 35%);
-  opacity:.55;
-  filter:blur(.5px);
-  animation:spin var(--duration) ease-in-out var(--delay) infinite alternate;
+  position: absolute;
+  top: var(--top);
+  left: var(--left);
+  width: var(--size);
+  height: var(--size);
+  background: linear-gradient(135deg, #d9b8ff, #9d7be8);
+  clip-path: polygon(50% 0,62% 35%,98% 38%,70% 60%,80% 95%,50% 75%,20% 95%,30% 60%,2% 38%,38% 35%);
+  opacity: .55;
+  filter: blur(.5px);
+  animation: spin var(--duration) ease-in-out var(--delay) infinite alternate;
+}
+
+.sparkle, .dot {
+  position: absolute;
+  top: var(--top);
+  left: var(--left);
+  width: var(--size);
+  height: var(--size);
+  opacity: 0;
+  animation: twinkle var(--duration) ease-in-out var(--delay) infinite;
 }
 
 .sparkle {
-  position:absolute;
-  top:var(--top);
-  left:var(--left);
-  width:var(--size);
-  height:var(--size);
-  background:#fff;
-  clip-path:polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);
-  opacity:0;
-  animation:twinkle var(--duration) ease-in-out var(--delay) infinite;
+  background: #fff;
+  clip-path: polygon(50% 0,60% 40%,100% 50%,60% 60%,50% 100%,40% 60%,0 50%,40% 40%);
 }
 
 .dot {
-  position:absolute;
-  top:var(--top);
-  left:var(--left);
-  width:var(--size);
-  height:var(--size);
-  border-radius:50%;
-  background:rgba(255,255,255,.85);
-  opacity:0;
-  animation:twinkle var(--duration) ease-in-out var(--delay) infinite;
+  border-radius: 50%;
+  background: rgba(255,255,255,.85);
 }
 
 @keyframes float {
-  from { transform:translate(-8px,10px) rotate(-4deg); }
-  to   { transform:translate(10px,-14px) rotate(4deg); }
+  from { transform: translate(-8px, 10px) rotate(-4deg); }
+  to   { transform: translate(10px, -14px) rotate(4deg); }
 }
 
 @keyframes string {
-  from { transform:rotate(7deg); }
-  to   { transform:rotate(-7deg); }
+  from { transform: rotate(7deg); }
+  to   { transform: rotate(-7deg); }
 }
 
 @keyframes spin {
-  from { transform:translateY(6px) rotate(-12deg); }
-  to   { transform:translateY(-8px) rotate(12deg); }
+  from { transform: translateY(6px) rotate(-12deg); }
+  to   { transform: translateY(-8px) rotate(12deg); }
 }
 
 @keyframes twinkle {
-  0%,100% { opacity:0; transform:scale(.3); }
-  50%     { opacity:.95; transform:scale(1); }
+  0%, 100% { opacity: 0; transform: scale(.3); }
+  50%      { opacity: .95; transform: scale(1); }
 }
 
 .wrap {
-  position:relative;
-  z-index:1;
-  max-width:960px;
-  margin:auto;
-  padding:12px;
+  position: relative;
+  z-index: 1;
+  max-width: 960px;
+  margin: auto;
+  padding: 12px;
 }
 
 header {
-  display:flex;
-  align-items:center;
-  gap:12px;
-  margin:5px 0 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 5px 0 18px;
 }
 
-.is-home header { display:none; }
+.is-home header { display: none; }
 
 .heart {
-  font-size:2.4rem;
-  line-height:1;
+  font-size: 2.4rem;
+  line-height: 1;
 }
 
 h1 {
-  margin:0;
-  font-size:2.2rem;
-  line-height:1.1;
-  background:linear-gradient(90deg,#d63a85,#5a4bd8);
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
+  margin: 0;
+  font-size: 2.2rem;
+  line-height: 1.1;
+  background: linear-gradient(90deg, #d63a85, #5a4bd8);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .names {
-  font:1.45rem var(--hand);
-  margin-top:3px;
-  color:#2d2160;
+  font: 1.45rem var(--hand);
+  margin-top: 3px;
+  color: #2d2160;
 }
 
 .meta {
-  display:flex;
-  gap:12px;
-  flex-wrap:wrap;
-  color:#4b3f80;
-  font-size:.84rem;
-  margin-top:3px;
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  color: #4b3f80;
+  font-size: .84rem;
+  margin-top: 3px;
 }
 
 .sheet {
-  background:rgba(255,255,255,.24);
-  border:1px solid rgba(90,75,150,.28);
-  border-radius:18px;
-  padding:15px;
-  backdrop-filter:blur(8px);
+  background: rgba(255,255,255,.24);
+  border: 1px solid rgba(90,75,150,.28);
+  border-radius: 18px;
+  padding: 15px;
+  backdrop-filter: blur(8px);
 }
 
 .sheet.home {
-  background:transparent;
-  border:0;
-  padding:0;
-  backdrop-filter:none;
+  background: transparent;
+  border: 0;
+  padding: 0;
+  backdrop-filter: none;
 }
 
 .top {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-bottom:15px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 15px;
 }
 
-.page-heading {
-  min-width:0;
-}
+.page-heading { min-width: 0; }
 
 .page-heading h2 {
-  margin:0;
-  font-size:1.55rem;
-  line-height:1.2;
-  color:var(--accent);
+  margin: 0;
+  font-size: 1.55rem;
+  line-height: 1.2;
+  color: var(--accent);
 }
 
 .page-label {
-  color:#514477;
-  font-size:.76rem;
-  margin-top:3px;
+  color: #514477;
+  font-size: .76rem;
+  margin-top: 3px;
 }
 
-.month-settings { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:8px; margin:-4px 0 12px; }
+.month-settings {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin: -4px 0 12px;
+}
 
 .top-tools {
-  display:flex;
-  align-items:center;
-  justify-content:flex-end;
-  flex-wrap:wrap;
-  gap:6px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-wrap: wrap;
+  gap: 6px;
 }
 
 .tool-button {
-  min-height:34px;
-  padding:6px 10px;
-  border:1px solid rgba(90,75,150,.30);
-  border-radius:9px;
-  background:rgba(255,255,255,.45);
-  color:#30245f;
-  font-size:.78rem;
-  font-weight:600;
-  cursor:pointer;
-  touch-action:manipulation;
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid rgba(90,75,150,.30);
+  border-radius: 9px;
+  background: rgba(255,255,255,.45);
+  color: #30245f;
+  font-size: .78rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
-.tool-button:disabled { opacity:.4; cursor:not-allowed; }
+.tool-button:disabled { opacity: .4; cursor: not-allowed; }
 
-.tool-button:focus-visible,.quantity-control button:focus-visible,.month-select:focus-visible,.note-button:focus-visible,
-.month-card:focus-visible,.link-card:focus-visible,.light-button:focus-visible,.ghost-button:focus-visible,.tag-chip:focus-visible {
-  outline:3px solid rgba(101,80,163,.35);
-  outline-offset:2px;
+.tool-button:focus-visible,
+.quantity-control button:focus-visible,
+.month-select:focus-visible,
+.note-button:focus-visible,
+.month-card:focus-visible,
+.link-card:focus-visible,
+.light-button:focus-visible,
+.ghost-button:focus-visible,
+.tag-chip:focus-visible {
+  outline: 3px solid rgba(101,80,163,.35);
+  outline-offset: 2px;
 }
 
 .tool-button.locked {
-  background:rgba(255,210,122,.45);
-  border-color:#b18a3f;
+  background: rgba(255,210,122,.45);
+  border-color: #b18a3f;
 }
 
 .price-editor {
-  display:flex;
-  align-items:center;
-  gap:5px;
-  color:#514477;
-  font-size:.78rem;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: #514477;
+  font-size: .78rem;
 }
 
 .price-editor input {
-  width:76px;
-  padding:6px 7px;
-  border:1px solid rgba(90,75,150,.30);
-  border-radius:8px;
-  background:rgba(255,255,255,.55);
-  color:#30245f;
+  width: 76px;
+  padding: 6px 7px;
+  border: 1px solid rgba(90,75,150,.30);
+  border-radius: 8px;
+  background: rgba(255,255,255,.55);
+  color: #30245f;
 }
 
-.hidden-file { display:none; }
+.hidden-file { display: none; }
 
 .month-state {
-  color:#75531a;
-  font-size:.76rem;
-  font-weight:600;
+  color: #75531a;
+  font-size: .76rem;
+  font-weight: 600;
 }
 
 .month-select {
-  display:block;
-  width:auto;
-  max-width:145px;
-  min-width:112px;
-  padding:8px 25px 8px 10px;
-  border:1px solid var(--edge);
-  border-radius:10px;
-  background:#d9c9f7;
-  color:#30245f;
-  color-scheme:light;
-  box-shadow:0 2px 8px rgba(75,55,125,.08);
-  font-size:.86rem;
-  font-weight:600;
+  display: block;
+  width: auto;
+  max-width: 145px;
+  min-width: 112px;
+  padding: 8px 25px 8px 10px;
+  border: 1px solid var(--edge);
+  border-radius: 10px;
+  background: #d9c9f7;
+  color: #30245f;
+  color-scheme: light;
+  box-shadow: 0 2px 8px rgba(75,55,125,.08);
+  font-size: .86rem;
+  font-weight: 600;
 }
 
 .chip {
-  display:inline-flex;
-  align-items:center;
-  gap:7px;
-  padding:6px 13px;
-  border:1px solid var(--gold);
-  border-radius:999px;
-  color:#75531a;
-  margin:2px 0 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 13px;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  color: #75531a;
+  margin: 2px 0 14px;
 }
 
-.chip b { font-size:1.15rem; }
+.chip b { font-size: 1.15rem; }
 
 .status {
-  color:#514477;
-  font-size:.78rem;
-  margin-left:auto;
+  color: #514477;
+  font-size: .78rem;
+  margin-left: auto;
 }
 
 .month-banner {
-  margin:0 0 12px;
-  padding:12px 14px;
-  border-radius:14px;
-  color:#fff;
-  background:var(--accent);
-  background:linear-gradient(120deg,var(--accent),color-mix(in srgb,var(--accent) 62%,#1c1240));
+  margin: 0 0 12px;
+  padding: 12px 14px;
+  border-radius: 14px;
+  color: #fff;
+  background: linear-gradient(120deg, var(--accent), color-mix(in srgb, var(--accent) 62%, #1c1240));
 }
 
 .month-banner .tag-line {
-  font:1.55rem/1.1 var(--hand);
+  font: 1.55rem/1.1 var(--hand);
 }
 
 .month-banner small {
-  display:block;
-  margin-top:3px;
-  font-size:.78rem;
-  opacity:.92;
+  display: block;
+  margin-top: 3px;
+  font-size: .78rem;
+  opacity: .92;
 }
 
 .banner-bar {
-  height:5px;
-  margin-top:9px;
-  border-radius:999px;
-  background:rgba(255,255,255,.3);
-  overflow:hidden;
+  height: 5px;
+  margin-top: 9px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.3);
+  overflow: hidden;
 }
 
 .banner-bar span {
-  display:block;
-  height:100%;
-  background:#fff;
+  display: block;
+  height: 100%;
+  background: #fff;
 }
 
 .today-card {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
-  padding:10px 12px;
-  margin:0 0 12px;
-  border:1px solid var(--gold);
-  border-radius:12px;
-  background:rgba(255,210,122,.28);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  padding: 10px 12px;
+  margin: 0 0 12px;
+  border: 1px solid var(--gold);
+  border-radius: 12px;
+  background: rgba(255,210,122,.28);
 }
 
-.today-card strong {
-  display:block;
-  font-size:.98rem;
-}
+.today-card strong { display: block; font-size: .98rem; }
 
 .today-card span {
-  color:#75531a;
-  font-size:.82rem;
-  font-weight:600;
+  color: #75531a;
+  font-size: .82rem;
+  font-weight: 600;
 }
 
 .table-wrap {
-  overflow-x:auto;
-  border:1px solid var(--edge);
-  border-radius:12px;
+  overflow-x: auto;
+  border: 1px solid var(--edge);
+  border-radius: 12px;
 }
 
 table {
-  width:100%;
-  min-width:620px;
-  border-collapse:collapse;
-  table-layout:fixed;
+  width: 100%;
+  min-width: 620px;
+  border-collapse: collapse;
+  table-layout: fixed;
 }
 
-th,td {
-  border-bottom:1px solid var(--edge);
-  border-right:1px solid var(--edge);
-  padding:0;
-  vertical-align:middle;
+th, td {
+  border-bottom: 1px solid var(--edge);
+  border-right: 1px solid var(--edge);
+  padding: 0;
+  vertical-align: middle;
 }
 
-th:last-child,td:last-child { border-right:0; }
+th:last-child, td:last-child { border-right: 0; }
 
 th {
-  padding:10px 5px;
-  text-align:center;
-  background:rgba(255,255,255,.22);
-  font-weight:600;
+  padding: 10px 5px;
+  text-align: center;
+  background: rgba(255,255,255,.22);
+  font-weight: 600;
 }
 
 .col-day {
-  width:62px;
-  text-align:center;
-  font-weight:700;
-  color:var(--accent);
-  position:sticky;
-  left:0;
-  background:rgba(255,255,255,.30);
-  z-index:1;
+  width: 62px;
+  text-align: center;
+  font-weight: 700;
+  color: var(--accent);
+  position: sticky;
+  left: 0;
+  background: rgba(255,255,255,.30);
+  z-index: 1;
 }
 
-th.col-day { background:rgba(255,255,255,.38); }
+th.col-day { background: rgba(255,255,255,.38); }
 
 tr.today > td.col-day {
-  background:rgba(255,210,122,.6);
-  box-shadow:inset 4px 0 0 var(--gold);
+  background: rgba(255,210,122,.6);
+  box-shadow: inset 4px 0 0 var(--gold);
 }
 
-.col-items {
-  width:65px;
-  text-align:center;
-}
+.col-items { width: 65px; text-align: center; }
+.col-birr  { width: 95px; text-align: right; padding-right: 8px; }
 
-.col-birr {
-  width:95px;
-  text-align:right;
-  padding-right:8px;
-}
+td.col-items { font-weight: 700; font-size: 1rem; }
+td.col-birr  { font-weight: 700; color: #75531a; font-size: .95rem; }
 
-td.col-items {
-  font-weight:700;
-  font-size:1rem;
-}
+.zero { color: var(--muted) !important; }
+.dim  { opacity: .3; }
 
-td.col-birr {
-  font-weight:700;
-  color:#75531a;
-  font-size:.95rem;
-}
-
-.zero { color:var(--muted)!important; }
-
-.dim { opacity:.3; }
-
-.breakfast { background:rgba(255,210,122,.07); }
-.lunch { background:rgba(98,230,255,.06); }
-.dinner { background:rgba(255,122,168,.07); }
+.breakfast { background: rgba(255,210,122,.07); }
+.lunch     { background: rgba(98,230,255,.06); }
+.dinner    { background: rgba(255,122,168,.07); }
 
 .option {
-  display:flex;
-  align-items:center;
-  gap:9px;
-  min-height:39px;
-  padding:6px 10px;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  min-height: 39px;
+  padding: 6px 10px;
 }
 
-.option + .option {
-  border-top:1px dashed var(--edge);
-}
+.option + .option { border-top: 1px dashed var(--edge); }
 
 .option-name {
-  font:1.25rem var(--hand);
-  line-height:1;
-  min-width:0;
+  font: 1.25rem var(--hand);
+  line-height: 1;
+  min-width: 0;
 }
 
 .quantity-control {
-  display:inline-flex;
-  align-items:center;
-  gap:6px;
-  margin-left:auto;
-  flex:0 0 auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-left: auto;
+  flex: 0 0 auto;
 }
 
 .quantity-control button {
-  width:27px;
-  height:27px;
-  padding:0;
-  border:1px solid rgba(90,75,150,.35);
-  border-radius:8px;
-  background:rgba(255,255,255,.55);
-  color:#30245f;
-  font:700 1rem var(--ui);
-  line-height:1;
-  cursor:pointer;
-  touch-action:manipulation;
+  width: 27px;
+  height: 27px;
+  padding: 0;
+  border: 1px solid rgba(90,75,150,.35);
+  border-radius: 8px;
+  background: rgba(255,255,255,.55);
+  color: #30245f;
+  font: 700 1rem var(--ui);
+  line-height: 1;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
 .quantity-control button:disabled {
-  opacity:.35;
-  cursor:not-allowed;
+  opacity: .35;
+  cursor: not-allowed;
 }
 
 .quantity-value {
-  min-width:15px;
-  text-align:center;
-  color:#30245f;
-  font:700 .9rem var(--ui);
+  min-width: 15px;
+  text-align: center;
+  color: #30245f;
+  font: 700 .9rem var(--ui);
 }
 
-.option:has(.quantity-value) { background:rgba(255,255,255,.10); }
+.option:has(.quantity-value) { background: rgba(255,255,255,.10); }
 
 .note-button {
-  display:block;
-  margin:3px auto 4px;
-  padding:2px 6px;
-  border:1px solid rgba(90,75,150,.30);
-  border-radius:7px;
-  background:rgba(255,255,255,.4);
-  color:#514477;
-  font-size:.62rem;
-  font-weight:600;
-  cursor:pointer;
-  touch-action:manipulation;
+  display: block;
+  margin: 3px auto 4px;
+  padding: 2px 6px;
+  border: 1px solid rgba(90,75,150,.30);
+  border-radius: 7px;
+  background: rgba(255,255,255,.4);
+  color: #514477;
+  font-size: .62rem;
+  font-weight: 600;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
 .note-button.has-note {
-  background:rgba(255,210,122,.65);
-  border-color:var(--gold);
-  color:#75531a;
+  background: rgba(255,210,122,.65);
+  border-color: var(--gold);
+  color: #75531a;
 }
 
 .tag-dots {
-  display:flex;
-  justify-content:center;
-  flex-wrap:wrap;
-  gap:2px;
-  margin:0 4px 4px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2px;
+  margin: 0 4px 4px;
 }
 
-.tag-dots:empty { display:none; }
+.tag-dots:empty { display: none; }
 
 .tag-dot {
-  width:7px;
-  height:7px;
-  border-radius:50%;
-  background:var(--tag);
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--tag);
 }
 
 .tag-chip {
-  display:inline-flex;
-  align-items:center;
-  gap:5px;
-  padding:3px 9px;
-  border:1px solid var(--tag);
-  border-radius:999px;
-  background:rgba(255,255,255,.6);
-  color:#30245f;
-  font-size:.74rem;
-  font-weight:600;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 3px 9px;
+  border: 1px solid var(--tag);
+  border-radius: 999px;
+  background: rgba(255,255,255,.6);
+  color: #30245f;
+  font-size: .74rem;
+  font-weight: 600;
 }
 
 .tag-chip::before {
-  content:"";
-  width:8px;
-  height:8px;
-  border-radius:50%;
-  background:var(--tag);
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--tag);
 }
 
 button.tag-chip {
-  cursor:pointer;
-  touch-action:manipulation;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
 button.tag-chip[aria-pressed="true"] {
-  background:var(--tag);
-  color:#fff;
+  background: var(--tag);
+  color: #fff;
 }
 
-button.tag-chip[aria-pressed="true"]::before { background:#fff; }
+button.tag-chip[aria-pressed="true"]::before { background: #fff; }
 
 button.tag-chip:disabled {
-  opacity:.5;
-  cursor:not-allowed;
+  opacity: .5;
+  cursor: not-allowed;
 }
 
 .tag-picker {
-  display:flex;
-  flex-wrap:wrap;
-  gap:6px;
-  margin:8px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 8px 0;
 }
 
 .tag-chips {
-  display:flex;
-  flex-wrap:wrap;
-  gap:4px;
-  padding:5px 10px;
-  border-top:1px dashed var(--edge);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 5px 10px;
+  border-top: 1px dashed var(--edge);
 }
 
-.tag-chips:empty { display:none; }
+.tag-chips:empty { display: none; }
 
-.mobile-days { display:none; }
+.mobile-days { display: none; }
 
 .day-card {
-  border:1px solid var(--edge);
-  border-radius:12px;
-  overflow:hidden;
-  margin-bottom:9px;
-  background:rgba(255,255,255,.20);
+  border: 1px solid var(--edge);
+  border-radius: 12px;
+  overflow: hidden;
+  margin-bottom: 9px;
+  background: rgba(255,255,255,.20);
 }
 
 .day-card.today {
-  border-color:var(--gold);
-  box-shadow:0 0 0 2px rgba(177,138,63,.35);
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px rgba(177,138,63,.35);
 }
 
-.day-card.today .day-card-head { background:rgba(255,210,122,.45); }
+.day-card.today .day-card-head { background: rgba(255,210,122,.45); }
 
 .day-card-head {
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  gap:8px;
-  padding:8px 10px;
-  background:rgba(255,255,255,.28);
-  border-bottom:1px solid var(--edge);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: rgba(255,255,255,.28);
+  border-bottom: 1px solid var(--edge);
 }
 
 .day-card-head .note-button {
-  margin:0;
-  padding:4px 10px;
-  font-size:.72rem;
+  margin: 0;
+  padding: 4px 10px;
+  font-size: .72rem;
 }
 
 .day-number {
-  color:var(--accent);
-  font-weight:700;
-  font-size:.94rem;
+  color: var(--accent);
+  font-weight: 700;
+  font-size: .94rem;
 }
 
 .day-total {
-  color:#75531a;
-  font-size:.8rem;
-  font-weight:600;
+  color: #75531a;
+  font-size: .8rem;
+  font-weight: 600;
 }
 
 .day-meal {
-  display:grid;
-  grid-template-columns:75px minmax(0,1fr);
-  align-items:stretch;
-  border-bottom:1px solid var(--edge);
+  display: grid;
+  grid-template-columns: 75px minmax(0,1fr);
+  align-items: stretch;
+  border-bottom: 1px solid var(--edge);
 }
 
-.day-meal:last-child { border-bottom:0; }
+.day-meal:last-child { border-bottom: 0; }
 
 .meal-name {
-  display:flex;
-  align-items:center;
-  padding:7px;
-  font-size:.77rem;
-  font-weight:600;
-  border-right:1px solid var(--edge);
-  color:#514477;
+  display: flex;
+  align-items: center;
+  padding: 7px;
+  font-size: .77rem;
+  font-weight: 600;
+  border-right: 1px solid var(--edge);
+  color: #514477;
 }
 
 .meal-options {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  min-width:0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  min-width: 0;
 }
 
 .meal-options .option {
-  min-width:0;
-  padding:6px 7px;
-  gap:6px;
-  min-height:37px;
+  min-width: 0;
+  padding: 6px 7px;
+  gap: 6px;
+  min-height: 37px;
 }
 
 .meal-options .option + .option {
-  border-top:0;
-  border-left:1px dashed var(--edge);
+  border-top: 0;
+  border-left: 1px dashed var(--edge);
 }
 
-.meal-options .quantity-control { gap:3px; }
+.meal-options .quantity-control { gap: 3px; }
 
 .meal-options .quantity-control button {
-  width:30px;
-  height:30px;
-  font-size:1.05rem;
+  width: 30px;
+  height: 30px;
+  font-size: 1.05rem;
 }
 
-.meal-options .option-name { font-size:1.15rem; }
+.meal-options .option-name { font-size: 1.15rem; }
 
 .mobile-day-totals {
-  display:flex;
-  justify-content:flex-end;
-  gap:12px;
-  padding:5px 10px;
-  color:#514477;
-  font-size:.75rem;
-  border-top:1px dashed var(--edge);
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  padding: 5px 10px;
+  color: #514477;
+  font-size: .75rem;
+  border-top: 1px dashed var(--edge);
 }
 
 .day-note-preview {
-  padding:5px 10px;
-  border-top:1px dashed var(--edge);
-  color:#30245f;
-  font:1.1rem/1.15 var(--hand);
+  padding: 5px 10px;
+  border-top: 1px dashed var(--edge);
+  color: #30245f;
+  font: 1.1rem/1.15 var(--hand);
 }
 
-.day-note-preview:empty { display:none; }
+.day-note-preview:empty { display: none; }
 
 .stats {
-  display:grid;
-  grid-template-columns:repeat(4,minmax(0,1fr));
-  gap:8px;
-  margin-top:14px;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0,1fr));
+  gap: 8px;
+  margin-top: 14px;
 }
 
-.stats.two { grid-template-columns:repeat(2,minmax(0,1fr)); margin-top:0; }
+.stats.two {
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  margin-top: 0;
+}
 
 .stat {
-  border:1px solid var(--edge);
-  border-radius:11px;
-  padding:9px 10px;
-  background:rgba(255,255,255,.24);
-  min-width:0;
+  border: 1px solid var(--edge);
+  border-radius: 11px;
+  padding: 9px 10px;
+  background: rgba(255,255,255,.24);
+  min-width: 0;
 }
 
 .stat small {
-  display:block;
-  color:#514477;
-  font-size:.75rem;
+  display: block;
+  color: #514477;
+  font-size: .75rem;
 }
 
 .stat b {
-  display:block;
-  font-size:1.15rem;
-  overflow-wrap:anywhere;
+  display: block;
+  font-size: 1.15rem;
+  overflow-wrap: anywhere;
 }
 
-.stat.highlight { border-color:var(--gold); }
-.stat.highlight b { color:#75531a; }
+.stat.highlight { border-color: var(--gold); }
+.stat.highlight b { color: #75531a; }
 
 .panel {
-  margin-top:14px;
-  padding:12px;
-  border:1px solid var(--edge);
-  border-top:3px solid var(--accent);
-  border-radius:12px;
-  background:rgba(255,255,255,.2);
+  margin-top: 14px;
+  padding: 12px;
+  border: 1px solid var(--edge);
+  border-top: 3px solid var(--accent);
+  border-radius: 12px;
+  background: rgba(255,255,255,.2);
 }
 
 .panel h3 {
-  margin:0 0 8px;
-  font-size:1.05rem;
+  margin: 0 0 8px;
+  font-size: 1.05rem;
 }
 
-.panel .stats { margin-top:0; }
+.panel .stats { margin-top: 0; }
 
 .panel-row {
-  display:flex;
-  align-items:center;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-bottom:10px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 10px;
 }
 
-.panel-row label,label.panel-row {
-  color:#514477;
-  font-size:.8rem;
+.panel-row label,
+label.panel-row {
+  color: #514477;
+  font-size: .8rem;
 }
 
 .panel-text {
-  margin:0 0 10px;
-  color:#514477;
-  font-size:.82rem;
+  margin: 0 0 10px;
+  color: #514477;
+  font-size: .82rem;
 }
 
-.panel input[type="number"],.panel input[type="text"] {
-  width:120px;
-  padding:7px 8px;
-  border:1px solid rgba(90,75,150,.30);
-  border-radius:8px;
-  background:rgba(255,255,255,.55);
-  color:#30245f;
+.panel input[type="number"],
+.panel input[type="text"] {
+  width: 120px;
+  padding: 7px 8px;
+  border: 1px solid rgba(90,75,150,.30);
+  border-radius: 8px;
+  background: rgba(255,255,255,.55);
+  color: #30245f;
 }
 
-.panel input[type="text"] { width:min(100%,180px); }
+.panel input[type="text"] { width: min(100%, 180px); }
 
 .panel input[type="color"] {
-  width:44px;
-  height:34px;
-  padding:2px;
-  border:1px solid rgba(90,75,150,.30);
-  border-radius:8px;
-  background:rgba(255,255,255,.55);
+  width: 44px;
+  height: 34px;
+  padding: 2px;
+  border: 1px solid rgba(90,75,150,.30);
+  border-radius: 8px;
+  background: rgba(255,255,255,.55);
 }
 
 .panel input[type="checkbox"] {
-  width:20px;
-  height:20px;
-  accent-color:var(--cyan);
+  width: 20px;
+  height: 20px;
+  accent-color: var(--cyan);
 }
 
-.panel input:disabled { opacity:.55; }
+.panel input:disabled { opacity: .55; }
 
-.pay-paid { color:#2f6b4a!important; }
-.pay-partial { color:#75531a!important; }
-.pay-unpaid { color:#7b2446!important; }
+.pay-paid    { color: #2f6b4a !important; }
+.pay-partial { color: #75531a !important; }
+.pay-unpaid  { color: #7b2446 !important; }
 
 .budget-track {
-  height:12px;
-  border:1px solid var(--edge);
-  border-radius:999px;
-  overflow:hidden;
-  background:rgba(255,255,255,.4);
+  height: 12px;
+  border: 1px solid var(--edge);
+  border-radius: 999px;
+  overflow: hidden;
+  background: rgba(255,255,255,.4);
 }
 
 .budget-fill {
-  height:100%;
-  width:0;
-  background:#6fae8c;
-  transition:width .25s ease;
+  height: 100%;
+  width: 0;
+  background: #6fae8c;
+  transition: width .25s ease;
 }
 
-.budget-fill.warn { background:#d9a441; }
-.budget-fill.over { background:#d4567f; }
+.budget-fill.warn { background: #d9a441; }
+.budget-fill.over { background: #d4567f; }
 
 .budget-text {
-  margin-top:6px;
-  color:#514477;
-  font-size:.8rem;
+  margin-top: 6px;
+  color: #514477;
+  font-size: .8rem;
 }
 
-.share-row { margin-top:14px; }
+.share-row { margin-top: 14px; }
 
 .pager {
-  display:flex;
-  justify-content:space-between;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-top:16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 16px;
 }
 
-.notes { margin-top:15px; }
+.notes { margin-top: 15px; }
 
 .notes label {
-  display:block;
-  font:1.5rem var(--hand);
-  color:var(--rose);
-  margin-bottom:5px;
+  display: block;
+  font: 1.5rem var(--hand);
+  color: var(--rose);
+  margin-bottom: 5px;
 }
 
 .notes textarea {
-  display:block;
-  width:100%;
-  min-height:95px;
-  padding:5px 10px;
-  color:#30245f;
-  font:1.25rem/30px var(--hand);
-  resize:vertical;
-  border:1px solid var(--edge);
-  border-radius:11px;
-  background:repeating-linear-gradient(
+  display: block;
+  width: 100%;
+  min-height: 95px;
+  padding: 5px 10px;
+  color: #30245f;
+  font: 1.25rem/30px var(--hand);
+  resize: vertical;
+  border: 1px solid var(--edge);
+  border-radius: 11px;
+  background: repeating-linear-gradient(
     rgba(255,255,255,.18) 0 29px,
     rgba(110,90,160,.16) 29px 30px
   );
 }
 
 .summary-page h2 {
-  margin:0 0 5px;
-  font-size:1.5rem;
+  margin: 0 0 5px;
+  font-size: 1.5rem;
 }
 
 .summary-page h3 {
-  margin:18px 0 8px;
-  font-size:1.05rem;
+  margin: 18px 0 8px;
+  font-size: 1.05rem;
 }
 
 .summary-description {
-  color:#514477;
-  margin:0 0 14px;
-  font-size:.85rem;
+  color: #514477;
+  margin: 0 0 14px;
+  font-size: .85rem;
 }
 
 .summary-table {
-  overflow-x:auto;
-  border:1px solid var(--edge);
-  border-radius:11px;
+  overflow-x: auto;
+  border: 1px solid var(--edge);
+  border-radius: 11px;
 }
 
 .summary-table table {
-  min-width:0;
-  table-layout:auto;
+  min-width: 0;
+  table-layout: auto;
 }
 
-.summary-table th,.summary-table td {
-  padding:9px 7px;
-  text-align:right;
-  font-size:.85rem;
+.summary-table th,
+.summary-table td {
+  padding: 9px 7px;
+  text-align: right;
+  font-size: .85rem;
 }
 
 .summary-table th:first-child,
-.summary-table td:first-child { text-align:left; }
+.summary-table td:first-child { text-align: left; }
 
 .summary-table tfoot td {
-  color:#75531a;
-  font-weight:700;
+  color: #75531a;
+  font-weight: 700;
 }
 
 .summary-total {
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:8px;
-  margin-top:13px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 8px;
+  margin-top: 13px;
 }
 
-.chart-block { margin-top:16px; }
+.chart-block { margin-top: 16px; }
 
-.chart-block h3 { margin:0 0 6px; font-size:1.05rem; }
+.chart-block h3 {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+}
 
 .chart-controls {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-bottom:8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 8px;
 }
 
-.chart-controls h3 { margin:0; }
+.chart-controls h3 { margin: 0; }
 
 .bar-chart {
-  display:flex;
-  align-items:flex-end;
-  gap:3px;
-  padding:10px 6px 4px;
-  border:1px solid var(--edge);
-  border-radius:12px;
-  background:rgba(255,255,255,.2);
-  overflow:hidden;
+  display: flex;
+  align-items: flex-end;
+  gap: 3px;
+  padding: 10px 6px 4px;
+  border: 1px solid var(--edge);
+  border-radius: 12px;
+  background: rgba(255,255,255,.2);
+  overflow: hidden;
 }
 
-.bar-chart.daily { gap:2px; }
+.bar-chart.daily { gap: 2px; }
 
 .bar-col {
-  flex:1 1 0;
-  min-width:0;
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  gap:3px;
+  flex: 1 1 0;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
 }
 
 .bar-track {
-  width:100%;
-  height:150px;
-  display:flex;
-  align-items:flex-end;
-  border-bottom:1px solid var(--edge);
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-items: flex-end;
+  border-bottom: 1px solid var(--edge);
 }
 
 .bar {
-  width:100%;
-  min-height:0;
-  border-radius:4px 4px 0 0;
-  background:linear-gradient(180deg,var(--rose),var(--cyan));
+  width: 100%;
+  min-height: 0;
+  border-radius: 4px 4px 0 0;
+  background: linear-gradient(180deg, var(--rose), var(--cyan));
 }
 
 .bar-value {
-  min-height:.8rem;
-  color:#75531a;
-  font-size:.58rem;
-  font-weight:600;
-  white-space:nowrap;
+  min-height: .8rem;
+  color: #75531a;
+  font-size: .58rem;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .bar-label {
-  min-height:.9rem;
-  color:#514477;
-  font-size:.6rem;
-  white-space:nowrap;
+  min-height: .9rem;
+  color: #514477;
+  font-size: .6rem;
+  white-space: nowrap;
 }
 
 .bar-caption {
-  margin:6px 0 0;
-  color:#514477;
-  font-size:.8rem;
+  margin: 6px 0 0;
+  color: #514477;
+  font-size: .8rem;
 }
 
 .hero {
-  padding:34px 22px 28px;
-  text-align:center;
-  border:1px solid var(--edge);
-  border-radius:26px;
-  background:linear-gradient(160deg,rgba(255,255,255,.58),rgba(255,255,255,.24));
-  backdrop-filter:blur(10px);
-  box-shadow:0 14px 40px rgba(101,80,163,.16);
+  padding: 34px 22px 28px;
+  text-align: center;
+  border: 1px solid var(--edge);
+  border-radius: 26px;
+  background: linear-gradient(160deg, rgba(255,255,255,.58), rgba(255,255,255,.24));
+  backdrop-filter: blur(10px);
+  box-shadow: 0 14px 40px rgba(101,80,163,.16);
 }
 
 .hero-badge {
-  display:inline-block;
-  padding:4px 12px;
-  border:1px solid var(--gold);
-  border-radius:999px;
-  color:#75531a;
-  font-size:.72rem;
-  font-weight:600;
-  letter-spacing:.12em;
-  text-transform:uppercase;
+  display: inline-block;
+  padding: 4px 12px;
+  border: 1px solid var(--gold);
+  border-radius: 999px;
+  color: #75531a;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .12em;
+  text-transform: uppercase;
 }
 
 .hero-title {
-  margin:14px 0 2px;
-  font-size:clamp(3rem,12vw,4.6rem);
-  letter-spacing:-.02em;
-  background:linear-gradient(90deg,var(--rose),var(--cyan));
-  -webkit-background-clip:text;
-  background-clip:text;
-  color:transparent;
+  margin: 14px 0 2px;
+  font-size: clamp(3rem, 12vw, 4.6rem);
+  letter-spacing: -.02em;
+  background: linear-gradient(90deg, var(--rose), var(--cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
 }
 
 .hero-names {
-  font:1.7rem var(--hand);
-  color:#2d2160;
+  font: 1.7rem var(--hand);
+  color: #2d2160;
 }
 
 .hero-text {
-  max-width:34ch;
-  margin:8px auto 0;
-  color:#514477;
-  font-size:.95rem;
+  max-width: 34ch;
+  margin: 8px auto 0;
+  color: #514477;
+  font-size: .95rem;
 }
 
 .featured {
-  margin-top:14px;
-  padding:18px;
-  border-radius:20px;
-  color:#fff;
-  background:var(--accent);
-  background:linear-gradient(135deg,var(--accent),color-mix(in srgb,var(--accent) 60%,#1c1240));
-  box-shadow:0 12px 30px rgba(40,25,90,.22);
+  margin-top: 14px;
+  padding: 18px;
+  border-radius: 20px;
+  color: #fff;
+  background: linear-gradient(135deg, var(--accent), color-mix(in srgb, var(--accent) 60%, #1c1240));
+  box-shadow: 0 12px 30px rgba(40,25,90,.22);
 }
 
 .featured-kicker {
-  font-size:.72rem;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  opacity:.88;
+  font-size: .72rem;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  opacity: .88;
 }
 
 .featured h2 {
-  margin:2px 0 0;
-  font-size:1.9rem;
-  color:#fff;
+  margin: 2px 0 0;
+  font-size: 1.9rem;
+  color: #fff;
 }
 
 .featured-sub {
-  margin:2px 0 12px;
-  font-size:.86rem;
-  opacity:.92;
+  margin: 2px 0 12px;
+  font-size: .86rem;
+  opacity: .92;
 }
 
 .featured-stats {
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:8px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 8px;
 }
 
 .featured-stat {
-  padding:9px 10px;
-  border:1px solid rgba(255,255,255,.28);
-  border-radius:12px;
-  background:rgba(255,255,255,.16);
-  min-width:0;
+  padding: 9px 10px;
+  border: 1px solid rgba(255,255,255,.28);
+  border-radius: 12px;
+  background: rgba(255,255,255,.16);
+  min-width: 0;
 }
 
 .featured-stat small {
-  display:block;
-  font-size:.7rem;
-  opacity:.88;
+  display: block;
+  font-size: .7rem;
+  opacity: .88;
 }
 
 .featured-stat b {
-  font-size:1rem;
-  overflow-wrap:anywhere;
+  font-size: 1rem;
+  overflow-wrap: anywhere;
 }
 
 .featured-actions {
-  display:flex;
-  gap:8px;
-  flex-wrap:wrap;
-  margin-top:14px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 14px;
 }
 
-.light-button,.ghost-button {
-  min-height:40px;
-  padding:9px 18px;
-  border-radius:999px;
-  font-weight:700;
-  cursor:pointer;
-  touch-action:manipulation;
+.light-button,
+.ghost-button {
+  min-height: 40px;
+  padding: 9px 18px;
+  border-radius: 999px;
+  font-weight: 700;
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
 .light-button {
-  border:0;
-  background:#fff;
-  color:#30245f;
+  border: 0;
+  background: #fff;
+  color: #30245f;
 }
 
 .ghost-button {
-  border:1px solid rgba(255,255,255,.65);
-  background:transparent;
-  color:#fff;
+  border: 1px solid rgba(255,255,255,.65);
+  background: transparent;
+  color: #fff;
 }
 
 .home-heading {
-  margin:22px 2px 10px;
-  font-size:1.05rem;
+  margin: 22px 2px 10px;
+  font-size: 1.05rem;
 }
 
 .month-grid {
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:10px;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0,1fr));
+  gap: 10px;
 }
 
 .month-card {
-  position:relative;
-  display:block;
-  width:100%;
-  padding:12px 12px 12px 16px;
-  text-align:left;
-  color:#30245f;
-  border:1px solid var(--edge);
-  border-radius:16px;
-  background:rgba(255,255,255,.42);
-  box-shadow:0 6px 18px rgba(75,55,125,.08);
-  overflow:hidden;
-  cursor:pointer;
-  touch-action:manipulation;
-  transition:transform .15s ease,box-shadow .15s ease;
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 12px 12px 12px 16px;
+  text-align: left;
+  color: #30245f;
+  border: 1px solid var(--edge);
+  border-radius: 16px;
+  background: rgba(255,255,255,.42);
+  box-shadow: 0 6px 18px rgba(75,55,125,.08);
+  overflow: hidden;
+  cursor: pointer;
+  touch-action: manipulation;
+  transition: transform .15s ease, box-shadow .15s ease;
 }
 
 .month-card::before {
-  content:"";
-  position:absolute;
-  inset:0 auto 0 0;
-  width:5px;
-  background:var(--accent);
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 5px;
+  background: var(--accent);
 }
 
 .month-card:hover {
-  transform:translateY(-2px);
-  box-shadow:0 10px 24px rgba(75,55,125,.16);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px rgba(75,55,125,.16);
 }
 
 .mc-name {
-  display:block;
-  color:var(--accent);
-  font-size:1.08rem;
-  font-weight:700;
+  display: block;
+  color: var(--accent);
+  font-size: 1.08rem;
+  font-weight: 700;
 }
 
 .mc-range {
-  display:block;
-  color:#514477;
-  font-size:.7rem;
+  display: block;
+  color: #514477;
+  font-size: .7rem;
 }
 
 .mc-tag {
-  margin:3px 0 8px;
-  font:1.15rem/1.1 var(--hand);
+  margin: 3px 0 8px;
+  font: 1.15rem/1.1 var(--hand);
 }
 
 .mc-figures {
-  display:flex;
-  justify-content:space-between;
-  gap:6px;
-  font-size:.78rem;
-  font-weight:600;
+  display: flex;
+  justify-content: space-between;
+  gap: 6px;
+  font-size: .78rem;
+  font-weight: 600;
 }
 
-.mc-figures span:last-child { color:#75531a; }
+.mc-figures span:last-child { color: #75531a; }
 
 .mc-bar {
-  height:5px;
-  margin:8px 0 4px;
-  border-radius:999px;
-  background:rgba(90,75,150,.15);
-  overflow:hidden;
+  height: 5px;
+  margin: 8px 0 4px;
+  border-radius: 999px;
+  background: rgba(90,75,150,.15);
+  overflow: hidden;
 }
 
 .mc-bar span {
-  display:block;
-  height:100%;
-  background:var(--accent);
+  display: block;
+  height: 100%;
+  background: var(--accent);
 }
 
 .mc-meta {
-  color:#514477;
-  font-size:.68rem;
+  color: #514477;
+  font-size: .68rem;
 }
 
 .pills {
-  display:flex;
-  flex-wrap:wrap;
-  gap:4px;
-  margin-top:8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 8px;
 }
 
 .pill {
-  padding:2px 8px;
-  border:1px solid var(--edge);
-  border-radius:999px;
-  background:rgba(255,255,255,.6);
-  color:#514477;
-  font-size:.66rem;
-  font-weight:700;
+  padding: 2px 8px;
+  border: 1px solid var(--edge);
+  border-radius: 999px;
+  background: rgba(255,255,255,.6);
+  color: #514477;
+  font-size: .66rem;
+  font-weight: 700;
 }
 
 .pill.current {
-  background:var(--accent);
-  border-color:var(--accent);
-  color:#fff;
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
 }
 
-.pill.paid { color:#2f6b4a; border-color:#2f6b4a; }
-.pill.partial { color:#75531a; border-color:var(--gold); }
-.pill.unpaid { color:#7b2446; border-color:#c56b8e; }
+.pill.paid    { color: #2f6b4a; border-color: #2f6b4a; }
+.pill.partial { color: #75531a; border-color: var(--gold); }
+.pill.unpaid  { color: #7b2446; border-color: #c56b8e; }
 
 .pill.locked {
-  background:rgba(255,210,122,.45);
-  border-color:var(--gold);
-  color:#75531a;
+  background: rgba(255,210,122,.45);
+  border-color: var(--gold);
+  color: #75531a;
 }
 
 .link-grid {
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:10px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0,1fr));
+  gap: 10px;
 }
 
 .link-card {
-  padding:12px 14px;
-  text-align:left;
-  color:#30245f;
-  border:1px solid var(--edge);
-  border-radius:14px;
-  background:rgba(255,255,255,.42);
-  cursor:pointer;
-  touch-action:manipulation;
+  padding: 12px 14px;
+  text-align: left;
+  color: #30245f;
+  border: 1px solid var(--edge);
+  border-radius: 14px;
+  background: rgba(255,255,255,.42);
+  cursor: pointer;
+  touch-action: manipulation;
 }
 
-.link-card b { display:block; }
+.link-card b { display: block; }
 
 .link-card span {
-  color:#514477;
-  font-size:.78rem;
+  color: #514477;
+  font-size: .78rem;
 }
 
 .home-footer {
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  gap:10px;
-  flex-wrap:wrap;
-  margin-top:18px;
-  padding:12px 14px;
-  border:1px solid var(--edge);
-  border-radius:14px;
-  background:rgba(255,255,255,.32);
-  color:#514477;
-  font-size:.8rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-top: 18px;
+  padding: 12px 14px;
+  border: 1px solid var(--edge);
+  border-radius: 14px;
+  background: rgba(255,255,255,.32);
+  color: #514477;
+  font-size: .8rem;
 }
 
-.home-footer .status { margin-left:0; }
+.home-footer .status { margin-left: 0; }
 
 dialog {
-  width:min(92vw,360px);
-  padding:20px;
-  color:#30245f;
-  background:#e8def8;
-  border:1px solid var(--edge);
-  border-radius:15px;
+  width: min(92vw, 360px);
+  padding: 20px;
+  color: #30245f;
+  background: #e8def8;
+  border: 1px solid var(--edge);
+  border-radius: 15px;
 }
 
-dialog::backdrop { background:rgba(5,7,16,.72); }
+dialog::backdrop { background: rgba(5,7,16,.72); }
 
-dialog h3 { margin:0 0 6px; }
-dialog p { margin:0; color:#514477; }
+dialog h3 { margin: 0 0 6px; }
+dialog p { margin: 0; color: #514477; }
+
 dialog .detail {
-  color:#30245f;
-  font:1.4rem var(--hand);
-  margin:8px 0;
+  color: #30245f;
+  font: 1.4rem var(--hand);
+  margin: 8px 0;
 }
 
 .dialog-warning {
-  margin-top:8px!important;
-  font-size:.84rem;
+  margin-top: 8px !important;
+  font-size: .84rem;
 }
 
 .dialog-field {
-  display:block;
-  width:100%;
-  margin-top:8px;
-  padding:8px 10px;
-  border:1px solid var(--edge);
-  border-radius:10px;
-  background:rgba(255,255,255,.6);
-  color:#30245f;
-  font:1.2rem/1.3 var(--hand);
-  resize:vertical;
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  padding: 8px 10px;
+  border: 1px solid var(--edge);
+  border-radius: 10px;
+  background: rgba(255,255,255,.6);
+  color: #30245f;
+  font: 1.2rem/1.3 var(--hand);
+  resize: vertical;
 }
 
 .dialog-hint {
-  margin-top:6px!important;
-  font-size:.8rem;
+  margin-top: 6px !important;
+  font-size: .8rem;
 }
 
 .actions {
-  display:flex;
-  justify-content:flex-end;
-  gap:8px;
-  margin-top:16px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 16px;
 }
 
 .actions button {
-  padding:8px 14px;
-  border:1px solid var(--edge);
-  border-radius:9px;
-  background:#d9c9f7;
-  color:#30245f;
+  padding: 8px 14px;
+  border: 1px solid var(--edge);
+  border-radius: 9px;
+  background: #d9c9f7;
+  color: #30245f;
 }
 
 .actions button.danger {
-  background:#f6d6e2;
-  border-color:#c56b8e;
-  color:#7b2446;
+  background: #f6d6e2;
+  border-color: #c56b8e;
+  color: #7b2446;
 }
 
 .install-steps {
-  margin:10px 0 0;
-  padding-left:20px;
-  color:#30245f;
-  font-size:.92rem;
-  line-height:1.5;
+  margin: 10px 0 0;
+  padding-left: 20px;
+  color: #30245f;
+  font-size: .92rem;
+  line-height: 1.5;
 }
 
-.install-steps li + li { margin-top:6px; }
+.install-steps li + li { margin-top: 6px; }
 
-@media(max-width:700px) {
-  .month-grid { grid-template-columns:repeat(2,minmax(0,1fr)); }
+@media (max-width: 700px) {
+  .month-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
 }
 
-@media(max-width:600px) {
-  .wrap { padding:8px; }
+@media (max-width: 600px) {
+  .wrap { padding: 8px; }
 
   header {
-    gap:9px;
-    margin:5px 2px 13px;
+    gap: 9px;
+    margin: 5px 2px 13px;
   }
 
-  .heart { font-size:2rem; }
-
-  h1 { font-size:1.8rem; }
-
-  .names { font-size:1.25rem; }
+  .heart { font-size: 2rem; }
+  h1 { font-size: 1.8rem; }
+  .names { font-size: 1.25rem; }
 
   .meta {
-    font-size:.74rem;
-    gap:8px;
+    font-size: .74rem;
+    gap: 8px;
   }
 
   .sheet {
-    padding:10px;
-    border-radius:15px;
+    padding: 10px;
+    border-radius: 15px;
   }
 
-  .sheet.home { padding:0; }
+  .sheet.home { padding: 0; }
 
   .top {
-    margin-bottom:11px;
-    gap:6px;
+    margin-bottom: 11px;
+    gap: 6px;
   }
 
-  .page-heading h2 { font-size:1.25rem; }
+  .page-heading h2 { font-size: 1.25rem; }
 
   .month-select {
-    min-width:105px;
-    max-width:125px;
-    padding:7px 20px 7px 8px;
-    font-size:.8rem;
+    min-width: 105px;
+    max-width: 125px;
+    padding: 7px 20px 7px 8px;
+    font-size: .8rem;
   }
 
   .top-tools {
-    width:100%;
-    justify-content:flex-start;
+    width: 100%;
+    justify-content: flex-start;
   }
 
   .tool-button {
-    min-height:38px;
-    padding:7px 9px;
-    font-size:.76rem;
+    min-height: 38px;
+    padding: 7px 9px;
+    font-size: .76rem;
   }
 
-  .price-editor { min-height:36px; }
+  .price-editor { min-height: 36px; }
 
   .chip {
-    padding:5px 10px;
-    font-size:.84rem;
-    margin-bottom:10px;
+    padding: 5px 10px;
+    font-size: .84rem;
+    margin-bottom: 10px;
   }
 
-  .chip b { font-size:1rem; }
+  .chip b { font-size: 1rem; }
 
-  .table-wrap { display:none; }
-  .mobile-days { display:block; }
+  .table-wrap { display: none; }
+  .mobile-days { display: block; }
 
   .stats {
-    grid-template-columns:repeat(2,minmax(0,1fr));
-    gap:7px;
-    margin-top:12px;
+    grid-template-columns: repeat(2, minmax(0,1fr));
+    gap: 7px;
+    margin-top: 12px;
   }
 
-  .stat { padding:8px; }
-  .stat small { font-size:.72rem; }
-  .stat b { font-size:1.05rem; }
+  .stat { padding: 8px; }
+  .stat small { font-size: .72rem; }
+  .stat b { font-size: 1.05rem; }
 
-  .panel { padding:10px; }
+  .panel { padding: 10px; }
 
-  .notes { margin-top:12px; }
-  .notes label { font-size:1.35rem; }
+  .notes { margin-top: 12px; }
+  .notes label { font-size: 1.35rem; }
 
   .notes textarea {
-    min-height:85px;
-    font-size:1.15rem;
+    min-height: 85px;
+    font-size: 1.15rem;
   }
 
-  .status { font-size:.7rem; }
+  .status { font-size: .7rem; }
 
-  .summary-table th,.summary-table td {
-    padding:7px 4px;
-    font-size:.76rem;
+  .summary-table th,
+  .summary-table td {
+    padding: 7px 4px;
+    font-size: .76rem;
   }
 
-  .bar-track { height:120px; }
+  .bar-track { height: 120px; }
 
-  .hero { padding:28px 16px 24px; }
-
-  .featured h2 { font-size:1.6rem; }
-  .featured-stat b { font-size:.9rem; }
+  .hero { padding: 28px 16px 24px; }
+  .featured h2 { font-size: 1.6rem; }
+  .featured-stat b { font-size: .9rem; }
 }
 
-@media(max-width:360px) {
-  .day-meal { grid-template-columns:65px minmax(0,1fr); }
-  .meal-options .option { padding:5px; gap:4px; }
-  .meal-options .option-name { font-size:1.05rem; }
-  .meal-options .quantity-control button { width:28px; height:28px; }
-  .month-select { min-width:96px; max-width:110px; }
-  .month-grid { gap:8px; }
+@media (max-width: 360px) {
+  .day-meal { grid-template-columns: 65px minmax(0,1fr); }
+  .meal-options .option { padding: 5px; gap: 4px; }
+  .meal-options .option-name { font-size: 1.05rem; }
+  .meal-options .quantity-control button { width: 28px; height: 28px; }
+  .month-select { min-width: 96px; max-width: 110px; }
+  .month-grid { gap: 8px; }
 }
 </style>
 </head>
@@ -1486,7 +1479,6 @@ dialog .detail {
 
 <div id="app">
   <div class="wrap">
-
     <header>
       <div class="heart">💑</div>
       <div>
@@ -1500,7 +1492,6 @@ dialog .detail {
     </header>
 
     <main class="sheet" id="sheet"></main>
-
   </div>
 </div>
 
@@ -1555,20 +1546,20 @@ const scene = document.getElementById("scene");
 const rand = (min, max) => Math.random() * (max - min) + min;
 
 const balloons = [
-  { left: 38, top: 6, size: 46, tint: "#f3e6ff", glow: "#e8b4f0", edge: "rgba(190,150,240,0.45)", alpha: 0.85, blur: 0 },
-  { left: 64, top: 3, size: 34, tint: "#e9ddff", glow: "#b9a2f5", edge: "rgba(160,130,235,0.4)", alpha: 0.7, blur: 0.5 },
-  { left: 4, top: 22, size: 30, tint: "#ffe3f3", glow: "#ffb3dc", edge: "rgba(240,150,200,0.4)", alpha: 0.6, blur: 1 },
-  { left: 82, top: 10, size: 52, tint: "#ffd9ef", glow: "#ff9fd2", edge: "rgba(240,130,190,0.45)", alpha: 0.8, blur: 0 },
-  { left: 90, top: 34, size: 40, tint: "#ffe0f1", glow: "#f6a8d4", edge: "rgba(240,140,195,0.4)", alpha: 0.65, blur: 1 },
-  { left: 22, top: 14, size: 24, tint: "#e4e8ff", glow: "#a9baf5", edge: "rgba(140,160,235,0.4)", alpha: 0.6, blur: 1.5 },
-  { left: 55, top: 28, size: 28, tint: "#efe4ff", glow: "#c7a8f3", edge: "rgba(170,140,235,0.4)", alpha: 0.55, blur: 1.5 },
-  { left: 8, top: 52, size: 44, tint: "#e9ddff", glow: "#b9a2f5", edge: "rgba(160,130,235,0.4)", alpha: 0.5, blur: 1.5 },
-  { left: 72, top: 60, size: 36, tint: "#ffe3f3", glow: "#ffb3dc", edge: "rgba(240,150,200,0.4)", alpha: 0.5, blur: 2 },
-  { left: 40, top: 74, size: 50, tint: "#e4e8ff", glow: "#a9baf5", edge: "rgba(140,160,235,0.4)", alpha: 0.45, blur: 2 },
-  { left: 90, top: 82, size: 30, tint: "#f3e6ff", glow: "#e8b4f0", edge: "rgba(190,150,240,0.45)", alpha: 0.5, blur: 1.5 }
+  { left: 38, top: 6,  size: 46, tint: "#f3e6ff", glow: "#e8b4f0", edge: "rgba(190,150,240,0.45)", alpha: 0.85, blur: 0 },
+  { left: 64, top: 3,  size: 34, tint: "#e9ddff", glow: "#b9a2f5", edge: "rgba(160,130,235,0.4)",  alpha: 0.7,  blur: 0.5 },
+  { left: 4,  top: 22, size: 30, tint: "#ffe3f3", glow: "#ffb3dc", edge: "rgba(240,150,200,0.4)",  alpha: 0.6,  blur: 1 },
+  { left: 82, top: 10, size: 52, tint: "#ffd9ef", glow: "#ff9fd2", edge: "rgba(240,130,190,0.45)", alpha: 0.8,  blur: 0 },
+  { left: 90, top: 34, size: 40, tint: "#ffe0f1", glow: "#f6a8d4", edge: "rgba(240,140,195,0.4)",  alpha: 0.65, blur: 1 },
+  { left: 22, top: 14, size: 24, tint: "#e4e8ff", glow: "#a9baf5", edge: "rgba(140,160,235,0.4)",  alpha: 0.6,  blur: 1.5 },
+  { left: 55, top: 28, size: 28, tint: "#efe4ff", glow: "#c7a8f3", edge: "rgba(170,140,235,0.4)",  alpha: 0.55, blur: 1.5 },
+  { left: 8,  top: 52, size: 44, tint: "#e9ddff", glow: "#b9a2f5", edge: "rgba(160,130,235,0.4)",  alpha: 0.5,  blur: 1.5 },
+  { left: 72, top: 60, size: 36, tint: "#ffe3f3", glow: "#ffb3dc", edge: "rgba(240,150,200,0.4)",  alpha: 0.5,  blur: 2 },
+  { left: 40, top: 74, size: 50, tint: "#e4e8ff", glow: "#a9baf5", edge: "rgba(140,160,235,0.4)",  alpha: 0.45, blur: 2 },
+  { left: 90, top: 82, size: 30, tint: "#f3e6ff", glow: "#e8b4f0", edge: "rgba(190,150,240,0.45)", alpha: 0.5,  blur: 1.5 }
 ];
 
-balloons.forEach((b) => {
+balloons.forEach(b => {
   const el = document.createElement("div");
   el.className = "balloon";
   el.style.setProperty("--left", b.left + "%");
@@ -1605,273 +1596,256 @@ for (let i = 0; i < 22; i++) {
 }
 
 const CONFIG = {
-  noteName:"Abrina",
-  names:["Abrish","Martina"],
-  pricePerServing:110,
-  daysPerMonth:30,
-  storageKey:"abrina:food-note:v1"
+  noteName: "Abrina",
+  names: ["Abrish", "Martina"],
+  pricePerServing: 110,
+  daysPerMonth: 30,
+  storageKey: "abrina:food-note:v1"
 };
 
 const MONTHS = [
-  {n:2,name:"Tikimt",range:"Oct to Nov",tagline:"Harvest season",accent:"#b86a14"},
-  {n:3,name:"Hidar",range:"Nov to Dec",tagline:"Cool, clear mornings",accent:"#b04e2a"},
-  {n:4,name:"Tahsas",range:"Dec to Jan",tagline:"Festive and bright",accent:"#a03a66"},
-  {n:5,name:"Tir",range:"Jan to Feb",tagline:"Dry and sunny",accent:"#4a5cc0"},
-  {n:6,name:"Yekatit",range:"Feb to Mar",tagline:"Warming days",accent:"#2b7da6"},
-  {n:7,name:"Megabit",range:"Mar to Apr",tagline:"Spring arrives",accent:"#3d8a58"},
-  {n:8,name:"Miazia",range:"Apr to May",tagline:"Busy and bright",accent:"#7a52b8"},
-  {n:9,name:"Ginbot",range:"May to Jun",tagline:"Fresh green days",accent:"#c04477"},
-  {n:10,name:"Sene",range:"Jun to Jul",tagline:"Rains begin",accent:"#247f7a"}
+  { n: 2,  name: "Tikimt",  range: "Oct to Nov", tagline: "Harvest season",    accent: "#b86a14" },
+  { n: 3,  name: "Hidar",   range: "Nov to Dec", tagline: "Cool, clear mornings", accent: "#b04e2a" },
+  { n: 4,  name: "Tahsas",  range: "Dec to Jan", tagline: "Festive and bright", accent: "#a03a66" },
+  { n: 5,  name: "Tir",     range: "Jan to Feb", tagline: "Dry and sunny",     accent: "#4a5cc0" },
+  { n: 6,  name: "Yekatit", range: "Feb to Mar", tagline: "Warming days",      accent: "#2b7da6" },
+  { n: 7,  name: "Megabit", range: "Mar to Apr", tagline: "Spring arrives",    accent: "#3d8a58" },
+  { n: 8,  name: "Miazia",  range: "Apr to May", tagline: "Busy and bright",   accent: "#7a52b8" },
+  { n: 9,  name: "Ginbot",  range: "May to Jun", tagline: "Fresh green days",  accent: "#c04477" },
+  { n: 10, name: "Sene",    range: "Jun to Jul", tagline: "Rains begin",       accent: "#247f7a" }
 ];
 
 const EXTRA_PAGES = [
-  {key:"home",title:"Home",label:"Overview"},
-  {key:"summary",title:"Year Summary",label:"All months"},
-  {key:"charts",title:"Charts",label:"Visual overview"},
-  {key:"settings",title:"Settings",label:"Names, tags, price and backup"},
-  {key:"guide",title:"Guide",label:"How to use"}
+  { key: "home",     title: "Home",         label: "Overview" },
+  { key: "summary",  title: "Year Summary", label: "All months" },
+  { key: "charts",   title: "Charts",       label: "Visual overview" },
+  { key: "settings", title: "Settings",     label: "Names, tags, price and backup" },
+  { key: "guide",    title: "Guide",        label: "How to use" }
 ];
 
 const HOME_INDEX = MONTHS.length;
 const DEFAULT_ACCENT = "#6550a3";
 
 const DEFAULT_TAGS = [
-  {id:"guests",name:"Guests",color:"#c04477"},
-  {id:"fasting",name:"Fasting",color:"#6550a3"},
-  {id:"special",name:"Special",color:"#b86a14"},
-  {id:"outside",name:"Eaten out",color:"#2b7da6"},
-  {id:"sick",name:"Sick",color:"#b04e2a"},
-  {id:"away",name:"Away",color:"#3d8a58"}
+  { id: "guests",  name: "Guests",    color: "#c04477" },
+  { id: "fasting", name: "Fasting",   color: "#6550a3" },
+  { id: "special", name: "Special",   color: "#b86a14" },
+  { id: "outside", name: "Eaten out", color: "#2b7da6" },
+  { id: "sick",    name: "Sick",      color: "#b04e2a" },
+  { id: "away",    name: "Away",      color: "#3d8a58" }
 ];
 
 const GUIDE = [
-  {title:"Home",text:"The Home page shows the current month, a card for every month with its totals and status, and shortcuts to the other pages. Tap any month card to open that month."},
-  {title:"Recording meals",text:"Use the plus and minus buttons beside Shiro or Spris under each meal. Each item can be 0, 1 or 2 servings. By default every change asks for confirmation, which you can switch off in Settings."},
-  {title:"Prices and totals",text:"Each month has its own price per serving, so changing a price never alters other months. Daily, monthly and yearly totals update automatically. The default price for new months is set in Settings."},
-  {title:"Tags and day details",text:"Tap Details on any day to add tags such as Guests or Fasting, and a short note. Tags show as small colored marks on the day. In the Tags panel of a month, tap a tag to highlight only the days that use it. Manage your tags in Settings."},
-  {title:"Today",text:"In the current month, today is highlighted and the Today card has a button that jumps to it."},
-  {title:"Payment and budget",text:"Enter the amount paid to see the remaining balance and the payment status. Set a monthly budget to watch a progress bar fill as spending grows."},
-  {title:"Locking a month",text:"Lock a finished month to make its entries, details, price, payment and budget read-only. You can unlock it again at any time."},
-  {title:"Backup",text:"Records are stored only in this browser. Download a backup from Settings regularly, especially before clearing browser data or changing phone."},
-  {title:"Install on phone",text:"On a phone, use the Install button to add Abrina to the home screen so it opens like a normal app."}
+  { title: "Home", text: "The Home page shows the current month, a card for every month with its totals and status, and shortcuts to the other pages. Tap any month card to open that month." },
+  { title: "Recording meals", text: "Use the plus and minus buttons beside Shiro or Spris under each meal. Each item can be 0, 1 or 2 servings. By default every change asks for confirmation, which you can switch off in Settings." },
+  { title: "Prices and totals", text: "Each month has its own price per serving, so changing a price never alters other months. Daily, monthly and yearly totals update automatically. The default price for new months is set in Settings." },
+  { title: "Tags and day details", text: "Tap Details on any day to add tags such as Guests or Fasting, and a short note. Tags show as small colored marks on the day. In the Tags panel of a month, tap a tag to highlight only the days that use it. Manage your tags in Settings." },
+  { title: "Today", text: "In the current month, today is highlighted and the Today card has a button that jumps to it." },
+  { title: "Payment and budget", text: "Enter the amount paid to see the remaining balance and the payment status. Set a monthly budget to watch a progress bar fill as spending grows." },
+  { title: "Locking a month", text: "Lock a finished month to make its entries, details, price, payment and budget read-only. You can unlock it again at any time." },
+  { title: "Backup", text: "Records are stored only in this browser. Download a backup from Settings regularly, especially before clearing browser data or changing phone." },
+  { title: "Install on phone", text: "On a phone, use the Install button to add Abrina to the home screen so it opens like a normal app." }
 ];
 
-const MEALS=["b","l","d"];
-const FOODS=["s","p"];
-const MEAL_CLASS={b:"breakfast",l:"lunch",d:"dinner"};
+const MEALS = ["b", "l", "d"];
+const FOODS = ["s", "p"];
+const MEAL_CLASS = { b: "breakfast", l: "lunch", d: "dinner" };
 
-const LABEL={
-  day:"Day",
-  b:"Breakfast",
-  l:"Lunch",
-  d:"Dinner",
-  s:"Shiro",
-  p:"Spris"
+const LABEL = {
+  day: "Day",
+  b: "Breakfast",
+  l: "Lunch",
+  d: "Dinner",
+  s: "Shiro",
+  p: "Spris"
 };
 
 function emptyStats() {
-  return {shiro:0,spris:0,b:0,l:0,d:0,items:0,birr:0};
+  return { shiro: 0, spris: 0, b: 0, l: 0, d: 0, items: 0, birr: 0 };
 }
 
 function normalizeQuantity(value) {
-  // Only integer quantities 0, 1, or 2 are valid.
-  const number=Number(value);
-  if (!Number.isFinite(number)) return 0;
-  return Math.max(0,Math.min(2,Math.trunc(number)));
+  const n = Number(value);
+  if (!Number.isFinite(n)) return 0;
+  return Math.max(0, Math.min(2, Math.trunc(n)));
 }
 
 function dayItems(day) {
-  const ticks=(day && day.ticks)||{};
-  return MEALS.reduce((sum,meal)=>sum+FOODS.reduce(
-    (foodSum,food)=>foodSum+normalizeQuantity(ticks[meal+food]),0
-  ),0);
+  const ticks = (day && day.ticks) || {};
+  return MEALS.reduce((sum, meal) =>
+    sum + FOODS.reduce((fs, food) => fs + normalizeQuantity(ticks[meal + food]), 0), 0);
 }
 
-function monthStats(record,price) {
-  const stats=emptyStats();
+function monthStats(record, price) {
+  const stats = emptyStats();
   if (!record) return stats;
 
-  for (let day=1;day<=CONFIG.daysPerMonth;day++) {
-    const ticks=(record.days[day] && record.days[day].ticks)||{};
-
+  for (let day = 1; day <= CONFIG.daysPerMonth; day++) {
+    const ticks = (record.days[day] && record.days[day].ticks) || {};
     for (const meal of MEALS) {
       for (const food of FOODS) {
-        const quantity=normalizeQuantity(ticks[meal+food]);
-        stats.items+=quantity;
-        stats[food==="s"?"shiro":"spris"]+=quantity;
-        stats[meal]+=quantity;
+        const q = normalizeQuantity(ticks[meal + food]);
+        stats.items += q;
+        stats[food === "s" ? "shiro" : "spris"] += q;
+        stats[meal] += q;
       }
     }
   }
-
-  stats.birr=stats.items*price;
+  stats.birr = stats.items * price;
   return stats;
 }
 
 function sumStats(list) {
-  const total=emptyStats();
-
-  for (const stats of list) {
-    Object.keys(total).forEach(key=>{
-      total[key]+=stats[key];
-    });
+  const total = emptyStats();
+  for (const s of list) {
+    for (const k of Object.keys(total)) total[k] += s[k];
   }
-
   return total;
 }
 
-function julianDay(year,month,day) {
-  const a=Math.floor((14-month)/12);
-  const y=year+4800-a;
-  const m=month+12*a-3;
-
-  return day+Math.floor((153*m+2)/5)+365*y+
-    Math.floor(y/4)-Math.floor(y/100)+
-    Math.floor(y/400)-32045;
+function julianDay(year, month, day) {
+  const a = Math.floor((14 - month) / 12);
+  const y = year + 4800 - a;
+  const m = month + 12 * a - 3;
+  return day + Math.floor((153 * m + 2) / 5) + 365 * y +
+    Math.floor(y / 4) - Math.floor(y / 100) + Math.floor(y / 400) - 32045;
 }
 
 function ethiopianToday() {
-  const now=new Date();
-  const jd=julianDay(now.getFullYear(),now.getMonth()+1,now.getDate())-1723856;
-  const r=((jd%1461)+1461)%1461;
-  const cycle=Math.floor(jd/1461);
-  const n=(r%365)+365*Math.floor(r/1460);
-
+  const now = new Date();
+  const jd = julianDay(now.getFullYear(), now.getMonth() + 1, now.getDate()) - 1723856;
+  const r = ((jd % 1461) + 1461) % 1461;
+  const cycle = Math.floor(jd / 1461);
+  const n = (r % 365) + 365 * Math.floor(r / 1460);
   return {
-    year:4*cycle+Math.floor(r/365)-Math.floor(r/1460),
-    month:Math.floor(n/30)+1,
-    day:(n%30)+1
+    year: 4 * cycle + Math.floor(r / 365) - Math.floor(r / 1460),
+    month: Math.floor(n / 30) + 1,
+    day: (n % 30) + 1
   };
 }
 
-const Store={
-  data:{v:1,years:{}},
+const Store = {
+  data: { v: 1, years: {} },
 
   load() {
     try {
-      const raw=localStorage.getItem(CONFIG.storageKey);
-      const parsed=raw && JSON.parse(raw);
-
-      if (parsed && parsed.v===1) this.data=parsed;
+      const raw = localStorage.getItem(CONFIG.storageKey);
+      const parsed = raw && JSON.parse(raw);
+      if (parsed && parsed.v === 1) this.data = parsed;
       if (this.migrateTicks()) this.persist();
-    } catch(error) {
-      console.warn("Saved data could not be read",error);
+    } catch (e) {
+      console.warn("Saved data could not be read", e);
     }
   },
 
   migrateTicks() {
-    let changed=false;
-
-    const rawSettings=this.data.settings;
-    const settings=(rawSettings && typeof rawSettings==="object")?rawSettings:{};
-    const savedNames=Array.isArray(settings.names)?settings.names:[];
-    const names=[0,1].map(index=>
-      String(savedNames[index]??CONFIG.names[index]).trim().slice(0,24)||CONFIG.names[index]
+    let changed = false;
+    const rawSettings = this.data.settings;
+    const settings = (rawSettings && typeof rawSettings === "object") ? rawSettings : {};
+    const savedNames = Array.isArray(settings.names) ? settings.names : [];
+    const names = [0, 1].map(i =>
+      String(savedNames[i] ?? CONFIG.names[i]).trim().slice(0, 24) || CONFIG.names[i]
     );
-    const savedPrice=Number(settings.defaultPrice);
-    const defaultValue=Number.isFinite(savedPrice) && savedPrice>0
-      ?Math.round(savedPrice*100)/100
-      :CONFIG.pricePerServing;
+    const savedPrice = Number(settings.defaultPrice);
+    const defaultValue = Number.isFinite(savedPrice) && savedPrice > 0
+      ? Math.round(savedPrice * 100) / 100
+      : CONFIG.pricePerServing;
 
     let tags;
-
     if (Array.isArray(settings.tags)) {
-      const seen=new Set();
-
-      tags=settings.tags
-        .filter(tag=>tag && typeof tag.id==="string" && typeof tag.name==="string")
-        .map(tag=>({
-          id:tag.id.slice(0,32),
-          name:tag.name.trim().slice(0,16),
-          color:/^#[0-9a-f]{6}$/i.test(tag.color)?tag.color:DEFAULT_ACCENT
+      const seen = new Set();
+      tags = settings.tags
+        .filter(t => t && typeof t.id === "string" && typeof t.name === "string")
+        .map(t => ({
+          id: t.id.slice(0, 32),
+          name: t.name.trim().slice(0, 16),
+          color: /^#[0-9a-f]{6}$/i.test(t.color) ? t.color : DEFAULT_ACCENT
         }))
-        .filter(tag=>{
-          if (!tag.name || !tag.id || seen.has(tag.id)) return false;
-          seen.add(tag.id);
+        .filter(t => {
+          if (!t.name || !t.id || seen.has(t.id)) return false;
+          seen.add(t.id);
           return true;
         })
-        .slice(0,12);
+        .slice(0, 12);
     } else {
-      tags=DEFAULT_TAGS.map(tag=>({...tag}));
+      tags = DEFAULT_TAGS.map(t => ({ ...t }));
     }
 
-    const lastBackup=typeof settings.lastBackup==="string" && !Number.isNaN(Date.parse(settings.lastBackup))
-      ?settings.lastBackup
-      :"";
+    const lastBackup = typeof settings.lastBackup === "string" && !Number.isNaN(Date.parse(settings.lastBackup))
+      ? settings.lastBackup
+      : "";
 
-    const nextSettings={
+    const nextSettings = {
       names,
-      defaultPrice:defaultValue,
-      confirmTicks:settings.confirmTicks!==false,
+      defaultPrice: defaultValue,
+      confirmTicks: settings.confirmTicks !== false,
       tags,
       lastBackup
     };
 
-    if (JSON.stringify(rawSettings)!==JSON.stringify(nextSettings)) {
-      this.data.settings=nextSettings;
-      changed=true;
+    if (JSON.stringify(rawSettings) !== JSON.stringify(nextSettings)) {
+      this.data.settings = nextSettings;
+      changed = true;
     }
 
-    for (const months of Object.values(this.data.years||{})) {
-      for (const record of Object.values(months||{})) {
-        if (!Number.isFinite(Number(record.pricePerServing)) || Number(record.pricePerServing)<=0) {
-          record.pricePerServing=defaultPrice();
-          changed=true;
+    for (const months of Object.values(this.data.years || {})) {
+      for (const record of Object.values(months || {})) {
+        if (!Number.isFinite(Number(record.pricePerServing)) || Number(record.pricePerServing) <= 0) {
+          record.pricePerServing = defaultPrice();
+          changed = true;
         } else {
-          record.pricePerServing=Number(record.pricePerServing);
+          record.pricePerServing = Number(record.pricePerServing);
         }
 
-        record.locked=Boolean(record.locked);
+        record.locked = Boolean(record.locked);
 
-        const paid=Number(record.paid);
-        const cleanPaid=Number.isFinite(paid) && paid>0?paid:0;
-        if (record.paid!==cleanPaid) {
-          record.paid=cleanPaid;
-          changed=true;
+        const paid = Number(record.paid);
+        const cleanPaid = Number.isFinite(paid) && paid > 0 ? paid : 0;
+        if (record.paid !== cleanPaid) {
+          record.paid = cleanPaid;
+          changed = true;
         }
 
-        const budget=Number(record.budget);
-        const cleanBudget=Number.isFinite(budget) && budget>0?budget:0;
-        if (record.budget!==cleanBudget) {
-          record.budget=cleanBudget;
-          changed=true;
+        const budget = Number(record.budget);
+        const cleanBudget = Number.isFinite(budget) && budget > 0 ? budget : 0;
+        if (record.budget !== cleanBudget) {
+          record.budget = cleanBudget;
+          changed = true;
         }
 
-        for (const day of Object.values(record.days||{})) {
+        for (const day of Object.values(record.days || {})) {
           if (day.c && !day.ticks) {
-            day.ticks=day.c;
+            day.ticks = day.c;
             delete day.c;
-            changed=true;
+            changed = true;
           }
+          day.ticks ??= {};
 
-          day.ticks??={};
-
-          if (day.tags!==undefined) {
-            const cleanTags=Array.isArray(day.tags)
-              ?[...new Set(day.tags.filter(id=>typeof id==="string"))]
-              :[];
-
+          if (day.tags !== undefined) {
+            const cleanTags = Array.isArray(day.tags)
+              ? [...new Set(day.tags.filter(id => typeof id === "string"))]
+              : [];
             if (cleanTags.length) {
-              if (JSON.stringify(cleanTags)!==JSON.stringify(day.tags)) {
-                day.tags=cleanTags;
-                changed=true;
+              if (JSON.stringify(cleanTags) !== JSON.stringify(day.tags)) {
+                day.tags = cleanTags;
+                changed = true;
               }
             } else {
               delete day.tags;
-              changed=true;
+              changed = true;
             }
           }
 
           for (const meal of MEALS) {
             for (const food of FOODS) {
-              const key=meal+food;
-              const oldValue=day.ticks[key];
-              const quantity=oldValue===true?1:
-                oldValue===false||oldValue==null?0:normalizeQuantity(oldValue);
-
-              if (oldValue!==quantity) changed=true;
-              if (quantity===0) delete day.ticks[key];
-              else day.ticks[key]=quantity;
+              const key = meal + food;
+              const old = day.ticks[key];
+              const q = old === true ? 1 :
+                        old === false || old == null ? 0 :
+                        normalizeQuantity(old);
+              if (old !== q) changed = true;
+              if (q === 0) delete day.ticks[key];
+              else day.ticks[key] = q;
             }
           }
         }
@@ -1882,242 +1856,215 @@ const Store={
 
   persist() {
     try {
-      localStorage.setItem(CONFIG.storageKey,JSON.stringify(this.data));
+      localStorage.setItem(CONFIG.storageKey, JSON.stringify(this.data));
       return true;
-    } catch(error) {
-      console.error(error);
+    } catch (e) {
+      console.error(e);
       return false;
     }
   },
 
-  month(year,n) {
-    const yearData=(this.data.years[year]??={});
-    return (yearData[n]??={days:{},notes:"",pricePerServing:defaultPrice(),locked:false,paid:0,budget:0});
+  month(year, n) {
+    const yearData = (this.data.years[year] ??= {});
+    return (yearData[n] ??= {
+      days: {},
+      notes: "",
+      pricePerServing: defaultPrice(),
+      locked: false,
+      paid: 0,
+      budget: 0
+    });
   },
 
-  peek(year,n) {
-    return this.data.years[year]?.[n]??null;
+  peek(year, n) {
+    return this.data.years[year]?.[n] ?? null;
   },
 
-  stats(year,n) {
-    const record=this.peek(year,n);
-    return monthStats(record,recordPrice(record));
+  stats(year, n) {
+    const record = this.peek(year, n);
+    return monthStats(record, recordPrice(record));
   }
 };
 
 function defaultPrice() {
-  const price=Number(Store.data.settings?.defaultPrice);
-  return Number.isFinite(price) && price>0?price:CONFIG.pricePerServing;
+  const p = Number(Store.data.settings?.defaultPrice);
+  return Number.isFinite(p) && p > 0 ? p : CONFIG.pricePerServing;
 }
 
 function recordPrice(record) {
-  return Number(record?.pricePerServing)||defaultPrice();
+  return Number(record?.pricePerServing) || defaultPrice();
 }
 
 function getNames() {
-  const names=Store.data.settings?.names||[];
-  return CONFIG.names.map((fallback,index)=>names[index]||fallback);
+  const names = Store.data.settings?.names || [];
+  return CONFIG.names.map((fb, i) => names[i] || fb);
 }
 
 function getTags() {
-  return Store.data.settings?.tags||[];
+  return Store.data.settings?.tags || [];
 }
 
 function tagById(id) {
-  return getTags().find(tag=>tag.id===id)||null;
+  return getTags().find(t => t.id === id) || null;
 }
 
 function confirmTicksEnabled() {
-  return Store.data.settings?.confirmTicks!==false;
+  return Store.data.settings?.confirmTicks !== false;
 }
 
-const today=ethiopianToday();
-const startIndex=Math.max(0,MONTHS.findIndex(month=>month.n===today.month));
+const today = ethiopianToday();
+const startIndex = Math.max(0, MONTHS.findIndex(m => m.n === today.month));
 
-const state={
-  year:today.year,
-  pageIndex:HOME_INDEX,
-  chartIndex:startIndex,
-  tagFilter:null
+const state = {
+  year: today.year,
+  pageIndex: HOME_INDEX,
+  chartIndex: startIndex,
+  tagFilter: null
 };
 
-const $=id=>document.getElementById(id);
+const $ = id => document.getElementById(id);
 
-const formatNumber=n=>n.toLocaleString("en-US",{maximumFractionDigits:2});
-const formatBirr=n=>`${formatNumber(n)} Birr`;
+const formatNumber = n => n.toLocaleString("en-US", { maximumFractionDigits: 2 });
+const formatBirr = n => `${formatNumber(n)} Birr`;
 
 function formatBalance(value) {
-  const rounded=Math.round(value*100)/100;
-  return rounded<0?`${formatBirr(-rounded)} credit`:formatBirr(rounded);
+  const rounded = Math.round(value * 100) / 100;
+  return rounded < 0 ? `${formatBirr(-rounded)} credit` : formatBirr(rounded);
 }
 
 function compactBirr(value) {
-  return value>=1000?`${Math.round(value/100)/10}k`:String(Math.round(value));
+  return value >= 1000 ? `${Math.round(value / 100) / 10}k` : String(Math.round(value));
 }
 
-const Install=(()=>{
-  const ua=navigator.userAgent;
-  const isIos=/iPhone|iPad|iPod/.test(ua)||(/Macintosh/.test(ua)&&navigator.maxTouchPoints>1);
-  const isAndroid=/Android/.test(ua);
-  const smallScreen=Math.min(screen.width,screen.height)<=600;
-  const isPhone=(isIos||isAndroid)&&smallScreen;
-  let deferredPrompt=null;
+const Install = (() => {
+  const ua = navigator.userAgent;
+  const isIos = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
+  const isAndroid = /Android/.test(ua);
+  const smallScreen = Math.min(screen.width, screen.height) <= 600;
+  const isPhone = (isIos || isAndroid) && smallScreen;
+  let deferredPrompt = null;
 
   function isInstalled() {
-    return window.matchMedia("(display-mode: standalone)").matches||
-      window.navigator.standalone===true;
+    return window.matchMedia("(display-mode: standalone)").matches ||
+           window.navigator.standalone === true;
   }
 
   function drawIcon(size) {
-    const canvas=document.createElement("canvas");
-    canvas.width=size;
-    canvas.height=size;
-
-    const ctx=canvas.getContext("2d");
-    const gradient=ctx.createLinearGradient(0,0,size,size);
-
-    gradient.addColorStop(0,"#ff7aa8");
-    gradient.addColorStop(1,"#6550a3");
-
-    ctx.fillStyle=gradient;
-    ctx.fillRect(0,0,size,size);
-
-    ctx.fillStyle="#ffffff";
-    ctx.font=`700 ${Math.round(size*0.5)}px "Space Grotesk", system-ui, sans-serif`;
-    ctx.textAlign="center";
-    ctx.textBaseline="middle";
-    ctx.fillText("A",size/2,size/2+size*0.03);
-
+    const canvas = document.createElement("canvas");
+    canvas.width = size;
+    canvas.height = size;
+    const ctx = canvas.getContext("2d");
+    const g = ctx.createLinearGradient(0, 0, size, size);
+    g.addColorStop(0, "#ff7aa8");
+    g.addColorStop(1, "#6550a3");
+    ctx.fillStyle = g;
+    ctx.fillRect(0, 0, size, size);
+    ctx.fillStyle = "#ffffff";
+    ctx.font = `700 ${Math.round(size * 0.5)}px "Space Grotesk", system-ui, sans-serif`;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    ctx.fillText("A", size / 2, size / 2 + size * 0.03);
     return canvas.toDataURL("image/png");
   }
 
-  function addLink(rel,href,type) {
-    const link=document.createElement("link");
-
-    link.rel=rel;
-    link.href=href;
-    if (type) link.type=type;
-
+  function addLink(rel, href, type) {
+    const link = document.createElement("link");
+    link.rel = rel;
+    link.href = href;
+    if (type) link.type = type;
     document.head.appendChild(link);
   }
 
   function setupMetadata() {
-    const icon180=drawIcon(180);
-    const icon192=drawIcon(192);
-    const icon512=drawIcon(512);
-
-    addLink("apple-touch-icon",icon180);
-    addLink("icon",icon192,"image/png");
+    const icon180 = drawIcon(180);
+    const icon192 = drawIcon(192);
+    const icon512 = drawIcon(512);
+    addLink("apple-touch-icon", icon180);
+    addLink("icon", icon192, "image/png");
 
     if (!/^https?:$/.test(location.protocol)) return;
 
-    const base=location.href.split("#")[0].split("?")[0];
-    const scope=base.slice(0,base.lastIndexOf("/")+1);
-
-    const manifest={
-      name:"Abrina Food Register",
-      short_name:"Abrina",
-      description:"Monthly food register",
-      start_url:base,
-      scope:scope,
-      display:"standalone",
-      orientation:"portrait",
-      background_color:"#d9c9f7",
-      theme_color:"#d9c9f7",
-      icons:[
-        {src:icon192,sizes:"192x192",type:"image/png",purpose:"any"},
-        {src:icon512,sizes:"512x512",type:"image/png",purpose:"any"},
-        {src:icon512,sizes:"512x512",type:"image/png",purpose:"maskable"}
+    const base = location.href.split("#")[0].split("?")[0];
+    const scope = base.slice(0, base.lastIndexOf("/") + 1);
+    const manifest = {
+      name: "Abrina Food Register",
+      short_name: "Abrina",
+      description: "Monthly food register",
+      start_url: base,
+      scope,
+      display: "standalone",
+      orientation: "portrait",
+      background_color: "#d9c9f7",
+      theme_color: "#d9c9f7",
+      icons: [
+        { src: icon192, sizes: "192x192", type: "image/png", purpose: "any" },
+        { src: icon512, sizes: "512x512", type: "image/png", purpose: "any" },
+        { src: icon512, sizes: "512x512", type: "image/png", purpose: "maskable" }
       ]
     };
-
-    const blob=new Blob([JSON.stringify(manifest)],{type:"application/manifest+json"});
-
-    addLink("manifest",URL.createObjectURL(blob));
+    const blob = new Blob([JSON.stringify(manifest)], { type: "application/manifest+json" });
+    addLink("manifest", URL.createObjectURL(blob));
   }
 
   function available() {
-    return isPhone&&!isInstalled();
+    return isPhone && !isInstalled();
   }
 
   function showInstructions() {
-    const intro=$("installIntro");
-    const list=$("installSteps");
-
-    intro.textContent="Add Abrina to your home screen to open it like a normal app.";
-    list.textContent="";
-
-    const steps=isIos?[
-      "Open this page in Safari.",
-      "Tap the Share button at the bottom of the screen.",
-      "Scroll down and tap Add to Home Screen.",
-      "Tap Add."
-    ]:[
-      "Tap the three dots menu at the top right of your browser.",
-      "Tap Install app, or Add to Home screen.",
-      "Confirm with Install."
-    ];
-
-    steps.forEach(text=>{
-      const item=document.createElement("li");
-      item.textContent=text;
+    const intro = $("installIntro");
+    const list = $("installSteps");
+    intro.textContent = "Add Abrina to your home screen to open it like a normal app.";
+    list.textContent = "";
+    const steps = isIos
+      ? ["Open this page in Safari.", "Tap the Share button at the bottom of the screen.", "Scroll down and tap Add to Home Screen.", "Tap Add."]
+      : ["Tap the three dots menu at the top right of your browser.", "Tap Install app, or Add to Home screen.", "Confirm with Install."];
+    steps.forEach(text => {
+      const item = document.createElement("li");
+      item.textContent = text;
       list.append(item);
     });
-
     $("installDialog").showModal();
   }
 
   async function start() {
     if (deferredPrompt) {
-      const promptEvent=deferredPrompt;
-
-      deferredPrompt=null;
+      const promptEvent = deferredPrompt;
+      deferredPrompt = null;
       promptEvent.prompt();
-
-      try {
-        await promptEvent.userChoice;
-      } catch(error) {
-        console.warn("Install prompt failed",error);
-      }
-
+      try { await promptEvent.userChoice; } catch (e) { console.warn("Install prompt failed", e); }
       return;
     }
-
     showInstructions();
   }
 
   function removeButtons() {
-    document.querySelectorAll("[data-install]").forEach(node=>node.remove());
+    document.querySelectorAll("[data-install]").forEach(n => n.remove());
   }
 
   function init() {
     if (!isPhone) return;
-
     setupMetadata();
-
-    window.addEventListener("beforeinstallprompt",event=>{
-      event.preventDefault();
-      deferredPrompt=event;
+    window.addEventListener("beforeinstallprompt", e => {
+      e.preventDefault();
+      deferredPrompt = e;
     });
-
-    window.addEventListener("appinstalled",()=>{
-      deferredPrompt=null;
+    window.addEventListener("appinstalled", () => {
+      deferredPrompt = null;
       removeButtons();
     });
-
-    $("installClose").addEventListener("click",()=>$("installDialog").close());
+    $("installClose").addEventListener("click", () => $("installDialog").close());
   }
 
-  return {init,available,start};
+  return { init, available, start };
 })();
 
 function pageKind() {
-  const index=state.pageIndex;
-  return index<MONTHS.length?"month":EXTRA_PAGES[index-MONTHS.length].key;
+  const index = state.pageIndex;
+  return index < MONTHS.length ? "month" : EXTRA_PAGES[index - MONTHS.length].key;
 }
 
 function pageIndexOf(key) {
-  return MONTHS.length+EXTRA_PAGES.findIndex(page=>page.key===key);
+  return MONTHS.length + EXTRA_PAGES.findIndex(p => p.key === key);
 }
 
 function currentMonth() {
@@ -2125,56 +2072,56 @@ function currentMonth() {
 }
 
 function isCurrentMonthPage() {
-  return pageKind()==="month" && state.year===today.year && currentMonth().n===today.month;
+  return pageKind() === "month" && state.year === today.year && currentMonth().n === today.month;
 }
 
 function isTodayCell(day) {
-  return isCurrentMonthPage() && day===today.day;
+  return isCurrentMonthPage() && day === today.day;
 }
 
 function phaseOf(month) {
-  if (month.n===today.month) return "Current";
-  return month.n>today.month?"Upcoming":"Past";
+  if (month.n === today.month) return "Current";
+  return month.n > today.month ? "Upcoming" : "Past";
 }
 
 function goTo(index) {
-  state.pageIndex=index;
-  state.tagFilter=null;
+  state.pageIndex = index;
+  state.tagFilter = null;
   renderSheet();
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 }
 
-function openMonth(index,focusToday=false) {
+function openMonth(index, focusToday = false) {
   goTo(index);
   if (focusToday) requestAnimationFrame(scrollToToday);
 }
 
-function el(tag,className,text) {
-  const node=document.createElement(tag);
-  if (className) node.className=className;
-  if (text!=null) node.textContent=text;
+function el(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text != null) node.textContent = text;
   return node;
 }
 
-let saveTimer=null;
-const undoStack=[];
-let pendingConfirm=false;
+let saveTimer = null;
+const undoStack = [];
+let pendingConfirm = false;
 
 function queueSave() {
   setStatus("Saving");
   clearTimeout(saveTimer);
-  saveTimer=setTimeout(()=>{
-    const ok=Store.persist();
-    setStatus(ok?`Saved locally at ${new Date().toLocaleTimeString()}`:"Save failed, export a backup");
-  },180);
+  saveTimer = setTimeout(() => {
+    const ok = Store.persist();
+    setStatus(ok ? `Saved locally at ${new Date().toLocaleTimeString()}` : "Save failed, export a backup");
+  }, 180);
 }
 
 function currentRecord() {
-  return Store.month(state.year,currentMonth().n);
+  return Store.month(state.year, currentMonth().n);
 }
 
 function isMonthLocked() {
-  return Boolean(Store.peek(state.year,currentMonth().n)?.locked);
+  return Boolean(Store.peek(state.year, currentMonth().n)?.locked);
 }
 
 function currentPrice() {
@@ -2183,38 +2130,36 @@ function currentPrice() {
 
 function pushUndo(action) {
   undoStack.push(action);
-  if (undoStack.length>50) undoStack.shift();
+  if (undoStack.length > 50) undoStack.shift();
   refreshUndoButton();
 }
 
 function refreshUndoButton() {
-  const button=$("undoButton");
-  if (button) button.disabled=undoStack.length===0;
+  const button = $("undoButton");
+  if (button) button.disabled = undoStack.length === 0;
 }
 
 function undoLast() {
-  const action=undoStack.pop();
+  const action = undoStack.pop();
   if (!action) return;
 
-  const record=Store.month(action.year,action.month);
-  const dayRecord=(record.days[action.day]??={});
-  const ticks=(dayRecord.ticks??={});
+  const record = Store.month(action.year, action.month);
+  const dayRecord = (record.days[action.day] ??= {});
+  const ticks = (dayRecord.ticks ??= {});
 
-  if (action.before===0) delete ticks[action.key];
-  else ticks[action.key]=action.before;
+  if (action.before === 0) delete ticks[action.key];
+  else ticks[action.key] = action.before;
 
-  if (action.year===state.year && pageKind()==="month" && action.month===currentMonth().n) {
-    document.querySelectorAll(`[data-quantity="${action.day}-${action.key}"]`).forEach(value=>{
-      value.textContent=String(action.before);
-      const control=value.closest(".quantity-control");
-
+  if (action.year === state.year && pageKind() === "month" && action.month === currentMonth().n) {
+    document.querySelectorAll(`[data-quantity="${action.day}-${action.key}"]`).forEach(value => {
+      value.textContent = String(action.before);
+      const control = value.closest(".quantity-control");
       if (control) {
-        const locked=isMonthLocked();
-        control.querySelector("button:first-child").disabled=action.before===0 || locked;
-        control.querySelector("button:last-child").disabled=action.before===2 || locked;
+        const locked = isMonthLocked();
+        control.querySelector("button:first-child").disabled = action.before === 0 || locked;
+        control.querySelector("button:last-child").disabled = action.before === 2 || locked;
       }
     });
-
     updateDayTotals(action.day);
     renderStats();
   }
@@ -2224,175 +2169,160 @@ function undoLast() {
   setStatus("Last quantity change undone, saving");
 }
 
-function showConfirm({title,detail,effect,warning="",confirmText="Confirm",danger=false}) {
-  const dialog=$("dialog");
-
-  $("dialogTitle").textContent=title;
-  $("dialogDetail").textContent=detail;
-  $("dialogEffect").textContent=effect;
-  $("dialogWarning").textContent=warning;
-  $("dialogOk").textContent=confirmText;
-  $("dialogOk").classList.toggle("danger",danger);
+function showConfirm({ title, detail, effect, warning = "", confirmText = "Confirm", danger = false }) {
+  const dialog = $("dialog");
+  $("dialogTitle").textContent = title;
+  $("dialogDetail").textContent = detail;
+  $("dialogEffect").textContent = effect;
+  $("dialogWarning").textContent = warning;
+  $("dialogOk").textContent = confirmText;
+  $("dialogOk").classList.toggle("danger", danger);
 
   if (pendingConfirm) return Promise.resolve(false);
 
-  pendingConfirm=true;
+  pendingConfirm = true;
   dialog.showModal();
 
-  return new Promise(resolve=>{
-    let finished=false;
-
-    const finish=answer=>{
+  return new Promise(resolve => {
+    let finished = false;
+    const finish = answer => {
       if (finished) return;
-      finished=true;
-      pendingConfirm=false;
+      finished = true;
+      pendingConfirm = false;
       dialog.close();
       resolve(answer);
     };
-
-    $("dialogOk").onclick=()=>finish(true);
-    $("dialogCancel").onclick=()=>finish(false);
-    dialog.oncancel=event=>{
-      event.preventDefault();
+    $("dialogOk").onclick = () => finish(true);
+    $("dialogCancel").onclick = () => finish(false);
+    dialog.oncancel = e => {
+      e.preventDefault();
       finish(false);
     };
   });
 }
 
 function setStatus(message) {
-  const status=$("status");
-  if (status) status.textContent=message;
+  const status = $("status");
+  if (status) status.textContent = message;
 }
 
-window.addEventListener("pagehide",()=>{
+window.addEventListener("pagehide", () => {
   clearTimeout(saveTimer);
   Store.persist();
 });
 
 function noteFor(day) {
-  const record=Store.peek(state.year,currentMonth().n);
-  return (record && record.days[day] && record.days[day].note)||"";
+  const record = Store.peek(state.year, currentMonth().n);
+  return (record && record.days[day] && record.days[day].note) || "";
 }
 
 function dayTagIds(day) {
-  const record=Store.peek(state.year,currentMonth().n);
-  const ids=record && record.days[day] && record.days[day].tags;
-
-  return Array.isArray(ids)?ids.filter(id=>tagById(id)):[];
+  const record = Store.peek(state.year, currentMonth().n);
+  const ids = record && record.days[day] && record.days[day].tags;
+  return Array.isArray(ids) ? ids.filter(id => tagById(id)) : [];
 }
 
 function dayDetailTitle(day) {
-  const names=dayTagIds(day).map(id=>tagById(id).name).join(", ");
-
-  return [names,noteFor(day)].filter(Boolean).join(" - ");
+  const names = dayTagIds(day).map(id => tagById(id).name).join(", ");
+  return [names, noteFor(day)].filter(Boolean).join(" - ");
 }
 
 function tagCountFor(id) {
-  let count=0;
-
-  for (let day=1;day<=CONFIG.daysPerMonth;day++) {
+  let count = 0;
+  for (let day = 1; day <= CONFIG.daysPerMonth; day++) {
     if (dayTagIds(day).includes(id)) count++;
   }
-
   return count;
 }
 
-function fillTagDots(box,day) {
-  box.textContent="";
-
-  dayTagIds(day).slice(0,6).forEach(id=>{
-    const tag=tagById(id);
-    const dot=el("span","tag-dot");
-
-    dot.style.setProperty("--tag",tag.color);
-    dot.title=tag.name;
+function fillTagDots(box, day) {
+  box.textContent = "";
+  dayTagIds(day).slice(0, 6).forEach(id => {
+    const tag = tagById(id);
+    const dot = el("span", "tag-dot");
+    dot.style.setProperty("--tag", tag.color);
+    dot.title = tag.name;
     box.append(dot);
   });
 }
 
-function fillTagChips(box,day) {
-  box.textContent="";
-
-  dayTagIds(day).forEach(id=>{
-    const tag=tagById(id);
-    const chip=el("span","tag-chip",tag.name);
-
-    chip.style.setProperty("--tag",tag.color);
+function fillTagChips(box, day) {
+  box.textContent = "";
+  dayTagIds(day).forEach(id => {
+    const tag = tagById(id);
+    const chip = el("span", "tag-chip", tag.name);
+    chip.style.setProperty("--tag", tag.color);
     box.append(chip);
   });
 }
 
 function refreshNoteViews(day) {
-  const text=noteFor(day);
-  const hasDetails=Boolean(text) || dayTagIds(day).length>0;
+  const text = noteFor(day);
+  const hasDetails = Boolean(text) || dayTagIds(day).length > 0;
 
-  document.querySelectorAll(`[data-note-day="${day}"]`).forEach(button=>{
-    button.classList.toggle("has-note",hasDetails);
-    button.title=dayDetailTitle(day);
+  document.querySelectorAll(`[data-note-day="${day}"]`).forEach(button => {
+    button.classList.toggle("has-note", hasDetails);
+    button.title = dayDetailTitle(day);
   });
 
-  const dots=$(`desktop-dots-${day}`);
-  if (dots) fillTagDots(dots,day);
+  const dots = $(`desktop-dots-${day}`);
+  if (dots) fillTagDots(dots, day);
 
-  const chips=$(`mobile-tags-${day}`);
-  if (chips) fillTagChips(chips,day);
+  const chips = $(`mobile-tags-${day}`);
+  if (chips) fillTagChips(chips, day);
 
-  const preview=$(`mobile-note-${day}`);
-  if (preview) preview.textContent=text;
+  const preview = $(`mobile-note-${day}`);
+  if (preview) preview.textContent = text;
 }
 
 function openNote(day) {
-  const dialog=$("noteDialog");
-  const field=$("noteField");
-  const picker=$("tagPicker");
-  const locked=isMonthLocked();
-  const selection=new Set(dayTagIds(day));
+  const dialog = $("noteDialog");
+  const field = $("noteField");
+  const picker = $("tagPicker");
+  const locked = isMonthLocked();
+  const selection = new Set(dayTagIds(day));
 
-  $("noteTitle").textContent=`Day ${day} details`;
-  field.value=noteFor(day);
-  field.readOnly=locked;
-  $("noteHint").textContent=locked?"This month is locked. Unlock it to edit details.":"Choose tags and add a note of up to 200 characters.";
-  $("noteSave").hidden=locked;
-  $("noteCancel").textContent=locked?"Close":"Cancel";
+  $("noteTitle").textContent = `Day ${day} details`;
+  field.value = noteFor(day);
+  field.readOnly = locked;
+  $("noteHint").textContent = locked
+    ? "This month is locked. Unlock it to edit details."
+    : "Choose tags and add a note of up to 200 characters.";
+  $("noteSave").hidden = locked;
+  $("noteCancel").textContent = locked ? "Close" : "Cancel";
 
-  picker.textContent="";
-
-  const tags=getTags();
-
+  picker.textContent = "";
+  const tags = getTags();
   if (!tags.length) {
-    picker.append(el("p","dialog-hint","No tags yet. Add some in Settings."));
+    picker.append(el("p", "dialog-hint", "No tags yet. Add some in Settings."));
   }
 
-  tags.forEach(tag=>{
-    const chip=el("button","tag-chip",tag.name);
-
-    chip.type="button";
-    chip.style.setProperty("--tag",tag.color);
-    chip.setAttribute("aria-pressed",String(selection.has(tag.id)));
-    chip.disabled=locked;
-    chip.addEventListener("click",()=>{
+  tags.forEach(tag => {
+    const chip = el("button", "tag-chip", tag.name);
+    chip.type = "button";
+    chip.style.setProperty("--tag", tag.color);
+    chip.setAttribute("aria-pressed", String(selection.has(tag.id)));
+    chip.disabled = locked;
+    chip.addEventListener("click", () => {
       if (selection.has(tag.id)) selection.delete(tag.id);
       else selection.add(tag.id);
-
-      chip.setAttribute("aria-pressed",String(selection.has(tag.id)));
+      chip.setAttribute("aria-pressed", String(selection.has(tag.id)));
     });
-
     picker.append(chip);
   });
 
-  $("noteCancel").onclick=()=>dialog.close();
-  $("noteSave").onclick=()=>{
+  $("noteCancel").onclick = () => dialog.close();
+  $("noteSave").onclick = () => {
     if (isMonthLocked()) return;
+    const record = currentRecord();
+    const dayRecord = (record.days[day] ??= {});
+    const text = field.value.trim().slice(0, 200);
+    const ids = getTags().map(t => t.id).filter(id => selection.has(id));
 
-    const record=currentRecord();
-    const dayRecord=(record.days[day]??={});
-    const text=field.value.trim().slice(0,200);
-    const ids=getTags().map(tag=>tag.id).filter(id=>selection.has(id));
-
-    if (text) dayRecord.note=text;
+    if (text) dayRecord.note = text;
     else delete dayRecord.note;
 
-    if (ids.length) dayRecord.tags=ids;
+    if (ids.length) dayRecord.tags = ids;
     else delete dayRecord.tags;
 
     refreshNoteViews(day);
@@ -2406,257 +2336,217 @@ function openNote(day) {
 }
 
 function makeNoteButton(day) {
-  const button=el("button","note-button","Details");
-
-  button.type="button";
-  button.dataset.noteDay=String(day);
-  button.setAttribute("aria-label",`Details for day ${day}`);
-  button.classList.toggle("has-note",Boolean(noteFor(day)) || dayTagIds(day).length>0);
-  button.title=dayDetailTitle(day);
-  button.addEventListener("click",()=>openNote(day));
-
+  const button = el("button", "note-button", "Details");
+  button.type = "button";
+  button.dataset.noteDay = String(day);
+  button.setAttribute("aria-label", `Details for day ${day}`);
+  button.classList.toggle("has-note", Boolean(noteFor(day)) || dayTagIds(day).length > 0);
+  button.title = dayDetailTitle(day);
+  button.addEventListener("click", () => openNote(day));
   return button;
 }
 
-function makeOption(day,meal,food,ticks) {
-  const key=meal+food;
-  const option=el("div","option");
-  const name=el("span","option-name",LABEL[food]);
-  const control=el("div","quantity-control");
-  const minus=el("button",null,"−");
-  const value=el("span","quantity-value",String(normalizeQuantity(ticks[key])));
-  const plus=el("button",null,"+");
+function makeOption(day, meal, food, ticks) {
+  const key = meal + food;
+  const option = el("div", "option");
+  const name = el("span", "option-name", LABEL[food]);
+  const control = el("div", "quantity-control");
+  const minus = el("button", null, "−");
+  const value = el("span", "quantity-value", String(normalizeQuantity(ticks[key])));
+  const plus = el("button", null, "+");
 
-  minus.type="button";
-  plus.type="button";
+  minus.type = "button";
+  plus.type = "button";
+  minus.setAttribute("aria-label", `Remove one ${LABEL[food]} serving`);
+  plus.setAttribute("aria-label", `Add one ${LABEL[food]} serving`);
+  value.setAttribute("aria-live", "polite");
+  value.setAttribute("aria-label", `${LABEL[food]} quantity`);
+  value.dataset.quantity = `${day}-${key}`;
 
-  minus.setAttribute("aria-label",`Remove one ${LABEL[food]} serving`);
-  plus.setAttribute("aria-label",`Add one ${LABEL[food]} serving`);
-
-  value.setAttribute("aria-live","polite");
-  value.setAttribute("aria-label",`${LABEL[food]} quantity`);
-  value.dataset.quantity=`${day}-${key}`;
-
-  const refresh=()=>{
-    const quantity=normalizeQuantity(value.textContent);
-    value.textContent=String(quantity);
-    minus.disabled=quantity===0 || isMonthLocked();
-    plus.disabled=quantity===2 || isMonthLocked();
+  const refresh = () => {
+    const q = normalizeQuantity(value.textContent);
+    value.textContent = String(q);
+    minus.disabled = q === 0 || isMonthLocked();
+    plus.disabled = q === 2 || isMonthLocked();
   };
 
-  const change=async direction=>{
+  const change = async direction => {
     if (isMonthLocked()) return;
+    const before = normalizeQuantity(value.textContent);
+    const after = normalizeQuantity(before + direction);
+    if (after === before) return;
 
-    const before=normalizeQuantity(value.textContent);
-    const after=normalizeQuantity(before+direction);
-
-    if (after===before) return;
-
-    const adding=direction>0;
-
+    const adding = direction > 0;
     if (confirmTicksEnabled()) {
-      const confirmed=await showConfirm({
-        title:adding?"Are you sure you want to tick this item?":"Are you sure you want to untick this item?",
-        detail:`Day ${day}, ${LABEL[meal]}, ${LABEL[food]}`,
-        effect:adding?`Add 1 serving for ${formatBirr(currentPrice())}`:`Remove 1 serving worth ${formatBirr(currentPrice())}`,
-        warning:`Quantity will change from ${before} to ${after}. Maximum allowed: 2.`,
-        confirmText:adding?"Yes, tick it":"Yes, untick it",
-        danger:!adding
+      const confirmed = await showConfirm({
+        title: adding ? "Are you sure you want to tick this item?" : "Are you sure you want to untick this item?",
+        detail: `Day ${day}, ${LABEL[meal]}, ${LABEL[food]}`,
+        effect: adding
+          ? `Add 1 serving for ${formatBirr(currentPrice())}`
+          : `Remove 1 serving worth ${formatBirr(currentPrice())}`,
+        warning: `Quantity will change from ${before} to ${after}. Maximum allowed: 2.`,
+        confirmText: adding ? "Yes, tick it" : "Yes, untick it",
+        danger: !adding
       });
-
       if (!confirmed) return;
     }
 
-    value.textContent=String(after);
+    value.textContent = String(after);
     refresh();
-    setQuantity(day,key,after,before);
+    setQuantity(day, key, after, before);
   };
 
-  minus.addEventListener("click",()=>change(-1));
-  plus.addEventListener("click",()=>change(1));
+  minus.addEventListener("click", () => change(-1));
+  plus.addEventListener("click", () => change(1));
 
   refresh();
-  control.append(minus,value,plus);
-  option.append(name,control);
-
+  control.append(minus, value, plus);
+  option.append(name, control);
   return option;
 }
 
 function createDesktopTable(record) {
-  const head=el("thead");
-  const headRow=el("tr");
-
+  const head = el("thead");
+  const headRow = el("tr");
   [
-    ["col-day","Day"],
-    ["","Breakfast"],
-    ["","Lunch"],
-    ["","Dinner"],
-    ["col-items","Servings"],
-    ["col-birr","Birr"]
-  ].forEach(([className,label])=>{
-    headRow.append(el("th",className,label));
-  });
-
+    ["col-day", "Day"],
+    ["", "Breakfast"],
+    ["", "Lunch"],
+    ["", "Dinner"],
+    ["col-items", "Servings"],
+    ["col-birr", "Birr"]
+  ].forEach(([cls, label]) => headRow.append(el("th", cls, label)));
   head.append(headRow);
 
-  const body=el("tbody");
-
-  for (let day=1;day<=CONFIG.daysPerMonth;day++) {
-    const row=el("tr");
-    const ticks=(record.days[day] && record.days[day].ticks)||{};
-
-    row.id=`desktop-row-${day}`;
+  const body = el("tbody");
+  for (let day = 1; day <= CONFIG.daysPerMonth; day++) {
+    const row = el("tr");
+    const ticks = (record.days[day] && record.days[day].ticks) || {};
+    row.id = `desktop-row-${day}`;
     if (isTodayCell(day)) row.classList.add("today");
 
-    const dayCell=el("td","col-day");
-    const dots=el("div","tag-dots");
-
-    dots.id=`desktop-dots-${day}`;
-    fillTagDots(dots,day);
-
-    dayCell.append(el("div",null,String(day)),makeNoteButton(day),dots);
+    const dayCell = el("td", "col-day");
+    const dots = el("div", "tag-dots");
+    dots.id = `desktop-dots-${day}`;
+    fillTagDots(dots, day);
+    dayCell.append(el("div", null, String(day)), makeNoteButton(day), dots);
     row.append(dayCell);
 
-    MEALS.forEach(meal=>{
-      const cell=el("td",MEAL_CLASS[meal]);
-
-      FOODS.forEach(food=>{
-        cell.append(makeOption(day,meal,food,ticks));
-      });
-
+    MEALS.forEach(meal => {
+      const cell = el("td", MEAL_CLASS[meal]);
+      FOODS.forEach(food => cell.append(makeOption(day, meal, food, ticks)));
       row.append(cell);
     });
 
-    const items=el("td","col-items");
-    const birr=el("td","col-birr");
-
-    items.id=`desktop-items-${day}`;
-    birr.id=`desktop-birr-${day}`;
-
-    row.append(items,birr);
+    const items = el("td", "col-items");
+    const birr = el("td", "col-birr");
+    items.id = `desktop-items-${day}`;
+    birr.id = `desktop-birr-${day}`;
+    row.append(items, birr);
     body.append(row);
   }
 
-  const table=el("table");
-  table.append(head,body);
-
-  const wrap=el("div","table-wrap");
+  const table = el("table");
+  table.append(head, body);
+  const wrap = el("div", "table-wrap");
   wrap.append(table);
-
   return wrap;
 }
 
 function createMobileDays(record) {
-  const container=el("div","mobile-days");
-
-  for (let day=1;day<=CONFIG.daysPerMonth;day++) {
-    const ticks=(record.days[day] && record.days[day].ticks)||{};
-    const card=el("section","day-card");
-
-    card.id=`mobile-day-${day}`;
+  const container = el("div", "mobile-days");
+  for (let day = 1; day <= CONFIG.daysPerMonth; day++) {
+    const ticks = (record.days[day] && record.days[day].ticks) || {};
+    const card = el("section", "day-card");
+    card.id = `mobile-day-${day}`;
     if (isTodayCell(day)) card.classList.add("today");
 
-    const head=el("div","day-card-head");
-
+    const head = el("div", "day-card-head");
     head.append(
-      el("span","day-number",`Day ${day}`),
+      el("span", "day-number", `Day ${day}`),
       makeNoteButton(day),
-      el("span","day-total",`${dayItems({ticks})} servings, ${formatBirr(dayItems({ticks})*recordPrice(record))}`)
+      el("span", "day-total", `${dayItems({ ticks })} servings, ${formatBirr(dayItems({ ticks }) * recordPrice(record))}`)
     );
-
     card.append(head);
 
-    MEALS.forEach(meal=>{
-      const mealRow=el("div",`day-meal ${MEAL_CLASS[meal]}`);
-      const mealName=el("div","meal-name",LABEL[meal]);
-      const options=el("div","meal-options");
-
-      FOODS.forEach(food=>{
-        options.append(makeOption(day,meal,food,ticks));
-      });
-
-      mealRow.append(mealName,options);
+    MEALS.forEach(meal => {
+      const mealRow = el("div", `day-meal ${MEAL_CLASS[meal]}`);
+      const mealName = el("div", "meal-name", LABEL[meal]);
+      const options = el("div", "meal-options");
+      FOODS.forEach(food => options.append(makeOption(day, meal, food, ticks)));
+      mealRow.append(mealName, options);
       card.append(mealRow);
     });
 
-    const totals=el("div","mobile-day-totals");
-    totals.id=`mobile-totals-${day}`;
+    const totals = el("div", "mobile-day-totals");
+    totals.id = `mobile-totals-${day}`;
 
-    const chips=el("div","tag-chips");
-    chips.id=`mobile-tags-${day}`;
-    fillTagChips(chips,day);
+    const chips = el("div", "tag-chips");
+    chips.id = `mobile-tags-${day}`;
+    fillTagChips(chips, day);
 
-    const preview=el("div","day-note-preview",(record.days[day] && record.days[day].note)||"");
-    preview.id=`mobile-note-${day}`;
+    const preview = el("div", "day-note-preview", (record.days[day] && record.days[day].note) || "");
+    preview.id = `mobile-note-${day}`;
 
-    card.append(totals,chips,preview);
+    card.append(totals, chips, preview);
     container.append(card);
   }
-
   return container;
 }
 
 function updateDayTotals(day) {
-  const record=Store.peek(state.year,currentMonth().n);
-  const dayRecord=record && record.days[day];
-  const count=dayItems(dayRecord);
-  const price=recordPrice(record);
-  const birr=count*price;
+  const record = Store.peek(state.year, currentMonth().n);
+  const dayRecord = record && record.days[day];
+  const count = dayItems(dayRecord);
+  const price = recordPrice(record);
+  const birr = count * price;
 
-  const desktopItems=$(`desktop-items-${day}`);
-  const desktopBirr=$(`desktop-birr-${day}`);
-
+  const desktopItems = $(`desktop-items-${day}`);
+  const desktopBirr = $(`desktop-birr-${day}`);
   if (desktopItems) {
-    desktopItems.textContent=String(count);
-    desktopItems.classList.toggle("zero",count===0);
+    desktopItems.textContent = String(count);
+    desktopItems.classList.toggle("zero", count === 0);
   }
-
   if (desktopBirr) {
-    desktopBirr.textContent=formatBirr(birr);
-    desktopBirr.classList.toggle("zero",count===0);
+    desktopBirr.textContent = formatBirr(birr);
+    desktopBirr.classList.toggle("zero", count === 0);
   }
 
-  const mobileCard=$(`mobile-day-${day}`);
-
+  const mobileCard = $(`mobile-day-${day}`);
   if (mobileCard) {
-    const head=mobileCard.querySelector(".day-total");
+    const head = mobileCard.querySelector(".day-total");
+    if (head) head.textContent = `${count} servings, ${formatBirr(birr)}`;
 
-    if (head) {
-      head.textContent=`${count} servings, ${formatBirr(birr)}`;
-    }
-
-    const totals=$(`mobile-totals-${day}`);
-
+    const totals = $(`mobile-totals-${day}`);
     if (totals) {
-      totals.textContent="";
+      totals.textContent = "";
       totals.append(
-        el("span",null,`Servings: ${count}`),
-        el("span",null,formatBirr(birr))
+        el("span", null, `Servings: ${count}`),
+        el("span", null, formatBirr(birr))
       );
     }
   }
 }
 
-function setQuantity(day,key,requestedQuantity,beforeQuantity) {
-  const quantity=normalizeQuantity(requestedQuantity);
-
+function setQuantity(day, key, requestedQuantity, beforeQuantity) {
+  const quantity = normalizeQuantity(requestedQuantity);
   if (!/^[bld][sp]$/.test(key) || isMonthLocked()) return;
 
-  const record=currentRecord();
-  const dayRecord=(record.days[day]??={});
-  const ticks=(dayRecord.ticks??={});
-  const before=normalizeQuantity(beforeQuantity);
+  const record = currentRecord();
+  const dayRecord = (record.days[day] ??= {});
+  const ticks = (dayRecord.ticks ??= {});
+  const before = normalizeQuantity(beforeQuantity);
 
-  if (quantity===0) delete ticks[key];
-  else ticks[key]=quantity;
+  if (quantity === 0) delete ticks[key];
+  else ticks[key] = quantity;
 
   pushUndo({
-    year:state.year,
-    month:currentMonth().n,
+    year: state.year,
+    month: currentMonth().n,
     day,
     key,
     before,
-    after:quantity
+    after: quantity
   });
 
   updateDayTotals(day);
@@ -2666,319 +2556,272 @@ function setQuantity(day,key,requestedQuantity,beforeQuantity) {
 
 function changeMonthPrice(rawValue) {
   if (isMonthLocked()) return;
-
-  const price=Number(rawValue);
-
-  if (!Number.isFinite(price) || price<=0 || price>1000000) {
+  const price = Number(rawValue);
+  if (!Number.isFinite(price) || price <= 0 || price > 1000000) {
     alert("Enter a valid price greater than 0 Birr.");
     renderSheet();
     return;
   }
-
-  currentRecord().pricePerServing=Math.round(price*100)/100;
-
-  for (let day=1;day<=CONFIG.daysPerMonth;day++) {
-    updateDayTotals(day);
-  }
-
+  currentRecord().pricePerServing = Math.round(price * 100) / 100;
+  for (let day = 1; day <= CONFIG.daysPerMonth; day++) updateDayTotals(day);
   renderStats();
   queueSave();
 }
 
 function changePaid(rawValue) {
   if (isMonthLocked()) return;
-
-  const amount=Number(rawValue);
-
-  if (String(rawValue).trim()==="" || !Number.isFinite(amount) || amount<0 || amount>10000000) {
+  const amount = Number(rawValue);
+  if (String(rawValue).trim() === "" || !Number.isFinite(amount) || amount < 0 || amount > 10000000) {
     alert("Enter a paid amount of 0 Birr or more.");
     renderSheet();
     return;
   }
-
-  currentRecord().paid=Math.round(amount*100)/100;
+  currentRecord().paid = Math.round(amount * 100) / 100;
   renderStats();
   queueSave();
 }
 
 async function markFullyPaid() {
   if (isMonthLocked()) return;
-
-  const stats=Store.stats(state.year,currentMonth().n);
-
-  const ok=await showConfirm({
-    title:"Mark this month as fully paid?",
-    detail:`${currentMonth().name} ${state.year} E.C.`,
-    effect:`Paid amount will be set to ${formatBirr(stats.birr)}`,
-    warning:"You can change the paid amount again later.",
-    confirmText:"Yes, mark paid"
+  const stats = Store.stats(state.year, currentMonth().n);
+  const ok = await showConfirm({
+    title: "Mark this month as fully paid?",
+    detail: `${currentMonth().name} ${state.year} E.C.`,
+    effect: `Paid amount will be set to ${formatBirr(stats.birr)}`,
+    warning: "You can change the paid amount again later.",
+    confirmText: "Yes, mark paid"
   });
-
   if (!ok) return;
-
-  currentRecord().paid=stats.birr;
+  currentRecord().paid = stats.birr;
   renderSheet();
   queueSave();
 }
 
 function changeBudget(rawValue) {
   if (isMonthLocked()) return;
-
-  const amount=Number(rawValue);
-
-  if (String(rawValue).trim()==="" || !Number.isFinite(amount) || amount<0 || amount>10000000) {
+  const amount = Number(rawValue);
+  if (String(rawValue).trim() === "" || !Number.isFinite(amount) || amount < 0 || amount > 10000000) {
     alert("Enter a budget of 0 Birr or more. Use 0 for no budget.");
     renderSheet();
     return;
   }
-
-  currentRecord().budget=Math.round(amount*100)/100;
+  currentRecord().budget = Math.round(amount * 100) / 100;
   renderStats();
   queueSave();
 }
 
 async function toggleMonthLock() {
-  const record=currentRecord();
-  const locking=!record.locked;
-
-  const ok=await showConfirm({
-    title:locking?"Lock this month's record?":"Unlock this month's record?",
-    detail:`${currentMonth().name} ${state.year} E.C.`,
-    effect:locking?"Entries, details, price, payment and budget will become read-only.":"You will be able to edit this month's entries again.",
-    warning:locking?"You can unlock this month later.":"Please make changes carefully.",
-    confirmText:locking?"Lock month":"Unlock month"
+  const record = currentRecord();
+  const locking = !record.locked;
+  const ok = await showConfirm({
+    title: locking ? "Lock this month's record?" : "Unlock this month's record?",
+    detail: `${currentMonth().name} ${state.year} E.C.`,
+    effect: locking
+      ? "Entries, details, price, payment and budget will become read-only."
+      : "You will be able to edit this month's entries again.",
+    warning: locking ? "You can unlock this month later." : "Please make changes carefully.",
+    confirmText: locking ? "Lock month" : "Unlock month"
   });
-
   if (!ok) return;
-
-  record.locked=locking;
+  record.locked = locking;
   queueSave();
   renderSheet();
 }
 
 function trackedDaysFor(monthN) {
-  if (state.year!==today.year) return CONFIG.daysPerMonth;
-  if (monthN<today.month) return CONFIG.daysPerMonth;
-  if (monthN===today.month) return Math.min(today.day,CONFIG.daysPerMonth);
+  if (state.year !== today.year) return CONFIG.daysPerMonth;
+  if (monthN < today.month) return CONFIG.daysPerMonth;
+  if (monthN === today.month) return Math.min(today.day, CONFIG.daysPerMonth);
   return 0;
 }
 
 function monthInsights() {
-  const month=currentMonth();
-  const record=Store.peek(state.year,month.n);
-  const stats=Store.stats(state.year,month.n);
-  const counts=[];
-  let lastEntry=0;
+  const month = currentMonth();
+  const record = Store.peek(state.year, month.n);
+  const stats = Store.stats(state.year, month.n);
+  const counts = [];
+  let lastEntry = 0;
 
-  for (let day=1;day<=CONFIG.daysPerMonth;day++) {
-    counts[day]=dayItems(record && record.days[day]);
-    if (counts[day]>0) lastEntry=day;
+  for (let day = 1; day <= CONFIG.daysPerMonth; day++) {
+    counts[day] = dayItems(record && record.days[day]);
+    if (counts[day] > 0) lastEntry = day;
   }
 
-  const tracked=Math.max(trackedDaysFor(month.n),lastEntry);
+  const tracked = Math.max(trackedDaysFor(month.n), lastEntry);
+  if (tracked === 0) return null;
 
-  if (tracked===0) return null;
+  let total = 0;
+  let empty = 0;
+  let busiest = 0;
+  let busiestCount = 0;
 
-  let total=0;
-  let empty=0;
-  let busiest=0;
-  let busiestCount=0;
-
-  for (let day=1;day<=tracked;day++) {
-    total+=counts[day];
-    if (counts[day]===0) empty++;
-    if (counts[day]>busiestCount) {
-      busiestCount=counts[day];
-      busiest=day;
+  for (let day = 1; day <= tracked; day++) {
+    total += counts[day];
+    if (counts[day] === 0) empty++;
+    if (counts[day] > busiestCount) {
+      busiestCount = counts[day];
+      busiest = day;
     }
   }
 
-  const shiroShare=stats.items?Math.round(stats.shiro/stats.items*100):0;
-
+  const shiroShare = stats.items ? Math.round(stats.shiro / stats.items * 100) : 0;
   return {
     tracked,
-    average:total/tracked,
-    averageBirr:total*recordPrice(record)/tracked,
+    average: total / tracked,
+    averageBirr: total * recordPrice(record) / tracked,
     busiest,
     busiestCount,
     empty,
     shiroShare,
-    spriShare:stats.items?100-shiroShare:0
+    spriShare: stats.items ? 100 - shiroShare : 0
   };
 }
 
-function makeStatTile(label,value,highlight) {
-  const tile=el("div",highlight?"stat highlight":"stat");
-  tile.append(el("small",null,label),el("b",null,String(value)));
+function makeStatTile(label, value, highlight) {
+  const tile = el("div", highlight ? "stat highlight" : "stat");
+  tile.append(el("small", null, label), el("b", null, String(value)));
   return tile;
 }
 
 function renderInsights() {
-  const box=$("insights");
-
+  const box = $("insights");
   if (!box) return;
-
-  box.textContent="";
-
-  const data=monthInsights();
-
+  box.textContent = "";
+  const data = monthInsights();
   if (!data) {
-    box.append(el("p","panel-text","Insights appear once this month has started or has entries."));
+    box.append(el("p", "panel-text", "Insights appear once this month has started or has entries."));
     return;
   }
-
   box.append(
-    makeStatTile("Average servings per day",formatNumber(data.average)),
-    makeStatTile("Average Birr per day",formatBirr(data.averageBirr)),
-    makeStatTile("Busiest day",data.busiestCount>0?`Day ${data.busiest} (${data.busiestCount})`:"None yet"),
-    makeStatTile("Days with no food",`${data.empty} of ${data.tracked}`),
-    makeStatTile("Shiro share",`${data.shiroShare}%`),
-    makeStatTile("Spris share",`${data.spriShare}%`)
+    makeStatTile("Average servings per day", formatNumber(data.average)),
+    makeStatTile("Average Birr per day", formatBirr(data.averageBirr)),
+    makeStatTile("Busiest day", data.busiestCount > 0 ? `Day ${data.busiest} (${data.busiestCount})` : "None yet"),
+    makeStatTile("Days with no food", `${data.empty} of ${data.tracked}`),
+    makeStatTile("Shiro share", `${data.shiroShare}%`),
+    makeStatTile("Spris share", `${data.spriShare}%`)
   );
 }
 
 function renderPayment() {
-  const statusBox=$("payStatus");
-  const remainingBox=$("payRemaining");
-
+  const statusBox = $("payStatus");
+  const remainingBox = $("payRemaining");
   if (!statusBox || !remainingBox) return;
 
-  const record=Store.peek(state.year,currentMonth().n);
-  const total=Store.stats(state.year,currentMonth().n).birr;
-  const paid=Number(record?.paid)||0;
+  const record = Store.peek(state.year, currentMonth().n);
+  const total = Store.stats(state.year, currentMonth().n).birr;
+  const paid = Number(record?.paid) || 0;
 
-  let label="Unpaid";
-  let tone="pay-unpaid";
-
-  if (total===0 && paid===0) {
-    label="No charges";
-    tone="";
-  } else if (paid>=total) {
-    label="Paid";
-    tone="pay-paid";
-  } else if (paid>0) {
-    label="Partly paid";
-    tone="pay-partial";
+  let label = "Unpaid";
+  let tone = "pay-unpaid";
+  if (total === 0 && paid === 0) {
+    label = "No charges";
+    tone = "";
+  } else if (paid >= total) {
+    label = "Paid";
+    tone = "pay-paid";
+  } else if (paid > 0) {
+    label = "Partly paid";
+    tone = "pay-partial";
   }
 
-  statusBox.textContent=label;
-  statusBox.className=tone;
-  remainingBox.textContent=formatBalance(total-paid);
+  statusBox.textContent = label;
+  statusBox.className = tone;
+  remainingBox.textContent = formatBalance(total - paid);
 }
 
 function renderBudget() {
-  const fill=$("budgetFill");
-  const text=$("budgetText");
-
+  const fill = $("budgetFill");
+  const text = $("budgetText");
   if (!fill || !text) return;
 
-  const record=Store.peek(state.year,currentMonth().n);
-  const total=Store.stats(state.year,currentMonth().n).birr;
-  const budget=Number(record?.budget)||0;
+  const record = Store.peek(state.year, currentMonth().n);
+  const total = Store.stats(state.year, currentMonth().n).birr;
+  const budget = Number(record?.budget) || 0;
 
-  fill.className="budget-fill";
-
-  if (budget<=0) {
-    fill.style.width="0%";
-    text.textContent="No budget set. Enter an amount to track spending.";
+  fill.className = "budget-fill";
+  if (budget <= 0) {
+    fill.style.width = "0%";
+    text.textContent = "No budget set. Enter an amount to track spending.";
     return;
   }
 
-  const percent=total/budget*100;
+  const percent = total / budget * 100;
+  fill.style.width = `${Math.min(100, percent)}%`;
+  if (percent >= 100) fill.classList.add("over");
+  else if (percent >= 75) fill.classList.add("warn");
 
-  fill.style.width=`${Math.min(100,percent)}%`;
-
-  if (percent>=100) fill.classList.add("over");
-  else if (percent>=75) fill.classList.add("warn");
-
-  text.textContent=percent>100
-    ?`${formatBirr(total)} of ${formatBirr(budget)} (${Math.round(percent)}%), over by ${formatBirr(total-budget)}`
-    :`${formatBirr(total)} of ${formatBirr(budget)} (${Math.round(percent)}%)`;
+  text.textContent = percent > 100
+    ? `${formatBirr(total)} of ${formatBirr(budget)} (${Math.round(percent)}%), over by ${formatBirr(total - budget)}`
+    : `${formatBirr(total)} of ${formatBirr(budget)} (${Math.round(percent)}%)`;
 }
 
 function renderTagsPanel() {
-  const box=$("tagsBox");
-
+  const box = $("tagsBox");
   if (!box) return;
-
-  box.textContent="";
-
-  const tags=getTags();
-
+  box.textContent = "";
+  const tags = getTags();
   if (!tags.length) {
-    box.append(el("p","panel-text","No tags yet. Add some in Settings."));
+    box.append(el("p", "panel-text", "No tags yet. Add some in Settings."));
     return;
   }
-
-  tags.forEach(tag=>{
-    const chip=el("button","tag-chip",`${tag.name} (${tagCountFor(tag.id)})`);
-
-    chip.type="button";
-    chip.style.setProperty("--tag",tag.color);
-    chip.setAttribute("aria-pressed",String(state.tagFilter===tag.id));
-    chip.addEventListener("click",()=>{
-      state.tagFilter=state.tagFilter===tag.id?null:tag.id;
+  tags.forEach(tag => {
+    const chip = el("button", "tag-chip", `${tag.name} (${tagCountFor(tag.id)})`);
+    chip.type = "button";
+    chip.style.setProperty("--tag", tag.color);
+    chip.setAttribute("aria-pressed", String(state.tagFilter === tag.id));
+    chip.addEventListener("click", () => {
+      state.tagFilter = state.tagFilter === tag.id ? null : tag.id;
       renderTagsPanel();
       applyTagFilter();
     });
-
     box.append(chip);
   });
 }
 
 function applyTagFilter() {
-  for (let day=1;day<=CONFIG.daysPerMonth;day++) {
-    const hidden=Boolean(state.tagFilter) && !dayTagIds(day).includes(state.tagFilter);
-    const row=$(`desktop-row-${day}`);
-    const card=$(`mobile-day-${day}`);
-
-    if (row) row.classList.toggle("dim",hidden);
-    if (card) card.classList.toggle("dim",hidden);
+  for (let day = 1; day <= CONFIG.daysPerMonth; day++) {
+    const hidden = Boolean(state.tagFilter) && !dayTagIds(day).includes(state.tagFilter);
+    const row = $(`desktop-row-${day}`);
+    const card = $(`mobile-day-${day}`);
+    if (row) row.classList.toggle("dim", hidden);
+    if (card) card.classList.toggle("dim", hidden);
   }
 }
 
 function updateTodayCard() {
-  const card=$("todayCard");
-
+  const card = $("todayCard");
   if (!card) return;
-
-  const record=Store.peek(state.year,currentMonth().n);
-  const count=dayItems(record && record.days[today.day]);
-
-  $("todaySummary").textContent=`${count} servings, ${formatBirr(count*recordPrice(record))}`;
+  const record = Store.peek(state.year, currentMonth().n);
+  const count = dayItems(record && record.days[today.day]);
+  $("todaySummary").textContent = `${count} servings, ${formatBirr(count * recordPrice(record))}`;
 }
 
 function scrollToToday() {
-  const targets=[$(`mobile-day-${today.day}`),$(`desktop-row-${today.day}`)];
-  const visible=targets.find(target=>target && target.getClientRects().length>0);
-
-  if (visible) visible.scrollIntoView({behavior:"smooth",block:"center"});
+  const targets = [$(`mobile-day-${today.day}`), $(`desktop-row-${today.day}`)];
+  const visible = targets.find(t => t && t.getClientRects().length > 0);
+  if (visible) visible.scrollIntoView({ behavior: "smooth", block: "center" });
 }
 
 function renderStats() {
-  const stats=Store.stats(state.year,currentMonth().n);
-  const box=$("stats");
-
+  const stats = Store.stats(state.year, currentMonth().n);
+  const box = $("stats");
   if (!box) return;
+  box.textContent = "";
 
-  box.textContent="";
-
-  const tiles=[
-    ["Shiro",stats.shiro],
-    ["Spris",stats.spris],
-    ["Breakfast",stats.b],
-    ["Lunch",stats.l],
-    ["Dinner",stats.d],
-    ["Total servings",stats.items],
-    ["Month total",formatBirr(stats.birr)]
+  const tiles = [
+    ["Shiro", stats.shiro],
+    ["Spris", stats.spris],
+    ["Breakfast", stats.b],
+    ["Lunch", stats.l],
+    ["Dinner", stats.d],
+    ["Total servings", stats.items],
+    ["Month total", formatBirr(stats.birr)]
   ];
-
-  tiles.forEach(([label,value],index)=>{
-    box.append(makeStatTile(label,value,index===tiles.length-1));
+  tiles.forEach(([label, value], i) => {
+    box.append(makeStatTile(label, value, i === tiles.length - 1));
   });
 
-  $("monthBirr").textContent=formatBirr(stats.birr);
-
+  $("monthBirr").textContent = formatBirr(stats.birr);
   updateTodayCard();
   renderPayment();
   renderBudget();
@@ -2986,191 +2829,164 @@ function renderStats() {
 }
 
 function createNotes(record) {
-  const wrap=el("div","notes");
-  const label=el("label",null,"Notes");
-  const field=el("textarea");
-
-  label.htmlFor="notes";
-  field.id="notes";
-  field.maxLength=2000;
-  field.value=record.notes??"";
-  field.disabled=Boolean(record.locked);
-
+  const wrap = el("div", "notes");
+  const label = el("label", null, "Notes");
+  const field = el("textarea");
+  label.htmlFor = "notes";
+  field.id = "notes";
+  field.maxLength = 2000;
+  field.value = record.notes ?? "";
+  field.disabled = Boolean(record.locked);
   if (record.locked) {
-    field.placeholder="This month's record is locked. Unlock it to edit notes.";
+    field.placeholder = "This month's record is locked. Unlock it to edit notes.";
   }
-
-  field.addEventListener("input",()=>{
+  field.addEventListener("input", () => {
     if (isMonthLocked()) return;
-
-    Store.month(state.year,currentMonth().n).notes=field.value;
+    Store.month(state.year, currentMonth().n).notes = field.value;
     queueSave();
   });
-
-  wrap.append(label,field);
-
+  wrap.append(label, field);
   return wrap;
 }
 
 function createMonthBanner() {
-  const month=currentMonth();
-  const phase=phaseOf(month);
-  const current=phase==="Current";
-  const progress=phase==="Past"?100:current?Math.round(Math.min(today.day,CONFIG.daysPerMonth)/CONFIG.daysPerMonth*100):0;
-  const label=phase==="Past"?"Completed month":current?`Day ${Math.min(today.day,CONFIG.daysPerMonth)} of ${CONFIG.daysPerMonth}`:"Upcoming month";
-  const banner=el("div","month-banner");
-  const bar=el("div","banner-bar");
-  const fill=el("span");
-
-  fill.style.width=`${progress}%`;
+  const month = currentMonth();
+  const phase = phaseOf(month);
+  const current = phase === "Current";
+  const progress = phase === "Past" ? 100 : current ? Math.round(Math.min(today.day, CONFIG.daysPerMonth) / CONFIG.daysPerMonth * 100) : 0;
+  const label = phase === "Past" ? "Completed month" : current ? `Day ${Math.min(today.day, CONFIG.daysPerMonth)} of ${CONFIG.daysPerMonth}` : "Upcoming month";
+  const banner = el("div", "month-banner");
+  const bar = el("div", "banner-bar");
+  const fill = el("span");
+  fill.style.width = `${progress}%`;
   bar.append(fill);
-
   banner.append(
-    el("div","tag-line",month.tagline),
-    el("small",null,`${month.range} - ${label}`),
+    el("div", "tag-line", month.tagline),
+    el("small", null, `${month.range} - ${label}`),
     bar
   );
-
   return banner;
 }
 
 function createTodayCard() {
-  const card=el("div","today-card");
-  const text=el("div");
-  const title=el("strong",null,`Today is Day ${today.day}`);
-  const summary=el("span");
-  const button=el("button","tool-button","Go to today");
-
-  card.id="todayCard";
-  summary.id="todaySummary";
-  button.type="button";
-  button.addEventListener("click",scrollToToday);
-
-  text.append(title,summary);
-  card.append(text,button);
-
+  const card = el("div", "today-card");
+  const text = el("div");
+  const title = el("strong", null, `Today is Day ${today.day}`);
+  const summary = el("span");
+  const button = el("button", "tool-button", "Go to today");
+  card.id = "todayCard";
+  summary.id = "todaySummary";
+  button.type = "button";
+  button.addEventListener("click", scrollToToday);
+  text.append(title, summary);
+  card.append(text, button);
   return card;
 }
 
 function createTagsPanel() {
-  const panel=el("section","panel");
-  const box=el("div","tag-picker");
-
-  box.id="tagsBox";
-
+  const panel = el("section", "panel");
+  const box = el("div", "tag-picker");
+  box.id = "tagsBox";
   panel.append(
-    el("h3",null,"Tags"),
-    el("p","panel-text","Tap a tag to highlight only the days that use it. Add tags to a day with its Details button."),
+    el("h3", null, "Tags"),
+    el("p", "panel-text", "Tap a tag to highlight only the days that use it. Add tags to a day with its Details button."),
     box
   );
-
   return panel;
 }
 
 function createPaymentPanel(record) {
-  const panel=el("section","panel");
-  const row=el("div","panel-row");
-  const label=el("label",null,"Paid so far (Birr)");
-  const input=document.createElement("input");
-  const fullButton=el("button","tool-button","Mark fully paid");
-  const tiles=el("div","stats two");
-  const statusTile=el("div","stat");
-  const remainingTile=el("div","stat");
-  const statusValue=el("b");
-  const remainingValue=el("b");
+  const panel = el("section", "panel");
+  const row = el("div", "panel-row");
+  const label = el("label", null, "Paid so far (Birr)");
+  const input = document.createElement("input");
+  const fullButton = el("button", "tool-button", "Mark fully paid");
+  const tiles = el("div", "stats two");
+  const statusTile = el("div", "stat");
+  const remainingTile = el("div", "stat");
+  const statusValue = el("b");
+  const remainingValue = el("b");
 
-  input.type="number";
-  input.id="paidInput";
-  input.min="0";
-  input.max="10000000";
-  input.step="0.01";
-  input.value=String(Number(record.paid)||0);
-  input.disabled=Boolean(record.locked);
-  input.addEventListener("change",()=>changePaid(input.value));
+  input.type = "number";
+  input.id = "paidInput";
+  input.min = "0";
+  input.max = "10000000";
+  input.step = "0.01";
+  input.value = String(Number(record.paid) || 0);
+  input.disabled = Boolean(record.locked);
+  input.addEventListener("change", () => changePaid(input.value));
+  label.htmlFor = "paidInput";
 
-  label.htmlFor="paidInput";
+  fullButton.type = "button";
+  fullButton.disabled = Boolean(record.locked);
+  fullButton.addEventListener("click", markFullyPaid);
 
-  fullButton.type="button";
-  fullButton.disabled=Boolean(record.locked);
-  fullButton.addEventListener("click",markFullyPaid);
+  statusValue.id = "payStatus";
+  remainingValue.id = "payRemaining";
+  statusTile.append(el("small", null, "Status"), statusValue);
+  remainingTile.append(el("small", null, "Remaining"), remainingValue);
+  tiles.append(statusTile, remainingTile);
 
-  statusValue.id="payStatus";
-  remainingValue.id="payRemaining";
-
-  statusTile.append(el("small",null,"Status"),statusValue);
-  remainingTile.append(el("small",null,"Remaining"),remainingValue);
-  tiles.append(statusTile,remainingTile);
-
-  row.append(label,input,fullButton);
-  panel.append(el("h3",null,"Payment"),row,tiles);
-
+  row.append(label, input, fullButton);
+  panel.append(el("h3", null, "Payment"), row, tiles);
   return panel;
 }
 
 function createBudgetPanel(record) {
-  const panel=el("section","panel");
-  const row=el("div","panel-row");
-  const label=el("label",null,"Monthly budget (Birr)");
-  const input=document.createElement("input");
-  const track=el("div","budget-track");
-  const fill=el("div","budget-fill");
-  const text=el("div","budget-text");
+  const panel = el("section", "panel");
+  const row = el("div", "panel-row");
+  const label = el("label", null, "Monthly budget (Birr)");
+  const input = document.createElement("input");
+  const track = el("div", "budget-track");
+  const fill = el("div", "budget-fill");
+  const text = el("div", "budget-text");
 
-  input.type="number";
-  input.id="budgetInput";
-  input.min="0";
-  input.max="10000000";
-  input.step="0.01";
-  input.value=String(Number(record.budget)||0);
-  input.disabled=Boolean(record.locked);
-  input.addEventListener("change",()=>changeBudget(input.value));
+  input.type = "number";
+  input.id = "budgetInput";
+  input.min = "0";
+  input.max = "10000000";
+  input.step = "0.01";
+  input.value = String(Number(record.budget) || 0);
+  input.disabled = Boolean(record.locked);
+  input.addEventListener("change", () => changeBudget(input.value));
+  label.htmlFor = "budgetInput";
 
-  label.htmlFor="budgetInput";
-
-  fill.id="budgetFill";
-  text.id="budgetText";
+  fill.id = "budgetFill";
+  text.id = "budgetText";
   track.append(fill);
 
-  row.append(label,input);
-  panel.append(el("h3",null,"Budget"),row,track,text);
-
+  row.append(label, input);
+  panel.append(el("h3", null, "Budget"), row, track, text);
   return panel;
 }
 
 function createInsightsPanel() {
-  const panel=el("section","panel");
-  const grid=el("div","stats");
-
-  grid.id="insights";
-  panel.append(el("h3",null,"Insights"),grid);
-
+  const panel = el("section", "panel");
+  const grid = el("div", "stats");
+  grid.id = "insights";
+  panel.append(el("h3", null, "Insights"), grid);
   return panel;
 }
 
 function createPager() {
-  const row=el("div","pager");
-  const index=state.pageIndex;
-  const previous=el("button","tool-button",index>0?`Previous: ${MONTHS[index-1].name}`:"Home");
-  const next=el("button","tool-button",index<MONTHS.length-1?`Next: ${MONTHS[index+1].name}`:"Year Summary");
-
-  previous.type="button";
-  previous.addEventListener("click",()=>goTo(index>0?index-1:HOME_INDEX));
-
-  next.type="button";
-  next.addEventListener("click",()=>goTo(index<MONTHS.length-1?index+1:pageIndexOf("summary")));
-
-  row.append(previous,next);
-
+  const row = el("div", "pager");
+  const index = state.pageIndex;
+  const previous = el("button", "tool-button", index > 0 ? `Previous: ${MONTHS[index - 1].name}` : "Home");
+  const next = el("button", "tool-button", index < MONTHS.length - 1 ? `Next: ${MONTHS[index + 1].name}` : "Year Summary");
+  previous.type = "button";
+  previous.addEventListener("click", () => goTo(index > 0 ? index - 1 : HOME_INDEX));
+  next.type = "button";
+  next.addEventListener("click", () => goTo(index < MONTHS.length - 1 ? index + 1 : pageIndexOf("summary")));
+  row.append(previous, next);
   return row;
 }
 
 function monthSummaryText() {
-  const month=currentMonth();
-  const record=Store.peek(state.year,month.n);
-  const stats=Store.stats(state.year,month.n);
-  const paid=Number(record?.paid)||0;
-
-  const lines=[
+  const month = currentMonth();
+  const record = Store.peek(state.year, month.n);
+  const stats = Store.stats(state.year, month.n);
+  const paid = Number(record?.paid) || 0;
+  const lines = [
     `${CONFIG.noteName} - ${month.name} ${state.year} E.C.`,
     `Shiro: ${stats.shiro}, Spris: ${stats.spris}`,
     `Breakfast: ${stats.b}, Lunch: ${stats.l}, Dinner: ${stats.d}`,
@@ -3178,237 +2994,197 @@ function monthSummaryText() {
     `Price per serving: ${formatBirr(recordPrice(record))}`,
     `Month total: ${formatBirr(stats.birr)}`,
     `Paid: ${formatBirr(paid)}`,
-    `Remaining: ${formatBalance(stats.birr-paid)}`
+    `Remaining: ${formatBalance(stats.birr - paid)}`
   ];
-
-  const tagLine=getTags()
-    .map(tag=>({tag,count:tagCountFor(tag.id)}))
-    .filter(item=>item.count>0)
-    .map(item=>`${item.tag.name} ${item.count}`)
+  const tagLine = getTags()
+    .map(t => ({ tag: t, count: tagCountFor(t.id) }))
+    .filter(i => i.count > 0)
+    .map(i => `${i.tag.name} ${i.count}`)
     .join(", ");
-
   if (tagLine) lines.push(`Tags: ${tagLine}`);
-
   return lines.join("\n");
 }
 
 function yearData() {
-  const rows=MONTHS.map(month=>{
-    const record=Store.peek(state.year,month.n);
-    let daysRecorded=0;
-
-    for (let day=1;day<=CONFIG.daysPerMonth;day++) {
-      if (dayItems(record && record.days[day])>0) daysRecorded++;
+  const rows = MONTHS.map(month => {
+    const record = Store.peek(state.year, month.n);
+    let daysRecorded = 0;
+    for (let day = 1; day <= CONFIG.daysPerMonth; day++) {
+      if (dayItems(record && record.days[day]) > 0) daysRecorded++;
     }
-
     return {
       month,
-      stats:Store.stats(state.year,month.n),
-      paid:Number(record?.paid)||0,
-      price:recordPrice(record),
-      locked:Boolean(record?.locked),
+      stats: Store.stats(state.year, month.n),
+      paid: Number(record?.paid) || 0,
+      price: recordPrice(record),
+      locked: Boolean(record?.locked),
       daysRecorded
     };
   });
-
   return {
     rows,
-    total:sumStats(rows.map(row=>row.stats)),
-    paid:rows.reduce((sum,row)=>sum+row.paid,0)
+    total: sumStats(rows.map(r => r.stats)),
+    paid: rows.reduce((s, r) => s + r.paid, 0)
   };
 }
 
 function yearSummaryText() {
-  const data=yearData();
-  const lines=[`${CONFIG.noteName} - ${state.year} E.C. year summary`];
-
-  data.rows.filter(row=>row.stats.items>0).forEach(row=>{
-    lines.push(`${row.month.name}: ${row.stats.items} servings, ${formatBirr(row.stats.birr)}`);
+  const data = yearData();
+  const lines = [`${CONFIG.noteName} - ${state.year} E.C. year summary`];
+  data.rows.filter(r => r.stats.items > 0).forEach(r => {
+    lines.push(`${r.month.name}: ${r.stats.items} servings, ${formatBirr(r.stats.birr)}`);
   });
-
   lines.push(
     `Total servings: ${data.total.items}`,
     `Grand total: ${formatBirr(data.total.birr)}`,
     `Paid: ${formatBirr(data.paid)}`,
-    `Balance: ${formatBalance(data.total.birr-data.paid)}`
+    `Balance: ${formatBalance(data.total.birr - data.paid)}`
   );
-
   return lines.join("\n");
 }
 
 function openShare(text) {
-  $("shareText").value=text;
-  $("shareHint").textContent="";
-  $("shareSend").hidden=!navigator.share;
+  $("shareText").value = text;
+  $("shareHint").textContent = "";
+  $("shareSend").hidden = !navigator.share;
   $("shareDialog").showModal();
 }
 
 async function copyShareText() {
-  const field=$("shareText");
-  const hint=$("shareHint");
-
+  const field = $("shareText");
+  const hint = $("shareHint");
   try {
     await navigator.clipboard.writeText(field.value);
-    hint.textContent="Copied to clipboard.";
-  } catch(error) {
+    hint.textContent = "Copied to clipboard.";
+  } catch {
     field.focus();
     field.select();
-
     try {
-      hint.textContent=document.execCommand("copy")?"Copied to clipboard.":"Select the text and copy it manually.";
-    } catch(copyError) {
-      hint.textContent="Select the text and copy it manually.";
+      hint.textContent = document.execCommand("copy") ? "Copied to clipboard." : "Select the text and copy it manually.";
+    } catch {
+      hint.textContent = "Select the text and copy it manually.";
     }
   }
 }
 
 function makeShareRow(getText) {
-  const row=el("div","share-row");
-  const button=el("button","tool-button","Share summary");
-
-  button.type="button";
-  button.addEventListener("click",()=>openShare(getText()));
+  const row = el("div", "share-row");
+  const button = el("button", "tool-button", "Share summary");
+  button.type = "button";
+  button.addEventListener("click", () => openShare(getText()));
   row.append(button);
-
   return row;
 }
 
 function renderHeader() {
-  $("title").textContent=CONFIG.noteName;
-  $("names").textContent=getNames().join(" ♡ ");
-  $("price").textContent="Monthly food register";
+  $("title").textContent = CONFIG.noteName;
+  $("names").textContent = getNames().join(" ♡ ");
+  $("price").textContent = "Monthly food register";
 }
 
 function makeTop() {
-  const kind=pageKind();
-  const extra=EXTRA_PAGES.find(page=>page.key===kind);
-  const top=el("div","top");
-  const heading=el("div","page-heading");
-
+  const kind = pageKind();
+  const extra = EXTRA_PAGES.find(p => p.key === kind);
+  const top = el("div", "top");
+  const heading = el("div", "page-heading");
   heading.append(
-    el("h2",null,extra?extra.title:currentMonth().name),
-    el("div","page-label",`${state.year} E.C. - ${extra?extra.label:"Monthly food register"}`)
+    el("h2", null, extra ? extra.title : currentMonth().name),
+    el("div", "page-label", `${state.year} E.C. - ${extra ? extra.label : "Monthly food register"}`)
   );
 
-  const tools=el("div","top-tools");
-  const selector=document.createElement("select");
+  const tools = el("div", "top-tools");
+  const selector = document.createElement("select");
+  selector.className = "month-select";
+  selector.setAttribute("aria-label", "Select page");
 
-  selector.className="month-select";
-  selector.setAttribute("aria-label","Select page");
-
-  const order=[
+  const order = [
     HOME_INDEX,
-    ...MONTHS.map((month,index)=>index),
-    ...EXTRA_PAGES.slice(1).map((page,offset)=>MONTHS.length+1+offset)
+    ...MONTHS.map((_, i) => i),
+    ...EXTRA_PAGES.slice(1).map((_, offset) => MONTHS.length + 1 + offset)
   ];
-
-  order.forEach(index=>{
-    const option=document.createElement("option");
-
-    option.value=String(index);
-    option.textContent=index<MONTHS.length?MONTHS[index].name:EXTRA_PAGES[index-MONTHS.length].title;
-    option.selected=state.pageIndex===index;
-
+  order.forEach(index => {
+    const option = document.createElement("option");
+    option.value = String(index);
+    option.textContent = index < MONTHS.length ? MONTHS[index].name : EXTRA_PAGES[index - MONTHS.length].title;
+    option.selected = state.pageIndex === index;
     selector.append(option);
   });
-
-  selector.addEventListener("change",()=>goTo(Number(selector.value)));
-
+  selector.addEventListener("change", () => goTo(Number(selector.value)));
   tools.append(selector);
 
-  const homeButton=el("button","tool-button","Home");
-
-  homeButton.type="button";
-  homeButton.addEventListener("click",()=>goTo(HOME_INDEX));
+  const homeButton = el("button", "tool-button", "Home");
+  homeButton.type = "button";
+  homeButton.addEventListener("click", () => goTo(HOME_INDEX));
   tools.append(homeButton);
 
-  if (kind==="month") {
-    const undo=el("button","tool-button","↶ Undo");
-
-    undo.id="undoButton";
-    undo.type="button";
-    undo.disabled=undoStack.length===0;
-    undo.addEventListener("click",undoLast);
-
+  if (kind === "month") {
+    const undo = el("button", "tool-button", "↶ Undo");
+    undo.id = "undoButton";
+    undo.type = "button";
+    undo.disabled = undoStack.length === 0;
+    undo.addEventListener("click", undoLast);
     tools.append(undo);
 
-    const lockButton=el(
+    const lockButton = el(
       "button",
-      isMonthLocked()?"tool-button locked":"tool-button",
-      isMonthLocked()?"🔒 Locked":"🔓 Lock month"
+      isMonthLocked() ? "tool-button locked" : "tool-button",
+      isMonthLocked() ? "🔒 Locked" : "🔓 Lock month"
     );
-
-    lockButton.type="button";
-    lockButton.addEventListener("click",toggleMonthLock);
-
+    lockButton.type = "button";
+    lockButton.addEventListener("click", toggleMonthLock);
     tools.append(lockButton);
   }
 
   if (Install.available()) {
-    const installButton=el("button","tool-button","Install app");
-
-    installButton.type="button";
-    installButton.dataset.install="";
-    installButton.addEventListener("click",Install.start);
-
+    const installButton = el("button", "tool-button", "Install app");
+    installButton.type = "button";
+    installButton.dataset.install = "";
+    installButton.addEventListener("click", Install.start);
     tools.append(installButton);
   }
 
-  top.append(heading,tools);
-
+  top.append(heading, tools);
   return top;
 }
 
 function renderMonthPage(sheet) {
-  const month=currentMonth();
-  const record=Store.peek(state.year,month.n)??{days:{},notes:""};
+  const month = currentMonth();
+  const record = Store.peek(state.year, month.n) ?? { days: {}, notes: "" };
+  const top = makeTop();
 
-  const top=makeTop();
+  const chipValue = el("b");
+  chipValue.id = "monthBirr";
+  const chip = el("div", "chip");
+  chip.append(el("span", null, "Month total"), chipValue);
 
-  const chipValue=el("b");
-  chipValue.id="monthBirr";
+  const status = el("span", "status");
+  status.id = "status";
+  status.setAttribute("aria-live", "polite");
 
-  const chip=el("div","chip");
-
-  chip.append(el("span",null,"Month total"),chipValue);
-
-  const status=el("span","status");
-
-  status.id="status";
-  status.setAttribute("aria-live","polite");
-
-  sheet.append(top,createMonthBanner(),chip,status);
-
+  sheet.append(top, createMonthBanner(), chip, status);
   if (isCurrentMonthPage()) sheet.append(createTodayCard());
 
-  const settings=el("div","month-settings");
-  const priceLabel=el("label","price-editor","Price per serving");
-  const priceInput=document.createElement("input");
-
-  priceInput.type="number";
-  priceInput.min="0.01";
-  priceInput.max="1000000";
-  priceInput.step="0.01";
-  priceInput.value=String(recordPrice(record));
-  priceInput.disabled=Boolean(record.locked);
-  priceInput.setAttribute("aria-label","Monthly price per serving in Birr");
-
-  priceInput.addEventListener("change",()=>changeMonthPrice(priceInput.value));
-
-  priceLabel.append(priceInput,document.createTextNode(" Birr"));
+  const settings = el("div", "month-settings");
+  const priceLabel = el("label", "price-editor", "Price per serving");
+  const priceInput = document.createElement("input");
+  priceInput.type = "number";
+  priceInput.min = "0.01";
+  priceInput.max = "1000000";
+  priceInput.step = "0.01";
+  priceInput.value = String(recordPrice(record));
+  priceInput.disabled = Boolean(record.locked);
+  priceInput.setAttribute("aria-label", "Monthly price per serving in Birr");
+  priceInput.addEventListener("change", () => changeMonthPrice(priceInput.value));
+  priceLabel.append(priceInput, document.createTextNode(" Birr"));
   settings.append(priceLabel);
-
-  if (record.locked) {
-    settings.append(el("span","month-state","🔒 This month is read-only"));
-  }
+  if (record.locked) settings.append(el("span", "month-state", "🔒 This month is read-only"));
 
   sheet.append(settings);
   sheet.append(createDesktopTable(record));
   sheet.append(createMobileDays(record));
 
-  const stats=el("div","stats");
-
-  stats.id="stats";
+  const stats = el("div", "stats");
+  stats.id = "stats";
   sheet.append(stats);
   sheet.append(createInsightsPanel());
   sheet.append(createTagsPanel());
@@ -3418,224 +3194,188 @@ function renderMonthPage(sheet) {
   sheet.append(makeShareRow(monthSummaryText));
   sheet.append(createPager());
 
-  for (let day=1;day<=CONFIG.daysPerMonth;day++) {
-    updateDayTotals(day);
-  }
-
+  for (let day = 1; day <= CONFIG.daysPerMonth; day++) updateDayTotals(day);
   renderStats();
   renderTagsPanel();
   applyTagFilter();
 }
 
 function paymentLabel(row) {
-  if (row.stats.items===0) return null;
-  if (row.paid>=row.stats.birr) return {text:"Paid",tone:"paid"};
-  if (row.paid>0) return {text:"Partly paid",tone:"partial"};
-  return {text:"Unpaid",tone:"unpaid"};
+  if (row.stats.items === 0) return null;
+  if (row.paid >= row.stats.birr) return { text: "Paid", tone: "paid" };
+  if (row.paid > 0) return { text: "Partly paid", tone: "partial" };
+  return { text: "Unpaid", tone: "unpaid" };
 }
 
 function backupText() {
-  const last=Store.data.settings?.lastBackup;
-
-  return last?`Last backup: ${new Date(last).toLocaleDateString()}`:"No backup downloaded yet";
+  const last = Store.data.settings?.lastBackup;
+  return last ? `Last backup: ${new Date(last).toLocaleDateString()}` : "No backup downloaded yet";
 }
 
-function createMonthCard(row,index) {
-  const card=el("button","month-card");
-  const phase=phaseOf(row.month);
+function createMonthCard(row, index) {
+  const card = el("button", "month-card");
+  const phase = phaseOf(row.month);
+  card.type = "button";
+  card.style.setProperty("--accent", row.month.accent);
+  card.setAttribute("aria-label", `Open ${row.month.name}`);
+  card.addEventListener("click", () => openMonth(index));
 
-  card.type="button";
-  card.style.setProperty("--accent",row.month.accent);
-  card.setAttribute("aria-label",`Open ${row.month.name}`);
-  card.addEventListener("click",()=>openMonth(index));
-
-  const figures=el("div","mc-figures");
-
+  const figures = el("div", "mc-figures");
   figures.append(
-    el("span",null,`${row.stats.items} servings`),
-    el("span",null,formatBirr(row.stats.birr))
+    el("span", null, `${row.stats.items} servings`),
+    el("span", null, formatBirr(row.stats.birr))
   );
 
-  const bar=el("div","mc-bar");
-  const fill=el("span");
-
-  fill.style.width=`${row.daysRecorded/CONFIG.daysPerMonth*100}%`;
+  const bar = el("div", "mc-bar");
+  const fill = el("span");
+  fill.style.width = `${row.daysRecorded / CONFIG.daysPerMonth * 100}%`;
   bar.append(fill);
 
-  const pills=el("div","pills");
-
-  pills.append(el("span",phase==="Current"?"pill current":"pill",phase));
-
-  const payment=paymentLabel(row);
-
-  if (payment) pills.append(el("span",`pill ${payment.tone}`,payment.text));
-  if (row.locked) pills.append(el("span","pill locked","Locked"));
+  const pills = el("div", "pills");
+  pills.append(el("span", phase === "Current" ? "pill current" : "pill", phase));
+  const payment = paymentLabel(row);
+  if (payment) pills.append(el("span", `pill ${payment.tone}`, payment.text));
+  if (row.locked) pills.append(el("span", "pill locked", "Locked"));
 
   card.append(
-    el("span","mc-name",row.month.name),
-    el("span","mc-range",row.month.range),
-    el("div","mc-tag",row.month.tagline),
+    el("span", "mc-name", row.month.name),
+    el("span", "mc-range", row.month.range),
+    el("div", "mc-tag", row.month.tagline),
     figures,
     bar,
-    el("div","mc-meta",`${row.daysRecorded} of ${CONFIG.daysPerMonth} days recorded`),
+    el("div", "mc-meta", `${row.daysRecorded} of ${CONFIG.daysPerMonth} days recorded`),
     pills
   );
-
   return card;
 }
 
 function renderHomePage(sheet) {
-  const data=yearData();
-  const featuredRow=data.rows[startIndex];
-  const featuredMonth=featuredRow.month;
-  const isCurrent=featuredMonth.n===today.month;
+  const data = yearData();
+  const featuredRow = data.rows[startIndex];
+  const featuredMonth = featuredRow.month;
+  const isCurrent = featuredMonth.n === today.month;
 
-  const hero=el("section","hero");
-
+  const hero = el("section", "hero");
   hero.append(
-    el("span","hero-badge",`${state.year} E.C.`),
-    el("h1","hero-title",CONFIG.noteName),
-    el("div","hero-names",getNames().join(" ♡ ")),
-    el("p","hero-text","A calm place to record every meal, month by month.")
+    el("span", "hero-badge", `${state.year} E.C.`),
+    el("h1", "hero-title", CONFIG.noteName),
+    el("div", "hero-names", getNames().join(" ♡ ")),
+    el("p", "hero-text", "A calm place to record every meal, month by month.")
   );
 
-  const featured=el("section","featured");
-  const payment=paymentLabel(featuredRow);
-  const stats=el("div","featured-stats");
-
-  featured.style.setProperty("--accent",featuredMonth.accent);
+  const featured = el("section", "featured");
+  const payment = paymentLabel(featuredRow);
+  const stats = el("div", "featured-stats");
+  featured.style.setProperty("--accent", featuredMonth.accent);
 
   [
-    ["Servings",featuredRow.stats.items],
-    ["Month total",formatBirr(featuredRow.stats.birr)],
-    ["Payment",payment?payment.text:"No charges"]
-  ].forEach(([label,value])=>{
-    const tile=el("div","featured-stat");
-
-    tile.append(el("small",null,label),el("b",null,String(value)));
+    ["Servings", featuredRow.stats.items],
+    ["Month total", formatBirr(featuredRow.stats.birr)],
+    ["Payment", payment ? payment.text : "No charges"]
+  ].forEach(([label, value]) => {
+    const tile = el("div", "featured-stat");
+    tile.append(el("small", null, label), el("b", null, String(value)));
     stats.append(tile);
   });
 
-  const actions=el("div","featured-actions");
-  const openButton=el("button","light-button",`Open ${featuredMonth.name}`);
-
-  openButton.type="button";
-  openButton.addEventListener("click",()=>openMonth(startIndex));
+  const actions = el("div", "featured-actions");
+  const openButton = el("button", "light-button", `Open ${featuredMonth.name}`);
+  openButton.type = "button";
+  openButton.addEventListener("click", () => openMonth(startIndex));
   actions.append(openButton);
 
   if (isCurrent) {
-    const todayButton=el("button","ghost-button","Record today");
-
-    todayButton.type="button";
-    todayButton.addEventListener("click",()=>openMonth(startIndex,true));
+    const todayButton = el("button", "ghost-button", "Record today");
+    todayButton.type = "button";
+    todayButton.addEventListener("click", () => openMonth(startIndex, true));
     actions.append(todayButton);
   }
 
   featured.append(
-    el("div","featured-kicker",isCurrent?"Current month":"Start here"),
-    el("h2",null,featuredMonth.name),
-    el("p","featured-sub",isCurrent
-      ?`${featuredMonth.tagline}, today is day ${today.day}`
-      :`${featuredMonth.range} - ${featuredMonth.tagline}`),
+    el("div", "featured-kicker", isCurrent ? "Current month" : "Start here"),
+    el("h2", null, featuredMonth.name),
+    el("p", "featured-sub", isCurrent
+      ? `${featuredMonth.tagline}, today is day ${today.day}`
+      : `${featuredMonth.range} - ${featuredMonth.tagline}`),
     stats,
     actions
   );
 
-  const yearStats=el("div","stats");
-
+  const yearStats = el("div", "stats");
   yearStats.append(
-    makeStatTile("Year total",formatBirr(data.total.birr)),
-    makeStatTile("Servings",data.total.items),
-    makeStatTile("Paid",formatBirr(data.paid)),
-    makeStatTile("Balance due",formatBalance(data.total.birr-data.paid),true)
+    makeStatTile("Year total", formatBirr(data.total.birr)),
+    makeStatTile("Servings", data.total.items),
+    makeStatTile("Paid", formatBirr(data.paid)),
+    makeStatTile("Balance due", formatBalance(data.total.birr - data.paid), true)
   );
 
-  const grid=el("div","month-grid");
+  const grid = el("div", "month-grid");
+  data.rows.forEach((row, index) => grid.append(createMonthCard(row, index)));
 
-  data.rows.forEach((row,index)=>{
-    grid.append(createMonthCard(row,index));
-  });
-
-  const links=el("div","link-grid");
-
+  const links = el("div", "link-grid");
   [
-    ["summary","Year Summary","Totals and highlights"],
-    ["charts","Charts","Spending at a glance"],
-    ["settings","Settings","Names, tags, price and backup"],
-    ["guide","Guide","How everything works"]
-  ].forEach(([key,title,text])=>{
-    const link=el("button","link-card");
-
-    link.type="button";
-    link.append(el("b",null,title),el("span",null,text));
-    link.addEventListener("click",()=>goTo(pageIndexOf(key)));
-
+    ["summary", "Year Summary", "Totals and highlights"],
+    ["charts", "Charts", "Spending at a glance"],
+    ["settings", "Settings", "Names, tags, price and backup"],
+    ["guide", "Guide", "How everything works"]
+  ].forEach(([key, title, text]) => {
+    const link = el("button", "link-card");
+    link.type = "button";
+    link.append(el("b", null, title), el("span", null, text));
+    link.addEventListener("click", () => goTo(pageIndexOf(key)));
     links.append(link);
   });
 
-  const footer=el("div","home-footer");
-  const info=el("span",null,backupText());
-  const status=el("span","status");
-
-  info.id="backupInfo";
-  status.id="status";
-  status.setAttribute("aria-live","polite");
-
+  const footer = el("div", "home-footer");
+  const info = el("span", null, backupText());
+  const status = el("span", "status");
+  info.id = "backupInfo";
+  status.id = "status";
+  status.setAttribute("aria-live", "polite");
   footer.append(info);
 
-  const backupButton=el("button","tool-button","↓ Download backup");
-
-  backupButton.type="button";
-  backupButton.addEventListener("click",exportBackup);
+  const backupButton = el("button", "tool-button", "↓ Download backup");
+  backupButton.type = "button";
+  backupButton.addEventListener("click", exportBackup);
   footer.append(backupButton);
 
   if (Install.available()) {
-    const installButton=el("button","tool-button","Install on this phone");
-
-    installButton.type="button";
-    installButton.dataset.install="";
-    installButton.addEventListener("click",Install.start);
+    const installButton = el("button", "tool-button", "Install on this phone");
+    installButton.type = "button";
+    installButton.dataset.install = "";
+    installButton.addEventListener("click", Install.start);
     footer.append(installButton);
   }
-
   footer.append(status);
 
   sheet.append(
     hero,
     featured,
     yearStats,
-    el("h3","home-heading","Months"),
+    el("h3", "home-heading", "Months"),
     grid,
-    el("h3","home-heading","Explore"),
+    el("h3", "home-heading", "Explore"),
     links,
     footer
   );
 }
 
 function renderGrandTotal(section) {
-  section.textContent="";
-
-  const data=yearData();
-
+  section.textContent = "";
+  const data = yearData();
   section.append(
-    el("h2",null,"Year Summary"),
-    el("p","summary-description",`Complete totals for all nine months of ${state.year} E.C.`)
+    el("h2", null, "Year Summary"),
+    el("p", "summary-description", `Complete totals for all nine months of ${state.year} E.C.`)
   );
 
-  const head=el("thead");
-  const headRow=el("tr");
-
-  ["Month","Price/serving","Shiro","Spris","Servings","Birr"].forEach(label=>{
-    headRow.append(el("th",null,label));
-  });
-
+  const head = el("thead");
+  const headRow = el("tr");
+  ["Month", "Price/serving", "Shiro", "Spris", "Servings", "Birr"].forEach(label => headRow.append(el("th", null, label)));
   head.append(headRow);
 
-  const body=el("tbody");
-
-  data.rows.forEach(row=>{
-    const tableRow=el("tr");
-
+  const body = el("tbody");
+  data.rows.forEach(row => {
+    const tableRow = el("tr");
     [
       row.month.name,
       formatNumber(row.price),
@@ -3643,577 +3383,471 @@ function renderGrandTotal(section) {
       row.stats.spris,
       row.stats.items,
       formatNumber(row.stats.birr)
-    ].forEach(value=>{
-      tableRow.append(el("td",null,String(value)));
-    });
-
+    ].forEach(v => tableRow.append(el("td", null, String(v))));
     body.append(tableRow);
   });
 
-  const total=data.total;
-  const foot=el("tfoot");
-  const footRow=el("tr");
-
-  [
-    "Grand total",
-    "-",
-    total.shiro,
-    total.spris,
-    total.items,
-    formatBirr(total.birr)
-  ].forEach(value=>{
-    footRow.append(el("td",null,String(value)));
-  });
-
+  const total = data.total;
+  const foot = el("tfoot");
+  const footRow = el("tr");
+  ["Grand total", "-", total.shiro, total.spris, total.items, formatBirr(total.birr)]
+    .forEach(v => footRow.append(el("td", null, String(v))));
   foot.append(footRow);
 
-  const table=el("table");
-
-  table.append(head,body,foot);
-
-  const wrap=el("div","summary-table");
-
+  const table = el("table");
+  table.append(head, body, foot);
+  const wrap = el("div", "summary-table");
   wrap.append(table);
   section.append(wrap);
 
-  const totals=el("div","summary-total");
-
+  const totals = el("div", "summary-total");
   [
-    ["Total Shiro",total.shiro],
-    ["Total Spris",total.spris],
-    ["Total servings",total.items],
-    ["Grand total",formatBirr(total.birr)]
-  ].forEach(([label,value],index)=>{
-    totals.append(makeStatTile(label,value,index===3));
-  });
-
+    ["Total Shiro", total.shiro],
+    ["Total Spris", total.spris],
+    ["Total servings", total.items],
+    ["Grand total", formatBirr(total.birr)]
+  ].forEach(([label, value], i) => totals.append(makeStatTile(label, value, i === 3)));
   section.append(totals);
 
-  const active=data.rows.filter(row=>row.stats.items>0);
-  let highest=null;
-  let lowest=null;
-
-  active.forEach(row=>{
-    if (!highest || row.stats.birr>highest.stats.birr) highest=row;
-    if (!lowest || row.stats.birr<lowest.stats.birr) lowest=row;
+  const active = data.rows.filter(r => r.stats.items > 0);
+  let highest = null;
+  let lowest = null;
+  active.forEach(r => {
+    if (!highest || r.stats.birr > highest.stats.birr) highest = r;
+    if (!lowest || r.stats.birr < lowest.stats.birr) lowest = r;
   });
 
-  const describe=row=>row?`${row.month.name} (${formatBirr(row.stats.birr)})`:"No data yet";
-  const average=active.length?total.birr/active.length:0;
+  const describe = r => r ? `${r.month.name} (${formatBirr(r.stats.birr)})` : "No data yet";
+  const average = active.length ? total.birr / active.length : 0;
 
-  const highlights=el("div","summary-total");
-
+  const highlights = el("div", "summary-total");
   [
-    ["Highest month",describe(highest)],
-    ["Lowest month",describe(lowest)],
-    ["Average per active month",formatBirr(average)],
-    ["Breakfast servings",total.b],
-    ["Lunch servings",total.l],
-    ["Dinner servings",total.d],
-    ["Total paid",formatBirr(data.paid)],
-    ["Balance due",formatBalance(total.birr-data.paid)]
-  ].forEach(([label,value],index,list)=>{
-    highlights.append(makeStatTile(label,value,index===list.length-1));
+    ["Highest month", describe(highest)],
+    ["Lowest month", describe(lowest)],
+    ["Average per active month", formatBirr(average)],
+    ["Breakfast servings", total.b],
+    ["Lunch servings", total.l],
+    ["Dinner servings", total.d],
+    ["Total paid", formatBirr(data.paid)],
+    ["Balance due", formatBalance(total.birr - data.paid)]
+  ].forEach(([label, value], i, list) => {
+    highlights.append(makeStatTile(label, value, i === list.length - 1));
   });
 
-  section.append(el("h3",null,"Highlights"),highlights);
+  section.append(el("h3", null, "Highlights"), highlights);
   section.append(makeShareRow(yearSummaryText));
 }
 
 function renderSummaryPage(sheet) {
   sheet.append(makeTop());
-
-  const summary=el("section","summary-page");
-
+  const summary = el("section", "summary-page");
   renderGrandTotal(summary);
   sheet.append(summary);
 }
 
-function createBarChart(entries,{showValues=false,daily=false}={}) {
-  const max=Math.max(1,...entries.map(entry=>entry.value));
-  const chart=el("div",daily?"bar-chart daily":"bar-chart");
-
-  entries.forEach(entry=>{
-    const column=el("div","bar-col");
-    const value=el("span","bar-value",showValues && entry.value>0?compactBirr(entry.value):"");
-    const track=el("div","bar-track");
-    const bar=el("div","bar");
-    const label=el("span","bar-label",entry.label);
-
-    bar.style.height=`${entry.value/max*100}%`;
-    bar.title=`${entry.title}: ${formatBirr(entry.value)}`;
-
+function createBarChart(entries, { showValues = false, daily = false } = {}) {
+  const max = Math.max(1, ...entries.map(e => e.value));
+  const chart = el("div", daily ? "bar-chart daily" : "bar-chart");
+  entries.forEach(entry => {
+    const column = el("div", "bar-col");
+    const value = el("span", "bar-value", showValues && entry.value > 0 ? compactBirr(entry.value) : "");
+    const track = el("div", "bar-track");
+    const bar = el("div", "bar");
+    const label = el("span", "bar-label", entry.label);
+    bar.style.height = `${entry.value / max * 100}%`;
+    bar.title = `${entry.title}: ${formatBirr(entry.value)}`;
     track.append(bar);
-    column.append(value,track,label);
+    column.append(value, track, label);
     chart.append(column);
   });
-
   return chart;
 }
 
 function renderChartsPage(sheet) {
   sheet.append(makeTop());
-
-  const section=el("section","summary-page");
-
+  const section = el("section", "summary-page");
   section.append(
-    el("h2",null,"Charts"),
-    el("p","summary-description",`Spending overview for ${state.year} E.C.`)
+    el("h2", null, "Charts"),
+    el("p", "summary-description", `Spending overview for ${state.year} E.C.`)
   );
 
-  const data=yearData();
-  const monthly=el("div","chart-block");
-
+  const data = yearData();
+  const monthly = el("div", "chart-block");
   monthly.append(
-    el("h3",null,"Birr per month"),
-    createBarChart(data.rows.map(row=>({
-      label:row.month.name.slice(0,3),
-      title:row.month.name,
-      value:row.stats.birr
-    })),{showValues:true}),
-    el("p","bar-caption",`Year total: ${formatBirr(data.total.birr)}`)
+    el("h3", null, "Birr per month"),
+    createBarChart(data.rows.map(r => ({
+      label: r.month.name.slice(0, 3),
+      title: r.month.name,
+      value: r.stats.birr
+    })), { showValues: true }),
+    el("p", "bar-caption", `Year total: ${formatBirr(data.total.birr)}`)
   );
-
   section.append(monthly);
 
-  const month=MONTHS[state.chartIndex];
-  const record=Store.peek(state.year,month.n);
-  const price=recordPrice(record);
-  const entries=[];
-  let topDay=0;
-  let topValue=0;
+  const month = MONTHS[state.chartIndex];
+  const record = Store.peek(state.year, month.n);
+  const price = recordPrice(record);
+  const entries = [];
+  let topDay = 0;
+  let topValue = 0;
 
-  for (let day=1;day<=CONFIG.daysPerMonth;day++) {
-    const value=dayItems(record && record.days[day])*price;
-
+  for (let day = 1; day <= CONFIG.daysPerMonth; day++) {
+    const value = dayItems(record && record.days[day]) * price;
     entries.push({
-      label:(day===1 || day%5===0)?String(day):"",
-      title:`Day ${day}`,
+      label: (day === 1 || day % 5 === 0) ? String(day) : "",
+      title: `Day ${day}`,
       value
     });
-
-    if (value>topValue) {
-      topValue=value;
-      topDay=day;
+    if (value > topValue) {
+      topValue = value;
+      topDay = day;
     }
   }
 
-  const daily=el("div","chart-block");
-  const controls=el("div","chart-controls");
-  const selector=document.createElement("select");
-
-  selector.className="month-select";
-  selector.setAttribute("aria-label","Select month for the daily chart");
-
-  MONTHS.forEach((item,index)=>{
-    const option=document.createElement("option");
-
-    option.value=String(index);
-    option.textContent=item.name;
-    option.selected=state.chartIndex===index;
-
+  const daily = el("div", "chart-block");
+  const controls = el("div", "chart-controls");
+  const selector = document.createElement("select");
+  selector.className = "month-select";
+  selector.setAttribute("aria-label", "Select month for the daily chart");
+  MONTHS.forEach((item, index) => {
+    const option = document.createElement("option");
+    option.value = String(index);
+    option.textContent = item.name;
+    option.selected = state.chartIndex === index;
     selector.append(option);
   });
-
-  selector.addEventListener("change",()=>{
-    state.chartIndex=Number(selector.value);
+  selector.addEventListener("change", () => {
+    state.chartIndex = Number(selector.value);
     renderSheet();
   });
-
-  controls.append(el("h3",null,"Daily spending"),selector);
+  controls.append(el("h3", null, "Daily spending"), selector);
 
   daily.append(
     controls,
-    createBarChart(entries,{daily:true}),
-    el("p","bar-caption",topValue>0
-      ?`Highest day: Day ${topDay} with ${formatBirr(topValue)}`
-      :"No servings recorded for this month yet.")
+    createBarChart(entries, { daily: true }),
+    el("p", "bar-caption", topValue > 0
+      ? `Highest day: Day ${topDay} with ${formatBirr(topValue)}`
+      : "No servings recorded for this month yet.")
   );
-
   section.append(daily);
   sheet.append(section);
 }
 
-function saveName(index,value) {
-  const clean=value.trim().slice(0,24);
-
-  Store.data.settings.names[index]=clean||CONFIG.names[index];
+function saveName(index, value) {
+  const clean = value.trim().slice(0, 24);
+  Store.data.settings.names[index] = clean || CONFIG.names[index];
   renderHeader();
   renderSheet();
   queueSave();
 }
 
 function saveDefaultPrice(rawValue) {
-  const price=Number(rawValue);
-
-  if (!Number.isFinite(price) || price<=0 || price>1000000) {
+  const price = Number(rawValue);
+  if (!Number.isFinite(price) || price <= 0 || price > 1000000) {
     alert("Enter a valid price greater than 0 Birr.");
     renderSheet();
     return;
   }
-
-  Store.data.settings.defaultPrice=Math.round(price*100)/100;
+  Store.data.settings.defaultPrice = Math.round(price * 100) / 100;
   queueSave();
 }
 
-function addTag(rawName,color) {
-  const name=rawName.trim().slice(0,16);
-  const tags=Store.data.settings.tags;
-
+function addTag(rawName, color) {
+  const name = rawName.trim().slice(0, 16);
+  const tags = Store.data.settings.tags;
   if (!name) {
     alert("Enter a name for the tag.");
     return;
   }
-
-  if (tags.length>=12) {
+  if (tags.length >= 12) {
     alert("You can have up to 12 tags.");
     return;
   }
-
-  if (tags.some(tag=>tag.name.toLowerCase()===name.toLowerCase())) {
+  if (tags.some(t => t.name.toLowerCase() === name.toLowerCase())) {
     alert("A tag with that name already exists.");
     return;
   }
-
   tags.push({
-    id:`t${Date.now().toString(36)}${Math.floor(Math.random()*1000)}`,
+    id: `t${Date.now().toString(36)}${Math.floor(Math.random() * 1000)}`,
     name,
-    color:/^#[0-9a-f]{6}$/i.test(color)?color:DEFAULT_ACCENT
+    color: /^#[0-9a-f]{6}$/i.test(color) ? color : DEFAULT_ACCENT
   });
-
   renderSheet();
   queueSave();
 }
 
 async function removeTag(tag) {
-  const ok=await showConfirm({
-    title:"Remove this tag?",
-    detail:tag.name,
-    effect:"It will be removed from every day that uses it.",
-    warning:"This cannot be undone.",
-    confirmText:"Remove tag",
-    danger:true
+  const ok = await showConfirm({
+    title: "Remove this tag?",
+    detail: tag.name,
+    effect: "It will be removed from every day that uses it.",
+    warning: "This cannot be undone.",
+    confirmText: "Remove tag",
+    danger: true
   });
-
   if (!ok) return;
 
-  Store.data.settings.tags=Store.data.settings.tags.filter(item=>item.id!==tag.id);
-
-  for (const months of Object.values(Store.data.years||{})) {
-    for (const record of Object.values(months||{})) {
-      for (const day of Object.values(record.days||{})) {
+  Store.data.settings.tags = Store.data.settings.tags.filter(t => t.id !== tag.id);
+  for (const months of Object.values(Store.data.years || {})) {
+    for (const record of Object.values(months || {})) {
+      for (const day of Object.values(record.days || {})) {
         if (!Array.isArray(day.tags)) continue;
-
-        day.tags=day.tags.filter(id=>id!==tag.id);
+        day.tags = day.tags.filter(id => id !== tag.id);
         if (!day.tags.length) delete day.tags;
       }
     }
   }
-
-  if (state.tagFilter===tag.id) state.tagFilter=null;
-
+  if (state.tagFilter === tag.id) state.tagFilter = null;
   renderSheet();
   queueSave();
 }
 
 function createTagSettingsPanel() {
-  const panel=el("section","panel");
-  const list=el("div");
-
+  const panel = el("section", "panel");
+  const list = el("div");
   panel.append(
-    el("h3",null,"Tags"),
-    el("p","panel-text","Tags label special days, such as guests or fasting. Choose them from a day's Details button.")
+    el("h3", null, "Tags"),
+    el("p", "panel-text", "Tags label special days, such as guests or fasting. Choose them from a day's Details button.")
   );
 
-  const tags=getTags();
-
+  const tags = getTags();
   if (!tags.length) {
-    list.append(el("p","panel-text","No tags yet. Add your first one below."));
+    list.append(el("p", "panel-text", "No tags yet. Add your first one below."));
   }
 
-  tags.forEach(tag=>{
-    const row=el("div","panel-row");
-    const chip=el("span","tag-chip",tag.name);
-    const remove=el("button","tool-button","Remove");
-
-    chip.style.setProperty("--tag",tag.color);
-
-    remove.type="button";
-    remove.setAttribute("aria-label",`Remove tag ${tag.name}`);
-    remove.addEventListener("click",()=>removeTag(tag));
-
-    row.append(chip,remove);
+  tags.forEach(tag => {
+    const row = el("div", "panel-row");
+    const chip = el("span", "tag-chip", tag.name);
+    const remove = el("button", "tool-button", "Remove");
+    chip.style.setProperty("--tag", tag.color);
+    remove.type = "button";
+    remove.setAttribute("aria-label", `Remove tag ${tag.name}`);
+    remove.addEventListener("click", () => removeTag(tag));
+    row.append(chip, remove);
     list.append(row);
   });
 
-  const addRow=el("div","panel-row");
-  const nameInput=document.createElement("input");
-  const colorInput=document.createElement("input");
-  const addButton=el("button","tool-button","Add tag");
-
-  nameInput.type="text";
-  nameInput.maxLength=16;
-  nameInput.placeholder="New tag name";
-  nameInput.setAttribute("aria-label","New tag name");
-
-  colorInput.type="color";
-  colorInput.value="#6550a3";
-  colorInput.setAttribute("aria-label","Tag color");
-
-  addButton.type="button";
-  addButton.addEventListener("click",()=>addTag(nameInput.value,colorInput.value));
-
-  addRow.append(nameInput,colorInput,addButton);
-  panel.append(list,addRow);
-
+  const addRow = el("div", "panel-row");
+  const nameInput = document.createElement("input");
+  const colorInput = document.createElement("input");
+  const addButton = el("button", "tool-button", "Add tag");
+  nameInput.type = "text";
+  nameInput.maxLength = 16;
+  nameInput.placeholder = "New tag name";
+  nameInput.setAttribute("aria-label", "New tag name");
+  colorInput.type = "color";
+  colorInput.value = "#6550a3";
+  colorInput.setAttribute("aria-label", "Tag color");
+  addButton.type = "button";
+  addButton.addEventListener("click", () => addTag(nameInput.value, colorInput.value));
+  addRow.append(nameInput, colorInput, addButton);
+  panel.append(list, addRow);
   return panel;
 }
 
 function renderSettingsPage(sheet) {
   sheet.append(makeTop());
-
-  const status=el("span","status");
-
-  status.id="status";
-  status.setAttribute("aria-live","polite");
+  const status = el("span", "status");
+  status.id = "status";
+  status.setAttribute("aria-live", "polite");
   sheet.append(status);
 
-  const names=getNames();
-
-  const namesPanel=el("section","panel");
-  const namesRow=el("div","panel-row");
-
-  [0,1].forEach(index=>{
-    const input=document.createElement("input");
-
-    input.type="text";
-    input.maxLength=24;
-    input.value=names[index];
-    input.setAttribute("aria-label",`Name ${index+1}`);
-    input.addEventListener("change",()=>saveName(index,input.value));
-
+  const names = getNames();
+  const namesPanel = el("section", "panel");
+  const namesRow = el("div", "panel-row");
+  [0, 1].forEach(index => {
+    const input = document.createElement("input");
+    input.type = "text";
+    input.maxLength = 24;
+    input.value = names[index];
+    input.setAttribute("aria-label", `Name ${index + 1}`);
+    input.addEventListener("change", () => saveName(index, input.value));
     namesRow.append(input);
   });
-
   namesPanel.append(
-    el("h3",null,"Names"),
-    el("p","panel-text","Shown on the Home page and under the title at the top of the app."),
+    el("h3", null, "Names"),
+    el("p", "panel-text", "Shown on the Home page and under the title at the top of the app."),
     namesRow
   );
 
-  const pricePanel=el("section","panel");
-  const priceRow=el("div","panel-row");
-  const priceLabel=el("label",null,"Default price per serving (Birr)");
-  const priceInput=document.createElement("input");
-
-  priceInput.type="number";
-  priceInput.id="defaultPrice";
-  priceInput.min="0.01";
-  priceInput.max="1000000";
-  priceInput.step="0.01";
-  priceInput.value=String(defaultPrice());
-  priceInput.addEventListener("change",()=>saveDefaultPrice(priceInput.value));
-
-  priceLabel.htmlFor="defaultPrice";
-  priceRow.append(priceLabel,priceInput);
-
+  const pricePanel = el("section", "panel");
+  const priceRow = el("div", "panel-row");
+  const priceLabel = el("label", null, "Default price per serving (Birr)");
+  const priceInput = document.createElement("input");
+  priceInput.type = "number";
+  priceInput.id = "defaultPrice";
+  priceInput.min = "0.01";
+  priceInput.max = "1000000";
+  priceInput.step = "0.01";
+  priceInput.value = String(defaultPrice());
+  priceInput.addEventListener("change", () => saveDefaultPrice(priceInput.value));
+  priceLabel.htmlFor = "defaultPrice";
+  priceRow.append(priceLabel, priceInput);
   pricePanel.append(
-    el("h3",null,"Default price"),
-    el("p","panel-text","Used for months you have not started yet. Months that already exist keep their own price."),
+    el("h3", null, "Default price"),
+    el("p", "panel-text", "Used for months you have not started yet. Months that already exist keep their own price."),
     priceRow
   );
 
-  const confirmPanel=el("section","panel");
-  const confirmRow=el("label","panel-row");
-  const confirmBox=document.createElement("input");
-
-  confirmBox.type="checkbox";
-  confirmBox.checked=confirmTicksEnabled();
-  confirmBox.addEventListener("change",()=>{
-    Store.data.settings.confirmTicks=confirmBox.checked;
+  const confirmPanel = el("section", "panel");
+  const confirmRow = el("label", "panel-row");
+  const confirmBox = document.createElement("input");
+  confirmBox.type = "checkbox";
+  confirmBox.checked = confirmTicksEnabled();
+  confirmBox.addEventListener("change", () => {
+    Store.data.settings.confirmTicks = confirmBox.checked;
     queueSave();
   });
-
-  confirmRow.append(confirmBox,document.createTextNode("Ask before every tick or untick"));
-
+  confirmRow.append(confirmBox, document.createTextNode("Ask before every tick or untick"));
   confirmPanel.append(
-    el("h3",null,"Confirmations"),
-    el("p","panel-text","When on, a confirmation popup appears each time you add or remove a serving."),
+    el("h3", null, "Confirmations"),
+    el("p", "panel-text", "When on, a confirmation popup appears each time you add or remove a serving."),
     confirmRow
   );
 
-  const backupPanel=el("section","panel");
-  const backupRow=el("div","panel-row");
-  const exportButton=el("button","tool-button","↓ Download backup");
-  const importButton=el("button","tool-button","↑ Restore backup");
-  const backupInfo=el("p","panel-text",backupText());
-
-  backupInfo.id="backupInfo";
-
-  exportButton.type="button";
-  exportButton.addEventListener("click",exportBackup);
-
-  importButton.type="button";
-  importButton.addEventListener("click",()=>$("backupFile").click());
-
-  backupRow.append(exportButton,importButton);
-
+  const backupPanel = el("section", "panel");
+  const backupRow = el("div", "panel-row");
+  const exportButton = el("button", "tool-button", "↓ Download backup");
+  const importButton = el("button", "tool-button", "↑ Restore backup");
+  const backupInfo = el("p", "panel-text", backupText());
+  backupInfo.id = "backupInfo";
+  exportButton.type = "button";
+  exportButton.addEventListener("click", exportBackup);
+  importButton.type = "button";
+  importButton.addEventListener("click", () => $("backupFile").click());
+  backupRow.append(exportButton, importButton);
   backupPanel.append(
-    el("h3",null,"Backup"),
-    el("p","panel-text","Records are saved only in this browser. Download a backup before clearing browser data or changing phone."),
+    el("h3", null, "Backup"),
+    el("p", "panel-text", "Records are saved only in this browser. Download a backup before clearing browser data or changing phone."),
     backupInfo,
     backupRow
   );
 
-  sheet.append(namesPanel,pricePanel,createTagSettingsPanel(),confirmPanel,backupPanel);
+  sheet.append(namesPanel, pricePanel, createTagSettingsPanel(), confirmPanel, backupPanel);
 
   if (Install.available()) {
-    const appPanel=el("section","panel");
-    const installButton=el("button","tool-button","Install app");
-
-    installButton.type="button";
-    installButton.dataset.install="";
-    installButton.addEventListener("click",Install.start);
-
+    const appPanel = el("section", "panel");
+    const installButton = el("button", "tool-button", "Install app");
+    installButton.type = "button";
+    installButton.dataset.install = "";
+    installButton.addEventListener("click", Install.start);
     appPanel.append(
-      el("h3",null,"App"),
-      el("p","panel-text","Add Abrina to your home screen to open it like a normal app."),
+      el("h3", null, "App"),
+      el("p", "panel-text", "Add Abrina to your home screen to open it like a normal app."),
       installButton
     );
-
     sheet.append(appPanel);
   }
 }
 
 function renderGuidePage(sheet) {
   sheet.append(makeTop());
-
-  const section=el("section","summary-page");
-
+  const section = el("section", "summary-page");
   section.append(
-    el("h2",null,"Guide"),
-    el("p","summary-description","A short reminder of how everything works.")
+    el("h2", null, "Guide"),
+    el("p", "summary-description", "A short reminder of how everything works.")
   );
-
-  GUIDE.forEach(item=>{
-    const panel=el("section","panel");
-
-    panel.append(el("h3",null,item.title),el("p","panel-text",item.text));
+  GUIDE.forEach(item => {
+    const panel = el("section", "panel");
+    panel.append(el("h3", null, item.title), el("p", "panel-text", item.text));
     section.append(panel);
   });
-
   sheet.append(section);
 }
 
 function exportBackup() {
   clearTimeout(saveTimer);
-
-  Store.data.settings.lastBackup=new Date().toISOString();
-
+  Store.data.settings.lastBackup = new Date().toISOString();
   if (!Store.persist()) {
     alert("Could not save before exporting. Please try again.");
     return;
   }
 
-  const payload={
-    app:"Abrina Food Register",
-    version:1,
-    exportedAt:new Date().toISOString(),
-    data:Store.data
+  const payload = {
+    app: "Abrina Food Register",
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    data: Store.data
   };
 
-  const blob=new Blob([JSON.stringify(payload,null,2)],{type:"application/json"});
-  const url=URL.createObjectURL(blob);
-  const link=document.createElement("a");
-
-  link.href=url;
-  link.download=`Abrina-Food-Register-Backup-${new Date().toISOString().slice(0,10)}.json`;
-
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = `Abrina-Food-Register-Backup-${new Date().toISOString().slice(0, 10)}.json`;
   document.body.appendChild(link);
   link.click();
   link.remove();
-
   URL.revokeObjectURL(url);
 
-  const info=$("backupInfo");
-  if (info) info.textContent=backupText();
-
+  const info = $("backupInfo");
+  if (info) info.textContent = backupText();
   setStatus("Backup downloaded");
 }
 
-$("backupFile").addEventListener("change",async event=>{
-  const file=event.target.files?.[0];
-
-  event.target.value="";
-
+$("backupFile").addEventListener("change", async event => {
+  const file = event.target.files?.[0];
+  event.target.value = "";
   if (!file) return;
 
   try {
-    const parsed=JSON.parse(await file.text());
-    const data=parsed.data??parsed;
-
-    if (!data || data.v!==1 || !data.years || typeof data.years!=="object") {
+    const parsed = JSON.parse(await file.text());
+    const data = parsed.data ?? parsed;
+    if (!data || data.v !== 1 || !data.years || typeof data.years !== "object") {
       throw new Error("Invalid backup format");
     }
 
-    const ok=confirm(
+    const ok = confirm(
       "Restore this backup? It will replace the records currently saved in this browser. Export your current data first if you want to keep a separate copy."
     );
-
     if (!ok) return;
 
-    const previous=Store.data;
-
-    Store.data=data;
-
+    const previous = Store.data;
+    Store.data = data;
     if (Store.migrateTicks() && !Store.persist()) {
-      Store.data=previous;
+      Store.data = previous;
       throw new Error("Could not save restored data");
     }
-
     if (!Store.persist()) {
-      Store.data=previous;
+      Store.data = previous;
       throw new Error("Could not save restored data");
     }
 
-    undoStack.length=0;
-
+    undoStack.length = 0;
     renderHeader();
     renderSheet();
     setStatus("Backup restored successfully");
-
-  } catch(error) {
+  } catch (error) {
     alert(`Backup could not be restored: ${error.message}`);
   }
 });
 
-$("shareClose").addEventListener("click",()=>$("shareDialog").close());
-$("shareCopy").addEventListener("click",copyShareText);
-$("shareSend").addEventListener("click",()=>{
-  navigator.share({title:`${CONFIG.noteName} summary`,text:$("shareText").value}).catch(()=>{});
+$("shareClose").addEventListener("click", () => $("shareDialog").close());
+$("shareCopy").addEventListener("click", copyShareText);
+$("shareSend").addEventListener("click", () => {
+  navigator.share({ title: `${CONFIG.noteName} summary`, text: $("shareText").value }).catch(() => {});
 });
 
 function renderSheet() {
-  const sheet=$("sheet");
-  const kind=pageKind();
+  const sheet = $("sheet");
+  const kind = pageKind();
+  sheet.textContent = "";
+  sheet.classList.toggle("home", kind === "home");
+  sheet.style.setProperty("--accent", kind === "month" ? currentMonth().accent : DEFAULT_ACCENT);
+  $("app").classList.toggle("is-home", kind === "home");
 
-  sheet.textContent="";
-  sheet.classList.toggle("home",kind==="home");
-  sheet.style.setProperty("--accent",kind==="month"?currentMonth().accent:DEFAULT_ACCENT);
-  $("app").classList.toggle("is-home",kind==="home");
-
-  if (kind==="month") renderMonthPage(sheet);
-  else if (kind==="home") renderHomePage(sheet);
-  else if (kind==="summary") renderSummaryPage(sheet);
-  else if (kind==="charts") renderChartsPage(sheet);
-  else if (kind==="settings") renderSettingsPage(sheet);
+  if (kind === "month") renderMonthPage(sheet);
+  else if (kind === "home") renderHomePage(sheet);
+  else if (kind === "summary") renderSummaryPage(sheet);
+  else if (kind === "charts") renderChartsPage(sheet);
+  else if (kind === "settings") renderSettingsPage(sheet);
   else renderGuidePage(sheet);
 }
 
 function renderAll() {
   renderHeader();
   renderSheet();
-  window.scrollTo(0,0);
+  window.scrollTo(0, 0);
 }
 
 Install.init();
